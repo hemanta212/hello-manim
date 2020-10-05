@@ -60,7 +60,7 @@ class TextPlay(Scene):
         self.wait(2)
         self.play(ApplyMethod(subname.set_color, YELLOW))
         self.play(ApplyMethod(subname.shift, 3 * DOWN))
-        self.play(ApplyMethod(name.to_edge,UP))
+        self.play(ApplyMethod(name.shift, UP))
         self.play(ApplyMethod(name.set_color,BLUE))
         self.play(ApplyMethod(subname.next_to, name.get_corner(DOWN+RIGHT),DOWN))
         self.play(ApplyMethod(subname.match_color,name))
@@ -88,3 +88,50 @@ class AddingMoreText(Scene):
         self.play(ApplyMethod(author.scale,1.5))
         author.match_color(quote2)
         self.play(FadeOut(quote))
+
+class ShapesAndText(Scene):
+    def construct(self):
+        square = Square(side_length=5, fill_color=YELLOW_E, fill_opacity=1)
+        label = TextMobject("Pykancha")
+        label.scale(2)
+        label.bg = BackgroundRectangle(label, fill_opacity=1)
+        label_group=VGroup(label.bg,label)  #Order matters
+
+        label2=TextMobject("Boxed text",color=BLACK)
+        label2.scale(2)
+        label2.bg=SurroundingRectangle(label2,color=BLUE,fill_color=RED, fill_opacity=.5)
+        label2_group=VGroup(label2,label2.bg)
+        label2_group.next_to(label_group,DOWN)
+
+        label3=TextMobject("Rainbow")
+        label3.scale(2)
+        label3.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+        label3.to_edge(DOWN)
+
+        self.add(square)
+        self.play(FadeIn(label_group, run_time=5))
+        self.play(FadeOut(label2_group, run_time=2))
+        self.play(GrowFromCenter(label3, run_time=2))
+
+
+class RotateAndHighlight(Scene):
+    #Rotation of text and highlighting with surrounding geometries
+    def construct(self):
+        square=Square(side_length=5,fill_color=YELLOW, fill_opacity=1)
+        label=TextMobject("Text at an angle")
+        label.bg=BackgroundRectangle(label,fill_opacity=1)
+        label_group=VGroup(label.bg,label)  #Order matters
+        label_group.rotate(TAU/8)
+        label2=TextMobject("Boxed text",color=BLACK)
+        label2.bg=SurroundingRectangle(label2,color=BLUE,fill_color=RED, fill_opacity=.5)
+        label2_group=VGroup(label2,label2.bg)
+        label2_group.next_to(label_group,DOWN)
+        label3=TextMobject("Rainbow")
+        label3.scale(2)
+        label3.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+        label3.to_edge(DOWN)
+
+        self.add(square)
+        self.play(FadeIn(label_group))
+        self.play(FadeIn(label2_group))
+        self.play(FadeIn(label3))
