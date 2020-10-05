@@ -155,7 +155,7 @@ class AddingMoreText(Scene):
         self.add(author)
         self.wait(2)
         self.play(Transform(quote,quote2),
-          ApplyMethod(author.move_to,quote2.get_corner(DOWN+RIGHT)+DOWN+2*LEFT))
+        ApplyMethod(author.move_to,quote2.get_corner(DOWN+RIGHT)+DOWN+2*LEFT))
 
         self.play(ApplyMethod(author.scale,1.5))
         author.match_color(quote2)
