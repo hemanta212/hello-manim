@@ -17,6 +17,7 @@ ben_cairo_test.py
 *.xml
 *.iml
 media
+video
 manim.sublime-project
 manim.sublime-workspace
 .eggs/
