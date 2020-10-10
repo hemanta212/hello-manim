@@ -1,15 +1,15 @@
 *.pyc
 *.bak
 .DS_Store
-homeless.py
-playground.py
-cairo_test.py
-mayavi_test.py
-random_scenes/
-files/
-assets/
-ben_playground.py
-ben_cairo_test.py
+manim/homeless.py
+manim/playground.py
+manim/cairo_test.py
+manim/mayavi_test.py
+manim/random_scenes/
+manim/files/
+manim/assets/
+manim/ben_playground.py
+manim/ben_cairo_test.py
 .floo
 .flooignore
 .vscode
@@ -25,5 +25,7 @@ build/
 dist/
 manim.egg-info/
 
-primes.py
+manim/primes.py
 /media_dir.txt
+videos
+*egg-info*

@@ -1,0 +1,482 @@
+#+TITLE: Learning Manim
+
+* Shapes
+#+BEGIN_SRC python :tangle explore/shapes.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class MoreShapes(Scene):
+    def construct(self):
+        circle = Circle(color=PURPLE_A)
+        square = Square(fill_color=GOLD_B, fill_opacity=1, color=GOLD_A)
+        square.move_to(UP+LEFT)
+        circle.surround(square)
+        rectangle = Rectangle(height=2, width=3)
+        ellipse=Ellipse(width=3, height=1, color=RED)
+        ellipse.shift(2*DOWN+2*RIGHT)
+        pointer = CurvedArrow(2*RIGHT,5*RIGHT,color=MAROON_C)
+        arrow = Arrow(LEFT,UP)
+        arrow.next_to(circle,DOWN+LEFT)
+        rectangle.next_to(arrow,DOWN+LEFT)
+        ring=Annulus(inner_radius=.5, outer_radius=1, color=BLUE)
+        ring.next_to(ellipse, RIGHT)
+
+        self.add(pointer)
+        self.play(FadeIn(square))
+        self.play(Rotating(square),FadeIn(circle))
+        self.play(GrowArrow(arrow))
+        self.play(GrowFromCenter(rectangle), GrowFromCenter(ellipse), GrowFromCenter(ring))
+#+END_SRC
+
+* Adding Text
+#+BEGIN_SRC python :tangle explore/add_text.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class TextAdd(Scene):
+    def construct(self):
+        name = TextMobject("Hemanta Sharma")
+        subname = TextMobject("Pythonista")
+        nickname = TextMobject("sharmaji")
+
+        subname.next_to(name, DOWN)
+        nickname.next_to(name, DOWN)
+
+        self.add(name, subname)
+        self.wait(2)
+        self.play(Transform(subname, nickname))
+        self.wait(2)
+        self.play(ApplyMethod(subname.shift, 3 * DOWN))
+        self.play(ApplyMethod(name.move_to, UP))
+
+class TextPlay(Scene):
+    def construct(self):
+        name = TextMobject("Hemanta Sharma")
+        subname = TextMobject("Pythonista")
+        nickname = TextMobject("Hemuji")
+
+        subname.next_to(name, DOWN)
+        nickname.next_to(name, DOWN)
+
+        self.add(name, subname)
+        self.wait(2)
+        self.play(ApplyMethod(name.set_color, RED))
+        self.wait(2)
+        self.play(ApplyMethod(subname.scale,2.75))
+        self.wait(2)
+        self.play(Transform(subname, nickname))
+        self.wait(2)
+        self.play(ApplyMethod(subname.set_color, YELLOW))
+        self.play(ApplyMethod(subname.shift, 3 * DOWN))
+        self.play(ApplyMethod(name.shift, UP))
+        self.play(ApplyMethod(name.set_color,BLUE))
+        self.play(ApplyMethod(subname.next_to, name.get_corner(DOWN+RIGHT),DOWN))
+        self.play(ApplyMethod(subname.match_color,name))
+        self.play(FadeOut(name, run_time=3), FadeOut(subname, run_time=2))
+
+#+END_SRC
+
+* Adding More text
+#+BEGIN_SRC python :tangle explore/add_more_text.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class AddingMoreText(Scene):
+    #Playing around with text properties
+    def construct(self):
+        quote = TextMobject("Imagination is more important than knowledge")
+        quote.set_color(RED)
+        quote.to_edge(UP)
+        quote2 = TextMobject("A person who never made a mistake never tried anything new")
+        quote2.set_color(YELLOW)
+        author=TextMobject("-Albert Einstein")
+        author.scale(0.75)
+        author.next_to(quote.get_corner(DOWN+RIGHT),DOWN)
+
+        self.add(quote)
+        self.add(author)
+        self.wait(2)
+        self.play(Transform(quote,quote2),
+        ApplyMethod(author.move_to,quote2.get_corner(DOWN+RIGHT)+DOWN+2*LEFT))
+
+        self.play(ApplyMethod(author.scale,1.5))
+        author.match_color(quote2)
+        self.play(FadeOut(quote))
+
+#+END_SRC
+* Shapes And Text
+#+BEGIN_SRC python :tangle explore/shape_and_text.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class ShapesAndText(Scene):
+    def construct(self):
+        square = Square(side_length=5, fill_color=BLUE_A, fill_opacity=0.5)
+        label = TextMobject("Pykancha")
+        label.scale(2)
+        label.bg = BackgroundRectangle(label, fill_color=GREY, fill_opacity=0.3)
+        label_group=VGroup(label.bg,label)  #Order matters
+
+        label2=TextMobject("Boxed text",color=BLACK)
+        label2.set_color(WHITE)
+        label2.scale(2)
+        label2.bg=SurroundingRectangle(label2,color=BLUE,fill_color=RED, fill_opacity=.5)
+        label2_group=VGroup(label2,label2.bg)
+        label2_group.next_to(label_group,DOWN)
+
+        label3=TextMobject("Rainbow")
+        label3.scale(2)
+        label3.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+        label3.to_edge(DOWN+LEFT)
+
+        self.add(square)
+        self.play(FadeIn(label_group, run_time=5))
+        self.play(Rotate(label.bg, PI/2))
+        self.play(FadeOut(label2_group, run_time=2))
+        self.play(GrowFromCenter(label3, run_time=2))
+
+#+END_SRC
+* Rotation & Highlight
+#+BEGIN_SRC python :tangle explore/rotation_and_highligh.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class RotateAndHighlight(Scene):
+    #Rotation of text and highlighting with surrounding geometries
+    def construct(self):
+        square=Square(side_length=5,fill_color=YELLOW, fill_opacity=1)
+        label=TextMobject("Text at an angle")
+        label.bg=BackgroundRectangle(label,fill_opacity=1)
+        label_group=VGroup(label.bg,label)  #Order matters
+        label_group.rotate(TAU/8)
+        label2=TextMobject("Boxed text",color=BLACK)
+        label2.bg=SurroundingRectangle(label2,color=BLUE,fill_color=RED, fill_opacity=.5)
+        label2_group=VGroup(label2,label2.bg)
+        label2_group.next_to(label_group,DOWN)
+        label3=TextMobject("Rainbow")
+        label3.scale(2)
+        label3.set_color_by_gradient(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+        label3.to_edge(DOWN)
+
+        self.add(square)
+        self.play(FadeIn(label_group))
+        self.play(FadeIn(label2_group))
+        self.play(FadeIn(label3))
+
+#+END_SRC
+
+* Latex
+#+BEGIN_SRC python :tangle explore/latex_basic.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class BasicEquations(Scene):
+    #A short script showing how to use Latex commands
+    def construct(self):
+        eq1=TextMobject("$\\vec{X}_0 \\cdot \\vec{Y}_1 = 3$")
+        eq1.shift(2*UP)
+        eq2=TexMobject(r"\vec{F}_{net} = \sum_i \vec{F}_i")
+        eq2.shift(2*DOWN)
+
+        self.play(Write(eq1))
+        self.play(Write(eq2))
+#+END_SRC
+* Coloring Equations
+#+BEGIN_SRC python :tangle explore/latex_color.py :comments org :mkdirp yes :padline no
+ #!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class ColoringEquations(Scene):
+    #Grouping and coloring parts of equations
+    def construct(self):
+        line1=TexMobject(r"\text{The vector } \vec{F}_{net} \text{ is the net }",r"\text{force }",r"\text{on object of mass }")
+        line1.set_color_by_tex("force", BLUE)
+        line2=TexMobject("m", "\\text{ and acceleration }", "\\vec{a}", ".  ")
+        line2.set_color_by_tex_to_color_map({
+            "m": YELLOW,
+            "{a}": RED
+        })
+        sentence=VGroup(line1,line2)
+        sentence.arrange_submobjects(DOWN, buff=MED_LARGE_BUFF)
+        self.play(Write(sentence))
+
+#+END_SRC
+* Aligning Text and Using Braces
+Let’s look at how to use braces to visually group equations or text together but also how to align text elements. We will first write a program to align elements of two equations but in a somewhat clunky fashion; this is not the most elegant way to accomplish this task. After looking at this first version we will rewrite the code in a more concise fashion that lines everything up even better.
+
+You can find the following code in the manim tutorial file.
+** Crude Way
+#+BEGIN_SRC python :tangle explore/latex_align_and_braces_crude.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class Main(Scene):
+    #Using braces to group text together
+    def construct(self):
+        eq1A = TextMobject("4x + 3y = 0")
+#        eq1B = TextMobject("=")
+#        eq1C = TextMobject("0")
+        eq2A = TextMobject("5x -2y")
+        eq2B = TextMobject("=")
+        eq2C = TextMobject("3")
+#        eq1B.next_to(eq1A,RIGHT)
+#        eq1C.next_to(eq1B,RIGHT)
+        eq2A.shift(DOWN)
+        eq2B.shift(DOWN)
+        eq2C.shift(DOWN)
+        eq2A.align_to(eq1A,LEFT)
+        eq2B.align_to(eq1B,LEFT)
+        eq2C.align_to(eq1C,LEFT)
+
+        eq_group=VGroup(eq1A,eq2A)
+        braces=Brace(eq_group,LEFT)
+        eq_text = braces.get_text("A pair of equations")
+
+        self.add(eq1A, eq1B, eq1C)
+        self.add(eq2A, eq2B, eq2C)
+        self.play(GrowFromCenter(braces),Write(eq_text))
+
+class UsingBrces(Scene):
+    #Using braces to group text together
+    def construct(self):
+        eq1A = TextMobject("4x + 3y")
+        eq1B = TextMobject("=")
+        eq1C = TextMobject("0")
+        eq2A = TextMobject("5x -2y")
+        eq2B = TextMobject("=")
+        eq2C = TextMobject("3")
+        eq1B.next_to(eq1A,RIGHT)
+        eq1C.next_to(eq1B,RIGHT)
+        eq2A.shift(DOWN)
+        eq2B.shift(DOWN)
+        eq2C.shift(DOWN)
+        eq2A.align_to(eq1A,LEFT)
+        eq2B.align_to(eq1B,LEFT)
+        eq2C.align_to(eq1C,LEFT)
+
+        eq_group=VGroup(eq1A,eq2A)
+        braces=Brace(eq_group,LEFT)
+        eq_text = braces.get_text("A pair of equations")
+
+        self.add(eq1A, eq1B, eq1C)
+        self.add(eq2A, eq2B, eq2C)
+        self.play(GrowFromCenter(braces),Write(eq_text))
+
+#+END_SRC
+To line up parts of the equations on screen we use next_to() and align_to(). For this example we’ve broken the equation into smaller parts and then used next_to() to place the subparts of each equation next to each other and then align_to() to line up the left side of each part of the equation. You can also use UP, DOWN, and RIGHT to align different edges of the mobjects.
+
+We’ve also added a brace to show how to visually group a set of equations. In order to use the braces we must use VGroup() to combine the equations. When we instantiate the braces the first argument is the group and the second argument is where the braces are located relative to the grouping. You can set the text next to the braces using get_text() (this is a little confusing naming because you are setting the text, not getting it). This method does not draw the text on the screen, it is only used to set the location of the text relative to the braces so you will still need to add the text to the screen.
+
+** Nice Way
+#+BEGIN_SRC python :tangle explore/latex_align_and_braces_nice.py :comments org :mkdirp yes :padline no
+class UsingBracesConcise(Scene):
+    #A more concise block of code with all columns aligned
+    def construct(self):
+        eq1_text=["4","x","+","3","y","=","0"]
+        eq2_text=["5","x","-","2","y","=","3"]
+        eq1_mob=TexMobject(*eq1_text)
+        eq2_mob=TexMobject(*eq2_text)
+        eq1_mob.set_color_by_tex_to_color_map({
+            "x":RED_B,
+            "y":GREEN_C
+            })
+        eq2_mob.set_color_by_tex_to_color_map({
+            "x":RED_B,
+            "y":GREEN_C
+            })
+        for i,item in enumerate(eq2_mob):
+            item.align_to(eq1_mob[i],LEFT)
+        eq1=VGroup(*eq1_mob)
+        eq2=VGroup(*eq2_mob)
+        eq2.shift(DOWN)
+        eq_group=VGroup(eq1,eq2)
+        braces=Brace(eq_group,LEFT)
+        eq_text = braces.get_text("A pair of equations")
+
+        self.play(Write(eq1),Write(eq2))
+        self.play(GrowFromCenter(braces),Write(eq_text))
+
+#+END_SRC
+* Basic Graphs
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class Main(GraphScene):
+    CONFIG = {
+        "x_min" : -10,
+        "x_max" : 10.3,
+        "y_min" : -1.5,
+        "y_max" : 1.5,
+        "graph_origin" : ORIGIN ,
+        "function_color" : RED ,
+        "axes_color" : GREEN,
+        "x_labeled_nums" :range(-10,12,2),
+    }
+    def construct(self):
+        self.setup_axes(animate=True)
+        func_graph=self.get_graph(self.func_to_graph,self.function_color)
+        func_graph2=self.get_graph(self.func_to_graph2)
+        vert_line = self.get_vertical_line_to_graph(TAU,func_graph,color=YELLOW)
+        graph_lab = self.get_graph_label(func_graph, label = "\\cos(x)")
+        graph_lab2=self.get_graph_label(func_graph2,label = "\\sin(x)", x_val=-10, direction=UP/2)
+        two_pi = TexMobject("x = 2 \\pi")
+        label_coord = self.input_to_graph_point(TAU,func_graph)
+        two_pi.next_to(label_coord,RIGHT+UP)
+
+        self.play(ShowCreation(func_graph),ShowCreation(func_graph2))
+        self.play(ShowCreation(vert_line), ShowCreation(graph_lab), ShowCreation(graph_lab2),ShowCreation(two_pi))
+
+    def func_to_graph(self,x):
+        return np.cos(x)
+
+    def func_to_graph2(self,x):
+        return np.sin(x)
+
+#+END_SRC
+#+BEGIN_SRC python :tangle explore/graph_basic.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class PlotFunctions(GraphScene):
+    CONFIG = {
+        "x_min" : -10,
+        "x_max" : 10.3,
+        "y_min" : -1.5,
+        "y_max" : 1.5,
+        "graph_origin" : ORIGIN ,
+        "function_color" : RED ,
+        "axes_color" : GREEN,
+        "x_labeled_nums" :range(-10,12,2),
+    }
+    def construct(self):
+        self.setup_axes(animate=True)
+        func_graph=self.get_graph(self.func_to_graph,self.function_color)
+        func_graph2=self.get_graph(self.func_to_graph2)
+        vert_line = self.get_vertical_line_to_graph(TAU,func_graph,color=YELLOW)
+        graph_lab = self.get_graph_label(func_graph, label = "\\cos(x)")
+        graph_lab2=self.get_graph_label(func_graph2,label = "\\sin(x)", x_val=-10, direction=UP/2)
+        two_pi = TexMobject("x = 2 \\pi")
+        label_coord = self.input_to_graph_point(TAU,func_graph)
+        two_pi.next_to(label_coord,RIGHT+UP)
+
+        self.play(ShowCreation(func_graph),ShowCreation(func_graph2))
+        self.play(ShowCreation(vert_line), ShowCreation(graph_lab), ShowCreation(graph_lab2),ShowCreation(two_pi))
+
+    def func_to_graph(self,x):
+        return np.cos(x)
+
+    def func_to_graph2(self,x):
+        return np.sin(x)
+
+#+END_SRC
+* Assignment
+** Selection
+[[output.gif]]
+
+#+BEGIN_SRC python :tangle assignments/selection_question.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class ShapesPlay(Scene):
+    TEXT_SIZE_F = 1.5
+    TOP_LEFT = (LEFT_SIDE + TOP) / TEXT_SIZE_F
+    TOP_RIGHT = (RIGHT_SIDE + TOP) / TEXT_SIZE_F
+    BOTTOM_LEFT = (LEFT_SIDE + BOTTOM) / TEXT_SIZE_F
+    BOTTOM_RIGHT = (RIGHT_SIDE + BOTTOM) / TEXT_SIZE_F
+
+    shapes_info = {
+        'circle': (GOLD, ORIGIN),
+        'square': (RED_E, TOP_LEFT),
+        'triangle': (BLUE_E, TOP_RIGHT),
+        'ellipse': (GREY, BOTTOM_RIGHT),
+        'rectangle': (MAROON, BOTTOM_LEFT),
+    }
+
+    SHAPE_NAMES = shapes_info.keys()
+
+    def gen_shape_text(self, name):
+        color, pos = self.shapes_info[name]
+        shape_text = TextMobject(name)
+        shape_text.set_color(color)
+        shape_text.shift(pos)
+        return shape_text
+
+    def construct(self):
+        texts = [self.gen_shape_text(name) for name in self.SHAPE_NAMES]
+        shapes = [self.gen_shape_obj(name) for name in self.SHAPE_NAMES]
+        formulas = [self.gen_shape_formula(name) for name in self.SHAPE_NAMES]
+        text_animations = [Write(text_obj, run_time=3) for text_obj in texts]
+
+        self.play(*text_animations)
+        for text, shape, formula in zip(texts, shapes, formulas):
+            self.play(Transform(text, shape, run_time=2))
+            formula.next_to(shape, DOWN)
+            self.play(Write(formula, run_time=2))
+
+    def gen_shape_obj(self, name):
+        circle = Circle(radius=1.0, color=PURPLE_A)
+        triangle = Polygon(np.array([0,0,0]), np.array([1,-1,0]),np.array([-1,-1,0]))
+        square = Square(side_length=1.0, color=GOLD_A)
+        ellipse = Ellipse(width=2, height=1, color=RED)
+        rectangle = Rectangle(height=1, width=1.5)
+
+        shapes_map = {
+            'circle': circle,
+            'triangle': triangle,
+            'square': square,
+            'rectangle': rectangle,
+            'ellipse': ellipse,
+            }
+
+        for shape_name, shape_obj in shapes_map.items():
+            color, pos = self.shapes_info[shape_name]
+            shape_obj.move_to(pos)
+
+        return shapes_map[name]
+
+    def gen_shape_formula(self, name):
+        circle = TexMobject(r'\pi r^2')
+        triangle = TexMobject(r'\frac{1}{2} base \times height')
+        square = TexMobject(r'length^2')
+        ellipse = TexMobject(r'\pi a b')
+        rectangle = TexMobject(r'length \times breadth')
+
+        formula_map = {
+            'circle': circle,
+            'triangle': triangle,
+            'square': square,
+            'rectangle': rectangle,
+            'ellipse': ellipse,
+            }
+
+        return formula_map[name]
+#+END_SRC
+
+** Training
+We are building a simple circle and line and translate them to another cirlce sitting on platform and hit it. The ball will fall off with acceleration and go below. The formula for parabola will appear.
+
+#+BEGIN_SRC python :tangle main.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+
+from manimlib.imports import *
+
+class ProjectileMotion(Scene):
+    def construct():
+        arm_line = Line()
+        fist_circle = Circle()
+
+        platform_line = Line()
+        platform_ball = Circle()
+#+END_SRC

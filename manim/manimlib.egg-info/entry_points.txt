@@ -1,3 +1,0 @@
-[console_scripts]
-manim = manimlib:main
-

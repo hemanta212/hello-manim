@@ -1,4 +1,9 @@
+# Selection
+# [[output.gif]]
+
+
 #!/usr/bin/env python3
+
 from manimlib.imports import *
 
 class ShapesPlay(Scene):
@@ -15,7 +20,7 @@ class ShapesPlay(Scene):
         'ellipse': (GREY, BOTTOM_RIGHT),
         'rectangle': (MAROON, BOTTOM_LEFT),
     }
-    
+
     SHAPE_NAMES = shapes_info.keys()
 
     def gen_shape_text(self, name):
