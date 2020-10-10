@@ -1,0 +1,33 @@
+#+TITLE: Hello manim
+
+Manim is a mathematics graphics/animation library developed by Grant Sanderson(3blue1brown). Watch manim in action on his [[https://youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw][youtube channel]]
+
+* Demo
+[[output.gif]]
+
+* Running the code
+Head over to the [[https://github.com/3b1b/manim][manim]] github repository and follow their installation instructions. Install latex as well. Once you have installed manim and related tools,
+#+BEGIN_SRC shell
+$ git clone https://github.com/hemanta212/hello-manim.git
+$ cd hello-manim
+$ python -m pip install -r requirements.txt
+$ cd manim
+$ python setup.py install
+$ cd ../
+$ python -m manim main.py ShapesPlay -pl
+#+END_SRC
+
+
+
+* Self-note: Troubleshooting: Windows
+- Install the cairo whl viewing your python version, if 3.6 install cairo whl file with 36 in it, 38 for python 3.8 and so on.
+- Relevant guide tutorial: [[https://youtu.be/ZltiKHFWmv8][youtube link]]
+
+* Troubleshooting: Ubuntu
+install dependencies:
+#+BEGIN_SRC shell
+$ sudo apt-get install sox ffmpeg python3-cairo python3-opencv libclang-dev
+$ sudo apt-get install texlive-full # latex install
+$ python -m pip install -r requirements.txt --user
+$ python setup.py install --user
+#+END_SRC
