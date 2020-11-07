@@ -473,10 +473,23 @@ We are building a simple circle and line and translate them to another cirlce si
 from manimlib.imports import *
 
 class ProjectileMotion(Scene):
-    def construct():
-        arm_line = Line()
-        fist_circle = Circle()
+    def construct(self):
+        BOTTOM_LEFT = BOTTOM + LEFT_SIDE
+        arm_line = Line(
+            #np.array([-6, 0, 0]), np.array([-6, 3.5, 0])
+            BOTTOM_LEFT, BOTTOM_LEFT + 2 * UP
+            )
+        fist_circle = Circle(radius=0.5)
 
         platform_line = Line()
-        platform_ball = Circle()
+        platform_ball = Circle(radius=0.5)
+
+        arm_line.set_angle(PI/4)
+        fist_circle.next_to(arm_line, UP+RIGHT)
+        platform_ball.next_to(platform_line, UP)
+
+        self.play(*[ShowCreation(i) for i in [arm_line, fist_circle, platform_line, platform_ball]])
+
+        self.play(ApplyMethod(fist_circle.next_to, platform_ball, LEFT))
 #+END_SRC
+
