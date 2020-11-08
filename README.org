@@ -14,7 +14,7 @@ $ python -m pip install -r requirements.txt
 $ cd manim
 $ python setup.py install
 $ cd ../
-$ python -m manim main.py ShapesPlay -pl
+$ python -m manim assignments/selection_question.py ShapesPlay -pl
 #+END_SRC
 
 
