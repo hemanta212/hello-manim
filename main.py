@@ -1,212 +1,81 @@
+# Selection
+# [[output.gif]]
+
+
 #!/usr/bin/env python3
 
 from manimlib.imports import *
 
+class ShapesPlay(Scene):
+    TEXT_SIZE_F = 1.5
+    TOP_LEFT = (LEFT_SIDE + TOP) / TEXT_SIZE_F
+    TOP_RIGHT = (RIGHT_SIDE + TOP) / TEXT_SIZE_F
+    BOTTOM_LEFT = (LEFT_SIDE + BOTTOM) / TEXT_SIZE_F
+    BOTTOM_RIGHT = (RIGHT_SIDE + BOTTOM) / TEXT_SIZE_F
 
-class ProjectileMotion(Scene):
+    shapes_info = {
+        'circle': (GOLD, ORIGIN),
+        'square': (RED_E, TOP_LEFT),
+        'triangle': (BLUE_E, TOP_RIGHT),
+        'ellipse': (GREY, BOTTOM_RIGHT),
+        'rectangle': (MAROON, BOTTOM_LEFT),
+    }
 
-    luffy_narrator = None
-    nami_narrator = None
-    luffy_voice = None
-    luffy_arm = None
-    nami_voice = None
+    SHAPE_NAMES = shapes_info.keys()
+
+    def gen_shape_text(self, name):
+        color, pos = self.shapes_info[name]
+        shape_text = TextMobject(name)
+        shape_text.set_color(color)
+        shape_text.shift(pos)
+        return shape_text
 
     def construct(self):
-        self.intro()
-        self.platformAndLuffy()
-        self.luffyNamiConversation()
-        self.clear()
-        self.outro()
+        texts = [self.gen_shape_text(name) for name in self.SHAPE_NAMES]
+        shapes = [self.gen_shape_obj(name) for name in self.SHAPE_NAMES]
+        formulas = [self.gen_shape_formula(name) for name in self.SHAPE_NAMES]
+        text_animations = [Write(text_obj, run_time=3) for text_obj in texts]
 
-    def outro(self):
-        text = TextMobject("Manim  X OnePiece")
-        text.set_color_by_gradient(PURPLE, BLUE, GREEN, ORANGE, RED)
-        self.play(Write(text))
-        self.play(ApplyMethod(text.scale, 2))
-        self.wait(3)
+        self.play(*text_animations)
+        for text, shape, formula in zip(texts, shapes, formulas):
+            self.play(Transform(text, shape, run_time=2))
+            formula.next_to(shape, DOWN)
+            self.play(Write(formula, run_time=2))
 
-    def intro(self):
-        title = TextMobject("Manim Training Assignment 01")
-        title.set_color(RED)
-        title.to_edge(UP)
+    def gen_shape_obj(self, name):
+        circle = Circle(radius=1.0, color=PURPLE_A)
+        triangle = Polygon(np.array([0,0,0]), np.array([1,-1,0]),np.array([-1,-1,0]))
+        square = Square(side_length=1.0, color=GOLD_A)
+        ellipse = Ellipse(width=2, height=1, color=RED)
+        rectangle = Rectangle(height=1, width=1.5)
 
-        presentedStr = TextMobject("Presented by")
-        presentedStr.set_color(YELLOW)
+        shapes_map = {
+            'circle': circle,
+            'triangle': triangle,
+            'square': square,
+            'rectangle': rectangle,
+            'ellipse': ellipse,
+            }
 
-        author = TextMobject("- Hemanta Sharma")
-        author.scale(0.75)
-        author.next_to(title.get_corner(DOWN + RIGHT), DOWN)
+        for shape_name, shape_obj in shapes_map.items():
+            color, pos = self.shapes_info[shape_name]
+            shape_obj.move_to(pos)
 
-        self.add(title)
-        self.wait(2)
+        return shapes_map[name]
 
-        self.play(
-            Transform(title, presentedStr),
-            ApplyMethod(
-                author.move_to, presentedStr.get_corner(DOWN + RIGHT) + DOWN + 2 * LEFT
-            ),
-        )
-        self.wait(1)
+    def gen_shape_formula(self, name):
+        circle = TexMobject(r'\pi r^2')
+        triangle = TexMobject(r'\frac{1}{2} base \times height')
+        square = TexMobject(r'length^2')
+        ellipse = TexMobject(r'\pi a b')
+        rectangle = TexMobject(r'length \times breadth')
 
-        self.play(ApplyMethod(author.scale, 1.5))
-        author.match_color(presentedStr)
-        self.wait(2)
-        self.play(FadeOut(title), FadeOut(author))
+        formula_map = {
+            'circle': circle,
+            'triangle': triangle,
+            'square': square,
+            'rectangle': rectangle,
+            'ellipse': ellipse,
+            }
 
-    @staticmethod
-    def make_stick_man():
-        BOTTOM_LEFT = BOTTOM + LEFT_SIDE
-        body_line = Line(
-            BOTTOM_LEFT + RIGHT,
-            BOTTOM_LEFT + RIGHT + 2 * UP,
-        )
-        head_circle = Circle(radius=0.5)
-        head_circle.move_to(body_line.end)
-        stickman = VGroup(body_line, head_circle)
-        return stickman
-
-    def luffyEnters(self):
-        self.luffy = self.make_stick_man()
-        self.add(self.luffy)
-        self.play(FadeIn(self.luffy))
-
-        self.luffy_narrator = NarratorBubble(
-            next_to=(self.luffy, UP + RIGHT), scale=0.75
-        )
-        self.luffy_voice = self.luffy_narrator.speak("hi, everyone")
-
-        self.play(FadeIn(self.luffy_voice))
-
-        voice2 = self.luffy_narrator.speak("I am luffy,", "a rubber man")
-        self.play(Transform(self.luffy_voice, voice2))
-        self.wait(2)
-
-        voice3 = self.luffy_narrator.speak("Don't believe?", "Let me stretch")
-        self.play(Transform(self.luffy_voice, voice3))
-        self.wait(2)
-        self.play(FadeOut(self.luffy_voice))
-
-    def platformAndLuffy(self):
-        BOTTOM_LEFT = BOTTOM + LEFT_SIDE
-        arm_line = Line(
-            BOTTOM_LEFT,
-            BOTTOM_LEFT + 2 * UP,
-        )
-        fist_circle = Circle(radius=0.5)
-
-        platform_line = Line()
-        platform_ball = Circle(radius=0.5)
-
-        arm_line.set_angle(PI / 4)
-        fist_circle.next_to(arm_line, UP + RIGHT)
-
-        self.luffy_arm = VGroup(arm_line, fist_circle)
-
-        platform_line.move_to(1.4 * UP)
-        platform_ball.next_to(platform_line, UP)
-
-        falling_arc = ArcBetweenPoints(
-            ORIGIN + (0.5, 2, 0),
-            BOTTOM + RIGHT_SIDE,
-            angle=-PI / 2,
-            start_angle=TAU / 4,
-        )
-        self.luffyEnters()
-        self.play(
-            ShowCreation(platform_line),
-            ShowCreation(platform_ball),
-        )
-        arm_line.set_length(arm_line.get_length() + 16)
-        fist_circle.next_to(arm_line, UP + RIGHT)
-
-        self.luffy_narrator = NarratorBubble(
-            next_to=(self.luffy, UP + RIGHT), scale=0.75
-        )
-        self.luffy_voice = self.luffy_narrator.speak("Gomu Gomu no", "pistol")
-        self.luffy_voice.rotate(PI / 4)
-        self.play(
-            GrowFromEdge(self.luffy_arm, arm_line.start),
-            FadeIn(self.luffy_voice),
-            run_time=3,
-        )
-        self.play(MoveAlongPath(platform_ball, falling_arc))
-
-    def luffyNamiConversation(self):
-        self.nami_narrator = NarratorBubble(next_to=(RIGHT_SIDE, LEFT), scale=0.75)
-
-        self.nami_voice = self.nami_narrator.speak("Oe luffy captain,")
-        self.play(FadeOut(self.luffy_arm))
-        luffy_voice = self.luffy_narrator.speak("oh! oe Nami...")
-
-        self.play(FadeIn(self.nami_voice), run_time=2)
-        self.play(
-            Transform(self.luffy_voice, luffy_voice),
-            run_time=2,
-        )
-
-        nami_voice2 = self.nami_narrator.speak(
-            "The ball you threw", "was a projectile!"
-        )
-        luffy_voice2 = self.luffy_narrator.speak("Nani!", "(what!)")
-        self.play(
-            Transform(self.nami_voice, nami_voice2),
-            run_time=4,
-        )
-        self.play(
-            Transform(self.luffy_voice, luffy_voice2),
-            run_time=2,
-        )
-
-        nami_voice3 = self.nami_narrator.speak(
-            "It has trajectory",
-            "$ y = x \\tan(\\theta) - \\frac{gx^{2}}{ {2v_{0}}^{2} cos^ {2}\\theta}$",
-        )
-        nami_voice3.set_color_by_gradient(RED, ORANGE, BLUE, PURPLE)
-        luffy_voice3 = self.luffy_narrator.speak("????", "Nanda kurea?")
-        self.play(
-            Transform(self.nami_voice, nami_voice3),
-            run_time=4,
-        )
-        self.play(
-            Transform(self.luffy_voice, luffy_voice3),
-            run_time=2,
-        )
-
-        nami_voice4 = self.nami_narrator.speak("What is so hard", "about that?")
-        luffy_voice4 = self.luffy_narrator.speak("Oh! I got it", "It's a mystery ball")
-        self.play(
-            Transform(self.nami_voice, nami_voice4),
-            run_time=4,
-        )
-        self.play(
-            Transform(self.luffy_voice, luffy_voice4),
-            run_time=2,
-        )
-
-        nami_voice5 = self.nami_narrator.speak("Aaho sencho", "(Stupid captain)")
-        self.play(
-            Transform(self.nami_voice, nami_voice5),
-            run_time=4,
-        )
-
-
-class NarratorBubble:
-    def __init__(self, next_to=(ORIGIN,), scale=1.0):
-        self.position = next_to
-        self.scale = scale
-
-    def speak(self, *args):
-        messages = []
-        for text in args:
-            msg = TextMobject(text)
-            msg.scale(self.scale)
-            if messages:
-                msg.next_to(messages[-1], DOWN)
-            messages.append(msg)
-
-        message = VGroup(*messages)
-        bubble = Ellipse()
-        bubble.surround(message)
-        voice = VGroup(message, bubble)
-        voice.next_to(*self.position)
-        return voice
+        return formula_map[name]
