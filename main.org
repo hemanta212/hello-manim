@@ -306,7 +306,7 @@ class UsingBracesConcise(Scene):
 
 #+END_SRC
 * Basic Graphs
-#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+#+BEGIN_SRC python :tangle explore/graphs.py :comments org :mkdirp yes :padline no
 #!/usr/bin/env python3
 
 from manimlib.imports import *
@@ -381,6 +381,395 @@ class PlotFunctions(GraphScene):
 
 #+END_SRC
 * Assignment
+** References
+*** Terms
+- Targets and moveToTargets
+- Animations like FadeOutAndShiftDown
+- Group and arrange function with align and justify
+- Camera scenes and stuff
+*** Transition and presentation
+**** Manish gotame:
+#+BEGIN_SRC python :tangle samples/manish_gotame_chemical_reaction.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+from manimlib.imports import *
+
+class Chemical(Scene):
+    def construct(self):
+        self.reactionName = ["1) Combination Reaction",
+                    "2) Decomposition Reaction",
+                    "3) Displacement Reaction",
+                    "4) Acid Base Reaction"]
+        self.everything()
+        self.rectn1()
+        self.rectn2()
+        self.rectn3()
+        self.rectn4()
+        self.reactHeating()
+
+    def rectn6(self):
+        defn = TextMobject("Chemical reactions that consume energy are called ", "Endothermic Reactions.")
+        defn2 = TextMobject("Exothermic reactions can be represented by the general chemical equation:")
+        defns = Group(defn, defn2).arrange(DOWN)
+        defn[1].set_color(BLUE)
+        defn.scale(0.7)
+        defn2.scale(0.7)
+        defn.to_corner(UP * 3)
+        defn2.to_corner(UP * 4)
+        for each in defns:
+            self.play(Write(each))
+        self.wait()
+
+        genEqn = TexMobject("Reactants + ","Heat", " \\rightarrow Products")
+        genEqn[1].set_color(RED)
+        genEqn.scale(0.7)
+        genEqn.shift(UP * 0.9)
+        self.add(genEqn)
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 7 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+
+        wordeqn = TexMobject("Nitrogen + Oxygen + ", "Heat", " \\rightarrow Nitric ", "Oxide")
+        wordeqn[1].set_color(RED)
+        ueqn = TexMobject("N_2 + O_2 ", "+ \\Delta", "\\rightarrow NO")
+        beqn = TexMobject("N_2 + O_2 ", "+ \\Delta", "\\rightarrow" , "2", "NO")
+
+        ueqn[1].set_color(RED)
+        beqn[1].set_color(RED)
+        beqn[3].set_color(RED)
+        eqns1 = VGroup(wordeqn, ueqn, TextMobject("")).arrange(DOWN).shift(UP*0.5)
+
+        wordeqn.scale(0.7)
+        eqns1.shift(DOWN)
+        beqn.shift(DOWN * 0.8)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        self.play(Transform(ueqn, beqn))
+        self.wait()
+
+        self.play(
+                FadeOutAndShiftDown(defns),
+                FadeOutAndShiftDown(genEqn),
+                FadeOutAndShiftDown(foreg),
+                FadeOutAndShiftDown(eqns1),
+                )
+
+    def reactHeating(self):
+        img1 = ImageMobject("endo-v-exo")
+        img1.scale(3.5)
+
+        title = TextMobject("Types of Chemical Reactions based on Heating")
+        title.to_corner(UP)
+        self.add(title)
+        self.wait()
+        t1 = TextMobject("1) Exothermic Reaction")
+        t2 = TextMobject("2) Endothermic Reaction")
+        t1.set_color(ORANGE)
+        t2.set_color(BLUE)
+        types = Group(t1, t2).arrange(DOWN)
+        types.shift(UP)
+
+        for e in types:
+            self.play(Write(e), run_time=0.8)
+        self.wait()
+        '''
+        self.play(
+                FadeOutAndShiftDown(title),
+                FadeOutAndShiftDown(types),
+            )
+        '''
+
+        #self.add(img1)
+        self.remove(title)
+        # maybe more time for the narrator to explain here
+        #self.remove(img1)
+
+        self.play(
+                FadeOutAndShiftDown(t2),
+                t1.to_edge, UP, run_time=0.8
+            )
+        # go for each type of reaction
+
+        self.rectn5() # exothermic reaction call
+        self.play(
+                FadeOutAndShiftDown(t1),
+                FadeIn(t2),
+                t2.to_edge, UP, run_time=0.8
+                )
+
+        self.rectn6() # endothermic reaction call
+        self.play(
+                FadeOut(t2)
+                )
+
+        # differences scene
+        # At the moment, I only have an image to show, maybe later I can improve this
+        diff = TextMobject("Let's look at the differences between")
+        diff2 = TextMobject("Endothermic"," and", " Exothermic ","Reactions")
+        diff2[0].set_color(BLUE)
+        diff2[2].set_color(RED)
+        diffs = VGroup(diff, diff2).arrange(DOWN)
+        self.play(Write(diffs))
+        self.wait()
+        self.remove(diffs)
+        self.add(img1)
+        self.wait()
+
+    def rectn5(self):
+        defn = TextMobject("Chemical reactions that release energy are called ", "Exothermic Reactions. ","In organisms, exothermic reactions are called ", "Catabolic Reactions."," Exothermic reactions can be represented by the general chemical equation:")
+
+        defn[1].set_color(ORANGE)
+        defn.scale(0.7)
+        defn.to_corner(UP * 3)
+        self.play(Write(defn))
+        self.wait()
+
+        genEqn = TexMobject("Reactants \\rightarrow Products"," + ", "Heat")
+        genEqn[2].set_color(RED)
+        genEqn.scale(0.7)
+        genEqn.shift(UP * 0.7)
+        self.add(genEqn)
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 7 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+
+        wordeqn = TexMobject("Carbon + Oxygen \\rightarrow Carbon Dioxide + ", "Heat")
+        wordeqn[1].set_color(RED)
+        ueqn = TexMobject("C + O_2 \\rightarrow CO_2 +", "\\Delta ")
+        ueqn[1].set_color(RED)
+        eqns1 = VGroup(wordeqn, ueqn, TextMobject("")).arrange(DOWN).shift(UP*0.5)
+
+        wordeqn.scale(0.7)
+        eqns1.shift(DOWN)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+
+        self.play(
+                FadeOutAndShiftDown(defn),
+                FadeOutAndShiftDown(genEqn),
+                FadeOutAndShiftDown(foreg),
+                FadeOutAndShiftDown(eqns1),
+                )
+
+
+    def rectn1(self):
+        title = TextMobject(self.reactionName[0]).set_color(RED)
+        title.to_corner(UP)
+        defn = TextMobject("When two or more chemical elements or compounds unite to form one complex product, the reaction is said to be a ", "Combination Reaction.")
+        defn[1].set_color(RED)
+        defn.scale(0.7)
+        defn.to_corner(UP * 3)
+        self.add(title)
+        self.wait()
+        self.play(Write(defn))
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 5.3 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+        wordeqn = TexMobject("1) Nitrogen + Hydrogen \\rightarrow Ammonia")
+        ueqn = TexMobject("N_2+ H_2 \\rightarrow NH_3")
+        beqn = TexMobject("N_2+ ", "3", "H_2 \\rightarrow ","2","NH_3")
+
+        beqn[1].set_color(RED)
+        beqn[3].set_color(RED)
+
+        eqns1 = VGroup(wordeqn, ueqn).arrange(DOWN).shift(UP*0.5)
+        wordeqn.scale(0.7)
+        ueqn.scale(1)
+        beqn.scale(1).shift(UP * 0.2)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        self.play(Transform(ueqn, beqn))
+        self.wait()
+
+        wordeqn = TexMobject("2) Potassium + Chlorine \\rightarrow Potassium ", " ", "Chloride")
+        ueqn = TexMobject("K_2+ Cl_2 \\rightarrow KCl")
+        beqn = TexMobject("K_2+ Cl_2 \\rightarrow ", "2", "KCl")
+        beqn[1].set_color(RED)
+        eqns2 = VGroup(wordeqn, ueqn).arrange(DOWN).shift(DOWN *1.2)
+
+        wordeqn.scale(0.7)
+        beqn.shift(DOWN * 1.6)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        self.play(Transform(ueqn, beqn))
+        self.wait()
+        self.wait()
+        self.play(
+                FadeOutAndShiftDown(title),
+                FadeOutAndShiftDown(defn),
+                FadeOutAndShiftDown(foreg),
+                FadeOutAndShiftDown(eqns1),
+                FadeOutAndShiftDown(eqns2),
+                )
+
+    def rectn2(self):
+        title = TextMobject(self.reactionName[1]).set_color(BLUE)
+        title.to_corner(UP)
+        defn = TextMobject("A", " decomposition reaction ","occurs when a compound is broken down into smaller compounds or elements. ")
+        defn[1].set_color(BLUE)
+
+        defn.scale(0.7)
+        defn.to_corner(UP * 3)
+        self.add(title)
+        self.wait()
+        self.play(Write(defn))
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 5.3 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+
+        wordeqn = TexMobject("1) Water \\rightarrow Hydrogen + Oxygen")
+        ueqn = TexMobject("H_2O\\rightarrow H_2 + O_2")
+        beqn = TexMobject("2","H_2O \\rightarrow ","2","H_2 + O_2")
+        beqn[0].set_color(RED)
+        beqn[2].set_color(RED)
+        eqns1 = VGroup(wordeqn, ueqn, TextMobject("")).arrange(DOWN).shift(UP*0.5)
+        wordeqn.scale(0.7)
+        beqn.shift(UP * 0.25)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        self.play(Transform(ueqn, beqn))
+        self.wait()
+
+        wordeqn = TexMobject("2) Ammonium" " Hyrdoxide \\rightarrow Ammonia + Water")
+        ueqn = TexMobject("NH_4OH \\rightarrow NH_3 + H_2O")
+        eqns2 = VGroup(wordeqn, ueqn).arrange(DOWN).shift(DOWN *1.2)
+        wordeqn.scale(0.7)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        self.wait()
+        self.play(
+                FadeOutAndShiftDown(title),
+                FadeOutAndShiftDown(defn),
+                FadeOutAndShiftDown(foreg),
+                FadeOutAndShiftDown(eqns1),
+                FadeOutAndShiftDown(eqns2),
+                )
+
+    def rectn3(self):
+        title = TextMobject(self.reactionName[2]).set_color(GREEN)
+        title.to_corner(UP)
+        defn = TextMobject("A", " Displacement Reaction ","occurs when one element replaces another element in a compound.")
+        defn[1].set_color(GREEN)
+
+        defn.scale(0.7)
+        defn.to_corner(UP * 3)
+        self.add(title)
+        self.wait()
+        self.play(Write(defn))
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 5.3 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+
+        wordeqn = TexMobject("1) Calcium + Sulphuric ", " Acid \\rightarrow Calcium Sulphate + Hydrogen")
+        ueqn = TexMobject("Ca_2","+","H_2SO_4", "\\rightarrow",  "CaSO_4", "+", "H_2")
+        eqns1 = VGroup(wordeqn, ueqn, TextMobject("")).arrange(DOWN).shift(UP*0.4)
+        wordeqn.scale(0.7)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+        self.wait()
+
+        wordeqn = TexMobject("2) Sodium Chloride + Silver Nitrate \\rightarrow Sodium Nitrate + Silver Chloride")
+        ueqn = TexMobject("NaCl + AgNO_3 \\rightarrow NaNO_3 + AgCl")
+        eqns2 = VGroup(wordeqn, ueqn).arrange(DOWN).shift(DOWN *1.2)
+        wordeqn.scale(0.7)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+
+        self.play(
+                FadeOutAndShiftDown(title),
+                FadeOutAndShiftDown(defn),
+                FadeOutAndShiftDown(foreg),
+                FadeOutAndShiftDown(eqns1),
+                FadeOutAndShiftDown(eqns2),
+                )
+
+    def rectn4(self):
+        title = TextMobject(self.reactionName[3]).set_color(YELLOW)
+        title.to_corner(UP)
+        defn = TextMobject("When ", "Acid", " and ", "Base", " are reacted together, they form Salt and Water as products. This reaction is called ", "Acid-Base Reaction")
+        defn[1].set_color(RED)
+        defn[3].set_color(BLUE)
+        defn[5].set_color(YELLOW)
+
+        defn.scale(0.7)
+        defn.to_corner(UP * 3)
+        self.add(title)
+        self.wait()
+        self.play(Write(defn))
+        self.wait()
+
+        foreg = TextMobject("For Example:").scale(0.7)
+        foreg.to_corner(UP * 5.3 + LEFT * 3.5)
+        self.play(FadeIn(foreg))
+
+        # equation examples here
+
+        wordeqn = TexMobject("1)", " Sodium Hydroxide", " + ", "Hydrochloric Acid ", "\\rightarrow Sodium Chloride + Water")
+        wordeqn[1].set_color(BLUE)
+        wordeqn[3].set_color(RED)
+
+        ueqn = TexMobject("NaOH ", "+", " HCL", "\\rightarrow NaCl + H_2O")
+        ueqn[0].set_color(BLUE)
+        ueqn[2].set_color(RED)
+        eqns1 = VGroup(wordeqn, ueqn, TextMobject("")).arrange(DOWN).shift(UP*0.3)
+        wordeqn.scale(0.7)
+
+        self.play(Write(wordeqn))
+        self.wait()
+        self.play(Write(ueqn))
+
+        self.wait()
+        #self.play(Transform(ueqn, beqn))
+#+END_SRC
 ** Selection
 [[output.gif]]
 
@@ -493,3 +882,272 @@ class ProjectileMotion(Scene):
         self.play(ApplyMethod(fist_circle.next_to, platform_ball, LEFT))
 #+END_SRC
 
+** Assignment 1
+*** Script
+Video 1: Gravitational Force Numerical
+
+· Show two bodies with mass M1 and M2 with the distance of R2 --> Scene
+· Show the formula of gravitational force between two bodies:  --> PiCreatureScene
+F = G (M1.M2)/R2
+· Ask what happens to the Gravitational Force between them in the following conditions:
+§ When the masses are doubled
+§ When the distance is doubled
+§ When the masses are doubled and the distance is doubled
+§ When the masses are doubled and the distance is halved
+· Show with calculation, what happens in the aforementioned condition. For example: When the masses are doubled, the final force F2 increase by four times; When the masses are doubled and the distance is doubled, the Final Force F2 does not change at all. SHOW BY CALCULATION.
+
+*** Code
+**** Entry point
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+from manimlib.imports import *
+#+END_SRC
+**** First Scene
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+class M1M2Setup(Scene):
+    def construct(self):
+        m1_body = Circle()
+        m1_center = Dot(point=m1_body.get_center())
+        m1_text = TexMobject("M_{1}")
+        m1 = VGroup(m1_body, m1_center, m1_text)
+
+        m2_body = Circle()
+        m2_center = Dot(point=m1_body.get_center())
+        m2_text = TexMobject("M_{2}")
+        m2 = VGroup(m2_body, m2_center, m2_text)
+
+        line = Line(1.5 * LEFT, 1.5 * RIGHT)
+        line_text = TextMobject("R")
+        line_text.next_to(line, UP)
+
+        self.play(ShowCreation(m1_body), run_time=3)
+        self.add(m1_center)
+        self.play(Write(m1_text), run_time=3)
+        self.play(m1.to_edge, LEFT)
+
+        self.play(ShowCreation(m2_body), run_time=3)
+        self.add(m2_center)
+        self.play(Write(m2_text), run_time=3)
+        self.play(m2.to_edge, RIGHT)
+
+        self.play(ShowCreation(line))
+
+        self.play(
+            ApplyMethod(m1.move_to, line.start),
+            ApplyMethod(m2.move_to, line.end),
+            run_time=3,
+        )
+
+        self.play(
+            ApplyMethod(m1_text.next_to, m1, UP),
+            ApplyMethod(m2_text.next_to, m2, UP),
+            Write(line_text),
+            run_time=3,
+        )
+#+END_SRC
+
+**** Second Scene
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+class SpecialCases(PiCreatureScene):
+    def construct(self):
+        self.show_formula()
+        self.list_cases()
+
+    def show_formula(self):
+        formula = TexMobject(r"F = G \frac{M_{1} \cdot M_{2}}{R^2}")
+        self.say(formula)
+        self.blink()
+        self.say("")
+
+    def list_cases(self):
+        title = TextMobject("What happens when?")
+        cases = [
+            "Masses are doubled",
+            "Distance is doubled",
+            "Both masses and the distance is doubled",
+            "Masses are doubled and the distance is halved",
+        ]
+        title.move_to(2 * RIGHT)
+        title.to_edge(UP)
+        self.play(Write(title))
+        cases_obj = [title]
+        for case in cases:
+            sentence = TextMobject(case)
+            sentence.scale(0.75)
+            dot = Dot()
+            dot.next_to(sentence, LEFT)
+            point = VGroup(sentence, dot)
+            point.next_to(cases_obj[-1], DOWN)
+            self.play(ReplacementTransform(cases_obj[-1].copy(), point), run_time=2)
+            cases_obj.append(point)
+        self.think("?")
+        self.wait(3)
+
+#+END_SRC
+**** Third Scene
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+class Calculation(Scene):
+    def construct(self):
+        self.mass_doubled()
+        self.distance_doubled()
+        self.mass_distance_doubled()
+        self.mass_doubled_distance_halved()
+
+    def mass_doubled(self):
+        title = TextMobject("1. Masses are doubled")
+        conditions = [
+            r"M_{1} \rightarrow 2 \cdot M_{1}",
+            r"M_{2} \rightarrow 2 \cdot M_{2}",
+        ]
+
+        self.establish_case(title, conditions)
+        cases = [
+            r"or, F_{2} = G \frac{2 \times M_{1} \cdot 2 \times M_{2}}{R^2}",
+            r"or, F_{2} = 4 \cdot G \frac{M_{1} \cdot M_{2}}{R^2}",
+            r"or, F_{2} = 4 \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
+            r"or, F_{2} = 4 \cdot F",
+        ]
+
+        self.show_calculation(cases)
+
+    def distance_doubled(self):
+        title = TextMobject("2. Distance between bodies is  doubled")
+        conditions = [
+            r"R \rightarrow 2 \cdot R",
+        ]
+        self.establish_case(title, conditions)
+
+        cases = [
+            r"or, F_{2} = G \frac{M_{1} \cdot M_{2}}{(2R)^2}",
+            r"or, F_{2} = G \frac{M_{1} \cdot M_{2}}{4R^2}",
+            r"or, F_{2} = \frac{1}{4} \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
+            r"or, F_{2} = \frac{1}{4}  \cdot F",
+        ]
+
+        self.show_calculation(cases)
+
+    def mass_doubled_distance_halved(self):
+        title = TextMobject("4. Masses are doubled but the distance is halved")
+        conditions = [
+            r"M_{1} \rightarrow 2 \cdot M_{1}",
+            r"M_{2} \rightarrow 2 \cdot M_{2}",
+            r"R \rightarrow \frac{R}{2}",
+        ]
+
+        self.establish_case(title, conditions)
+        cases = [
+            r"or, F_{2} = G \frac{2 \times M_{1} \cdot 2 \times M_{2}}{(\frac{R}{2})^2}",
+            r"or, F_{2} = 4 \cdot G \frac{M_{1} \cdot M_{2}}{\frac{R^2}{4}}",
+            r"or, F_{2} = 4 \times 4 \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
+            r"or, F_{2} = 16 F",
+        ]
+
+        self.show_calculation(cases)
+
+    def mass_distance_doubled(self):
+        title = TextMobject("3. Both Masses and distance are doubled")
+        conditions = [
+            r"M_{1} \rightarrow 2 \cdot M_{1}",
+            r"M_{2} \rightarrow 2 \cdot M_{2}",
+            r"R \rightarrow 2 \cdot R",
+        ]
+
+        self.establish_case(title, conditions)
+        cases = [
+            r"or, F_{2} = G \frac{2 \times M_{1} \cdot 2 \times M_{2}}{(2R)^2}",
+            r"or, F_{2} = 4 \cdot G \frac{M_{1} \cdot M_{2}}{4R^2}",
+            r"or, F_{2} = 4 \frac{1}{4} \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
+            r"or, F_{2} = F",
+        ]
+
+        self.show_calculation(cases)
+
+    def establish_case(self, title, conditions):
+        title.to_edge(UP)
+        self.play(Write(title))
+        conditions_obj = [title]
+        for condition in conditions:
+            sentence = TexMobject(condition)
+            sentence.next_to(conditions_obj[-1], DOWN, buff=1.0)
+            self.play(
+                ReplacementTransform(conditions_obj[-1].copy(), sentence), run_time=2
+            )
+            conditions_obj.append(sentence)
+        self.wait(3)
+        self.clear()
+
+    def show_calculation(self, steps):
+        formula = TexMobject(r"F = G \frac{M_{1} \cdot M_{2}}{R^2}")
+        formula.to_edge(UP)
+        self.play(Write(formula))
+        steps_obj = [formula]
+        for step in steps:
+            sentence = TexMobject(step)
+            sentence.next_to(steps_obj[-1], DOWN, buff=0.5)
+            self.play(ReplacementTransform(steps_obj[-1].copy(), sentence), run_time=2)
+            steps_obj.append(sentence)
+        self.wait(3)
+        self.clear()
+#+END_SRC
+**** Conclusion
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+SCENES_IN_ORDER = [M1M2Setup, SpecialCases, Calculation]
+#+END_SRC
+** Assignment 2
+*** Script
+**** Video 2:  Thermometer
+Display ‘thermometer’ as text and transform into the svg image.
+
+What are the parts involved in thermometer. {Use svg image of thermometer having distinct parts labelled.}
+
+Introduction of the thermometric liquids. Reference: https://bloomnepal.sharepoint.com/sites/Class10Content/_layouts/15/Doc.aspx?sourcedoc={5ed75301-9b4a-471f-9cb0-263a5634e47b}&action=edit&wd=target%28Heat.one%7C46a7e678-bd30-4cc3-9e03-e88c1db95c84%2FThermometer%20and%20its%20structure%7Ccc238cd3-08e2-407a-9428-d1d10b64ae6c%2F%29
+
+List out two thermometric liquids.
+Mercury.
+Alcohol.
+
+Introduction and some characteristics of types of thermometer.
+
+Clinical thermometer: (SVG image of the thermometer)
+
+Range of temperature.
+
+Degree Celsius: 35 to 42
+
+Degree Fahrenheit: 94 to 108
+
+It is used to measure the temperature of the human body.
+
+Laboratory thermometer: (SVG image of the thermometer.)
+
+Range of temperature
+
+–10oC to 100oC
+
+It is used for laboratory purpose.
+
+Maximum and Minimum thermometer. (SVG image of the thermometer.)
+
+Used by meteorologist to understand the temperature of the day. It is used to record the extremes of temperature at a location.
+
+**** Reference:
+Thermometer is a device which is designed to measure temperature.
+
+Working principle of thermometer:
+"Body expands on heating and contracts on cooling."
+
+The material used inside the thermometer to measure the temperature is called thermometric substance. The thermal expansion of the thermometric substance is measured using the graduated scale of the thermometer.
+
+Parts of thermometer:
+A general thermometer consists of a glass stem with a fine and uniform hollow capillary tube inside it. One end of the glass stem is sealed and at the other end, a thin walled bulb  presents inside of which a thermometric liquid is kept. The capillary tube provides space for expansion of thermometric liquid while measuring the temperature of the body. The glass stem is calibrated with standard scales.
+
+Thermometric liquid:
+It is the liquid used in the thermometer to measure the temperature.
+There are two liquids which we will basically explore in the upcoming sub-topics.
+
+*** Code
+**** Entry point
+#+BEGIN_SRC python :tangle run.py :comments org :mkdirp yes :padline no
+#!/usr/bin/env python3
+from manimlib.imports import *
+#+END_SRC
