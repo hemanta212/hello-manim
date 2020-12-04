@@ -6,6 +6,7 @@
 
 from manimlib.imports import *
 
+
 class ShapesPlay(Scene):
     TEXT_SIZE_F = 1.5
     TOP_LEFT = (LEFT_SIDE + TOP) / TEXT_SIZE_F
@@ -14,11 +15,11 @@ class ShapesPlay(Scene):
     BOTTOM_RIGHT = (RIGHT_SIDE + BOTTOM) / TEXT_SIZE_F
 
     shapes_info = {
-        'circle': (GOLD, ORIGIN),
-        'square': (RED_E, TOP_LEFT),
-        'triangle': (BLUE_E, TOP_RIGHT),
-        'ellipse': (GREY, BOTTOM_RIGHT),
-        'rectangle': (MAROON, BOTTOM_LEFT),
+        "circle": (GOLD, ORIGIN),
+        "square": (RED_E, TOP_LEFT),
+        "triangle": (BLUE_E, TOP_RIGHT),
+        "ellipse": (GREY, BOTTOM_RIGHT),
+        "rectangle": (MAROON, BOTTOM_LEFT),
     }
 
     SHAPE_NAMES = shapes_info.keys()
@@ -44,18 +45,20 @@ class ShapesPlay(Scene):
 
     def gen_shape_obj(self, name):
         circle = Circle(radius=1.0, color=PURPLE_A)
-        triangle = Polygon(np.array([0,0,0]), np.array([1,-1,0]),np.array([-1,-1,0]))
+        triangle = Polygon(
+            np.array([0, 0, 0]), np.array([1, -1, 0]), np.array([-1, -1, 0])
+        )
         square = Square(side_length=1.0, color=GOLD_A)
         ellipse = Ellipse(width=2, height=1, color=RED)
         rectangle = Rectangle(height=1, width=1.5)
 
         shapes_map = {
-            'circle': circle,
-            'triangle': triangle,
-            'square': square,
-            'rectangle': rectangle,
-            'ellipse': ellipse,
-            }
+            "circle": circle,
+            "triangle": triangle,
+            "square": square,
+            "rectangle": rectangle,
+            "ellipse": ellipse,
+        }
 
         for shape_name, shape_obj in shapes_map.items():
             color, pos = self.shapes_info[shape_name]
@@ -64,18 +67,18 @@ class ShapesPlay(Scene):
         return shapes_map[name]
 
     def gen_shape_formula(self, name):
-        circle = TexMobject(r'\pi r^2')
-        triangle = TexMobject(r'\frac{1}{2} base \times height')
-        square = TexMobject(r'length^2')
-        ellipse = TexMobject(r'\pi a b')
-        rectangle = TexMobject(r'length \times breadth')
+        circle = TexMobject(r"\pi r^2")
+        triangle = TexMobject(r"\frac{1}{2} base \times height")
+        square = TexMobject(r"length^2")
+        ellipse = TexMobject(r"\pi a b")
+        rectangle = TexMobject(r"length \times breadth")
 
         formula_map = {
-            'circle': circle,
-            'triangle': triangle,
-            'square': square,
-            'rectangle': rectangle,
-            'ellipse': ellipse,
-            }
+            "circle": circle,
+            "triangle": triangle,
+            "square": square,
+            "rectangle": rectangle,
+            "ellipse": ellipse,
+        }
 
         return formula_map[name]
