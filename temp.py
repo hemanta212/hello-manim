@@ -11,9 +11,16 @@ class Test(Scene):
         intro = (
             "Thermometric Liquids",
             "Liquids that are used inside thermometer are called",
-            "thermometeric liquids",
+            "thermometeric liquids.",
+            "Examples of thermometric liquids,",
+            "1. Mercury",
+            "2. Alcohol",
         )
-        color_map = {1: {"inside": ORANGE, "thermometer": ORANGE}}
+        color_map = {
+            1: {"inside": ORANGE, "thermometer": ORANGE},
+            5: {"Alcohol": ORANGE},
+            4: {"Mercury": BLUE},
+        }
         self.display_simple_info(*intro, color_map=color_map)
 
     def display_simple_info(
