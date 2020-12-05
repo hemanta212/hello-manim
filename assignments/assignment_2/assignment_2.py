@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Thermometer(Scene):
+class Test(Scene):
     # A palceholder string for denoting to leave gaps in places
     GAP = "{{GAP}}"
 
