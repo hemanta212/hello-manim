@@ -5,16 +5,8 @@ class Test(Scene):
     def construct(self):
         #        img = SVGMobject("thermometer.svg")
         #        self.play(DrawBorderThenFill(img, rate_func=linear))
-        self.thermometric_liquids()
-        # self.test()
-
-    def test(self):
-        text = TextMobject("Test")
-        self.add(text)
-
-        # self.play(Indicate(text, color=GREEN_A, run_time=3))
-        self.play(TurnInsideOut(text))
-        self.wait()
+        # self.thermometric_liquids()
+        self.clinical_thermometer()
 
     def thermometric_liquids(self):
         intro = (
@@ -41,6 +33,7 @@ class Test(Scene):
             "It is used to measure the temperature of the human body.",
         ]
         color_map = {}
+        self.display_simple_info(*intro, image="test.svg")
 
     def display_simple_info(
         self,
@@ -68,7 +61,14 @@ class Test(Scene):
         self.play(Write(title), run_time=run_time)
 
         processed = [title]
-        paragraphs = Group(*texts[1:]).arrange(DOWN)
+
+        body_texts = texts[1:]
+        if image:
+            svg_image = SVGMobject(image).to_edge(RIGHT)
+            body_texts = [image, body_texts]
+
+        paragraphs = VGroup(*body_texts).arrange(DOWN)
+        paragraphs.insert(svg_image, 0)
         for index, text in enumerate(texts[1:]):
             index += 1
             text.next_to(processed[-1], DOWN, buff=spacing)
