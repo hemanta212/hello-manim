@@ -7,6 +7,12 @@ class Test(Scene):
         #        self.play(DrawBorderThenFill(img, rate_func=linear))
         # self.thermometric_liquids()
         self.clinical_thermometer()
+        """
+        line = TextMobject("Hello")
+        svg = SVGMobject("tes.png")
+        self.play(Transform(line, svg))
+        self.wait(3)
+        """
 
     def thermometric_liquids(self):
         intro = (
@@ -26,9 +32,9 @@ class Test(Scene):
 
     def clinical_thermometer(self):
         intro = [
-            "Clinical thermometer: (SVG image of the thermometer)",
+            "Clinical thermometer",
             "Range of temperature.",
-            "Degree Celsius: 35 to 42",
+            "Degree Celsius: 35 $^{\circ}$ to 42",
             "Degree Fahrenheit: 94 to 108",
             "It is used to measure the temperature of the human body.",
         ]
@@ -62,13 +68,12 @@ class Test(Scene):
 
         processed = [title]
 
-        body_texts = texts[1:]
         if image:
-            svg_image = SVGMobject(image).to_edge(RIGHT)
-            body_texts = [image, body_texts]
+            svg_image = SVGMobject(image, stroke_color=WHITE).to_edge(RIGHT)
+            self.add(svg_image)
 
+        body_texts = texts[1:]
         paragraphs = VGroup(*body_texts).arrange(DOWN)
-        paragraphs.insert(svg_image, 0)
         for index, text in enumerate(texts[1:]):
             index += 1
             text.next_to(processed[-1], DOWN, buff=spacing)
