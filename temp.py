@@ -3,8 +3,8 @@ from manimlib.imports import *
 
 class Test(Scene):
     def construct(self):
-        # self.thermometric_liquids()
-        self.clinical_thermometer()
+        self.thermometric_liquids()
+        # self.clinical_thermometer()
         # self.intro()
 
     def intro(self):
@@ -27,14 +27,14 @@ class Test(Scene):
             "Liquids that are used inside thermometer are called",
             "thermometeric liquids.",
             GAP,
-            "Examples of thermometric liquids,",
+            "Examples of thermometric liquids;",
             "1. Mercury",
             "2. Alcohol",
         )
         color_map = {
             2: {"inside": ORANGE, "thermometer": ORANGE},
-            5: {"Mercury": BLUE},
-            6: {"Alcohol": ORANGE},
+            6: {"Mercury": BLUE},
+            7: {"Alcohol": ORANGE},
         }
         self.display_simple_info(*intro, color_map=color_map, center=True)
 
