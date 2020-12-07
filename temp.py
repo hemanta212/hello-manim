@@ -3,16 +3,19 @@ from manimlib.imports import *
 
 class Test(Scene):
     def construct(self):
-        #        img = SVGMobject("thermometer.svg")
-        #        self.play(DrawBorderThenFill(img, rate_func=linear))
-        # self.thermometric_liquids()
-        self.clinical_thermometer()
-        """
-        line = TextMobject("Hello")
-        svg = SVGMobject("tes.png")
-        self.play(Transform(line, svg))
-        self.wait(3)
-        """
+        # self.clinical_thermometer()
+        self.intro()
+
+    def intro(self):
+        topic = TextMobject("Thermometer")
+        image = ImageMobject("thermometer.jpg")
+        desc = TextMobject("A device used to measure temperature")
+        desc.next_to(image, DOWN)
+        self.play(Write(topic))
+        self.play(ApplyMethod(topic.next_to, image, 2 * UP))
+        self.play(ShowCreation(image))
+        self.play(Write(desc))
+        self.wait(2)
 
     def thermometric_liquids(self):
         intro = (
