@@ -2,69 +2,53 @@ from manimlib.imports import *
 
 
 class Test(Scene):
+    # A palceholder string for denoting to leave gaps in places
+    GAP = "{{GAP}}"
+
     def construct(self):
-        self.thermometric_liquids()
-        # self.clinical_thermometer()
         # self.intro()
+        # self.thermometric_liquids()
+        # self.clinical_thermometer()
+        self.laboratory_thermometer()
 
     def intro(self):
         topic = TextMobject("Thermometer")
         image = ImageMobject("thermometer.jpg")
-        desc = TextMobject("A device used to measure temperature")
+        desc = TextMobject("A device which is designed to measure temperature.")
+        image.scale(2.0)
         topic.scale(1.5)
         desc.next_to(image, DOWN)
         self.play(Write(topic))
-        self.play(ApplyMethod(topic.next_to, image, 2 * UP))
-        self.play(ShowCreation(image))
+        self.play(FadeOut(topic), FadeIn(image), run_time=3)
         self.play(Write(desc))
         self.wait(2)
 
     def thermometric_liquids(self):
-        GAP = "{{GAP}}"
         intro = (
             "Thermometric Liquids",
-            GAP,
-            "Liquids that are used inside thermometer are called",
-            "thermometeric liquids.",
-            GAP,
+            self.GAP,
+            "Liquids used in the thermometer to ",
+            "measure the temperature.",
+            self.GAP,
             "Examples of thermometric liquids;",
             "1. Mercury",
             "2. Alcohol",
         )
         color_map = {
-            2: {"inside": ORANGE, "thermometer": ORANGE},
+            2: {"in": ORANGE, "the": ORANGE, "thermometer": ORANGE},
             6: {"Mercury": BLUE},
             7: {"Alcohol": ORANGE},
         }
         self.display_simple_info(*intro, color_map=color_map, center=True)
 
-    def laboratory_thermometer(self):
-        intro = [
-            "Clinical thermometer",
-            "Range of temperature.",
-            "- Celsius: 35$^{\circ}$C to 42$^{\circ}$C",
-            "- Fahrenheit: 94$^{\circ}$F to 108$^{\circ}$F",
-            "It is used to measure the temperature",
-            "of the human body.",
-        ]
-        color_map = {
-            2: {"35": ORANGE, "42": ORANGE},
-            3: {"94": ORANGE, "108": ORANGE},
-            5: {"human": BLUE, "body": BLUE},
-        }
-        self.display_simple_info(
-            *intro, image="clinical.jpg", image_scale=2.0, color_map=color_map
-        )
-
     def clinical_thermometer(self):
-        GAP = "{{GAP}}"
         intro = [
             "Clinical thermometer",
-            GAP,
+            self.GAP,
             "Range of temperature:",
-            "- Celsius: 35$^{\circ}$C to 42$^{\circ}$C",
-            "- Fahrenheit: 94$^{\circ}$F to 108$^{\circ}$F",
-            GAP,
+            "$\circ$ Celsius: 35$^{\circ}$C to 42$^{\circ}$C",
+            "$\circ$ Fahrenheit: 94$^{\circ}$F to 108$^{\circ}$F",
+            self.GAP,
             "It is used to measure the temperature",
             "of the human body.",
         ]
@@ -75,6 +59,22 @@ class Test(Scene):
         }
         self.display_simple_info(
             *intro, image="clinical.jpg", image_scale=2.0, color_map=color_map
+        )
+
+    def laboratory_thermometer(self):
+        intro = [
+            "Laboratory thermometer",
+            self.GAP,
+            "Range of temperature:",
+            "$\circ$ –10$^{\circ}$C to 100$^{\circ}$C",
+            self.GAP,
+            "It is used for laboratory purpose.",
+        ]
+        color_map = {
+            3: {"10": ORANGE, "100": ORANGE},
+        }
+        self.display_simple_info(
+            *intro, image="laboratory.jpg", image_scale=2.0, color_map=color_map
         )
 
     def display_simple_info(
@@ -114,7 +114,7 @@ class Test(Scene):
         body_texts = texts[1:]
         for index, text in enumerate(texts[1:]):
             index += 1
-            is_gap = text.tex_string.strip() == "{{GAP}}"
+            is_gap = text.tex_string.strip() == self.GAP
             text.next_to(processed[-1], DOWN, buff=spacing)
             text = text.to_edge(LEFT) if not center else text
             text.scale(scale)
