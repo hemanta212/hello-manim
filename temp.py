@@ -6,10 +6,12 @@ class Test(Scene):
     GAP = "{{GAP}}"
 
     def construct(self):
-        # self.intro()
-        # self.thermometric_liquids()
-        # self.clinical_thermometer()
+        self.intro()
+        self.parts_of_thermometer()
+        self.thermometric_liquids()
+        self.clinical_thermometer()
         self.laboratory_thermometer()
+        self.min_max_thermometer()
 
     def intro(self):
         topic = TextMobject("Thermometer")
@@ -22,6 +24,11 @@ class Test(Scene):
         self.play(FadeOut(topic), FadeIn(image), run_time=3)
         self.play(Write(desc))
         self.wait(2)
+        self.play(FadeOutAndShiftDown(desc), FadeOutAndShiftDown(image))
+
+    def parts_of_thermometer(self):
+        intro = ("Parts of thermometer",)
+        self.display_simple_info(*intro, image="labelled_thermometer.jpg")
 
     def thermometric_liquids(self):
         intro = (
@@ -42,7 +49,7 @@ class Test(Scene):
         self.display_simple_info(*intro, color_map=color_map, center=True)
 
     def clinical_thermometer(self):
-        intro = [
+        intro = (
             "Clinical thermometer",
             self.GAP,
             "Range of temperature:",
@@ -51,7 +58,7 @@ class Test(Scene):
             self.GAP,
             "It is used to measure the temperature",
             "of the human body.",
-        ]
+        )
         color_map = {
             3: {"35": ORANGE, "42": ORANGE},
             4: {"94": ORANGE, "108": ORANGE},
@@ -62,19 +69,35 @@ class Test(Scene):
         )
 
     def laboratory_thermometer(self):
-        intro = [
+        intro = (
             "Laboratory thermometer",
             self.GAP,
             "Range of temperature:",
             "$\circ$ –10$^{\circ}$C to 100$^{\circ}$C",
             self.GAP,
             "It is used for laboratory purpose.",
-        ]
+        )
         color_map = {
             3: {"10": ORANGE, "100": ORANGE},
         }
         self.display_simple_info(
             *intro, image="laboratory.jpg", image_scale=2.0, color_map=color_map
+        )
+
+    def min_max_thermometer(self):
+        intro = (
+            "Maximum and Minimum thermometer",
+            self.GAP,
+            "$\circ$ Used by meteorologist to understand",
+            "the temperature of the day.",
+            "$\circ$ Used to record the extremes of",
+            "temperature at a location.",
+        )
+
+        self.display_simple_info(
+            *intro,
+            image="max_min_thermometer.jpg",
+            image_scale=2,
         )
 
     def display_simple_info(
@@ -105,13 +128,13 @@ class Test(Scene):
         self.play(Write(title), run_time=run_time)
 
         processed = [title]
+        body_texts = texts[1:]
 
         if image:
-            image_ = ImageMobject(image).to_edge(RIGHT)
-            image_.scale(image_scale)
+            image_ = ImageMobject(image).scale(image_scale)
+            image_ = image_.to_edge(RIGHT) if body_texts else image_
             self.add(image_)
 
-        body_texts = texts[1:]
         for index, text in enumerate(texts[1:]):
             index += 1
             is_gap = text.tex_string.strip() == self.GAP
