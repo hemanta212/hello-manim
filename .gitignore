@@ -25,6 +25,7 @@ build/
 dist/
 manim.egg-info/
 
+Tex/
 manim/primes.py
 /media_dir.txt
 videos
