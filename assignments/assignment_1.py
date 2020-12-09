@@ -59,7 +59,7 @@ class SpecialCases(PiCreatureScene):
         cases = [
             "Masses are doubled",
             "Distance is doubled",
-            "Both masses and the distance is doubled",
+            "Both masses and the distance are doubled",
             "Masses are doubled and the distance is halved",
         ]
         title.move_to(2 * RIGHT)
@@ -88,6 +88,7 @@ class Calculation(Scene):
 
     def mass_doubled(self):
         title = TextMobject("1. Masses are doubled")
+        title.set_color(BLUE)
         conditions = [
             r"M_{1} \rightarrow 2 \cdot M_{1}",
             r"M_{2} \rightarrow 2 \cdot M_{2}",
@@ -100,11 +101,13 @@ class Calculation(Scene):
             r"or, F_{2} = 4 \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
             r"or, F_{2} = 4 \cdot F",
         ]
+        conclusion = "Resultant force increases by four times."
 
-        self.show_calculation(cases)
+        self.show_calculation(cases, conclusion)
 
     def distance_doubled(self):
         title = TextMobject("2. Distance between bodies is  doubled")
+        title.set_color(BLUE)
         conditions = [
             r"R \rightarrow 2 \cdot R",
         ]
@@ -116,11 +119,13 @@ class Calculation(Scene):
             r"or, F_{2} = \frac{1}{4} \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
             r"or, F_{2} = \frac{1}{4}  \cdot F",
         ]
+        conclusion = "Resultant force decreases by four times."
 
-        self.show_calculation(cases)
+        self.show_calculation(cases, conclusion)
 
     def mass_doubled_distance_halved(self):
         title = TextMobject("4. Masses are doubled but the distance is halved")
+        title.set_color(BLUE)
         conditions = [
             r"M_{1} \rightarrow 2 \cdot M_{1}",
             r"M_{2} \rightarrow 2 \cdot M_{2}",
@@ -134,11 +139,13 @@ class Calculation(Scene):
             r"or, F_{2} = 4 \times 4 \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
             r"or, F_{2} = 16 F",
         ]
+        conclusion = "Resultant force increases by sixteen times."
 
-        self.show_calculation(cases)
+        self.show_calculation(cases, conclusion)
 
     def mass_distance_doubled(self):
         title = TextMobject("3. Both Masses and distance are doubled")
+        title.set_color(BLUE)
         conditions = [
             r"M_{1} \rightarrow 2 \cdot M_{1}",
             r"M_{2} \rightarrow 2 \cdot M_{2}",
@@ -152,8 +159,9 @@ class Calculation(Scene):
             r"or, F_{2} = 4 \frac{1}{4} \cdot (G \frac{M_{1} \cdot M_{2}}{R^2})",
             r"or, F_{2} = F",
         ]
+        conclusion = "There is no net change in resultant force."
 
-        self.show_calculation(cases)
+        self.show_calculation(cases, conclusion)
 
     def establish_case(self, title, conditions):
         title.to_edge(UP)
@@ -169,16 +177,25 @@ class Calculation(Scene):
         self.wait(3)
         self.clear()
 
-    def show_calculation(self, steps):
+    def show_calculation(self, steps, conclusion):
         formula = TexMobject(r"F = G \frac{M_{1} \cdot M_{2}}{R^2}")
+        formula.scale(0.80)
+        formula.set_color(BLUE)
         formula.to_edge(UP)
         self.play(Write(formula))
         steps_obj = [formula]
         for step in steps:
             sentence = TexMobject(step)
             sentence.next_to(steps_obj[-1], DOWN, buff=0.5)
+            sentence.scale(0.80)
             self.play(ReplacementTransform(steps_obj[-1].copy(), sentence), run_time=2)
             steps_obj.append(sentence)
+            self.wait()
+
+        conclusion = TextMobject(conclusion)
+        conclusion.to_edge(DOWN)
+        conclusion.set_color(BLUE)
+        self.play(ApplyMethod(conclusion.scale, 1))
         self.wait(3)
         self.clear()
 
