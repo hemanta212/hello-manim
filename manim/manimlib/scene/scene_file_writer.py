@@ -333,7 +333,7 @@ class SceneFileWriter(object):
             Pixel array of the frame.
         """
         if self.write_to_movie:
-            self.writing_process.stdin.write(frame.tobytes())
+            self.writing_process.stdin.write(frame.tostring())
 
     def save_final_image(self, image):
         """
@@ -427,7 +427,7 @@ class SceneFileWriter(object):
     def close_movie_pipe(self):
         """
         Used internally by Manim to gracefully stop writing to FFMPEG's
-        input buffer, and move the temporary files into their permanent
+        input buffer, and move the temporary files into their permananant
         locations
         """
         self.writing_process.stdin.close()

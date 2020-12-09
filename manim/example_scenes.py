@@ -5,7 +5,7 @@ from manimlib.imports import *
 # To watch one of these scenes, run the following:
 # python -m manim example_scenes.py SquareToCircle -pl
 #
-# Use the flag -l for a faster rendering at a lower
+# Use the flat -l for a faster rendering at a lower
 # quality.
 # Use -s to skip to the end and just save the final frame
 # Use the -p to have the animation (or image, if -s was
@@ -98,7 +98,7 @@ class WarpSquare(Scene):
 class WriteStuff(Scene):
     def construct(self):
         example_text = TextMobject(
-            "This is some text",
+            "This is a some text",
             tex_to_color_map={"text": YELLOW}
         )
         example_tex = TexMobject(

@@ -131,7 +131,7 @@ class NumberLine(Line):
         return self.point_to_number(point)
 
     def get_unit_size(self):
-        return self.get_length() / (self.x_max - self.x_min)
+        return (self.x_max - self.x_min) / self.get_length()
 
     def default_numbers_to_display(self):
         if self.numbers_to_show is not None:

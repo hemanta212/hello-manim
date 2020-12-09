@@ -249,8 +249,8 @@ class MortyPiCreatureScene(PiCreatureScene):
 
 class TeacherStudentsScene(PiCreatureScene):
     CONFIG = {
-        "student_colors": [BLUE_D, BLUE_E, BLUE_C],
-        "teacher_color": GREY_BROWN,
+        "student_colors": [RED_D, RED_E, RED_C],
+        "teacher_color": PURPLE,
         "student_scale_factor": 0.8,
         "seconds_to_blink": 2,
         "screen_height": 3,

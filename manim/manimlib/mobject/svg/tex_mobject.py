@@ -257,7 +257,6 @@ class BulletedList(TextMobject):
     CONFIG = {
         "buff": MED_LARGE_BUFF,
         "dot_scale_factor": 2,
-        "dot_color": WHITE,
         # Have to include because of handle_multiple_args implementation
         "template_tex_file_body": TEMPLATE_TEXT_FILE_BODY,
         "alignment": "",
@@ -267,7 +266,7 @@ class BulletedList(TextMobject):
         line_separated_items = [s + "\\\\" for s in items]
         TextMobject.__init__(self, *line_separated_items, **kwargs)
         for part in self:
-            dot = TexMobject("\\cdot", color=self.dot_color).scale(self.dot_scale_factor)
+            dot = TexMobject("\\cdot").scale(self.dot_scale_factor)
             dot.next_to(part[0], LEFT, SMALL_BUFF)
             part.add_to_back(dot)
         self.arrange(
