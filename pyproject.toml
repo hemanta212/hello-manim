@@ -6,12 +6,15 @@ authors = ["hemanta212 <sharmahemanta.212@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-manimlib = "^0.1.11"
+manimlib = {path = "manim"}
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
 pylint = "^2.6.0"
 python-language-server = "^0.36.0"
+
+[tool.poetry.scripts]
+manim = 'manim:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
