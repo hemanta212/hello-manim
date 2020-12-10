@@ -24,11 +24,23 @@ class Test(Scene):
         intro = (
             self.saturated_topic,
             self.GAP,
-            "Those hydrocarbons having one or two bond",
+            "Those hydrocarbons where all carbon to carbon bonds",
+            "are single covalent bond are saturated hydrocarbons",
             "Its general formula is $C_{n}H_{2n}$/$C_{n}H_{2n+1}$",
         )
 
-        self.display_simple_info(*intro, skip_title_anim=True, center=True)
+        color_map = {
+            3: {"single": ORANGE, "covalent": ORANGE, "bond": ORANGE},
+            4: {"C": BLUE},
+        }
+
+        self.display_simple_info(
+            *intro,
+            color_map=color_map,
+            skip_title_anim=True,
+            center=True,
+            skip_exit_anim_and_return=[],
+        )
 
     def intro(self):
         intro = (
