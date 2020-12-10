@@ -7,12 +7,14 @@ class Test(Scene):
     saturated_topic = None
 
     def construct(self):
-        # self.lab()
-        # self.intro()
-        self.saturated_hydrocarbon_intro()
+        self.lab()
+
+    # self.intro()
+    # self.saturated_hydrocarbon_intro()
 
     def lab(self):
-        benz = ChemObject("-(-[1]O^{-})=[7]O")
+        benz = ChemObject("C(-[2]H)(-[4]H)(-[6]H) C(-[2]H)(-[4]H)(-[6]H)")
+        benz.to_edge(LEFT)
         self.play(Write(benz))
         self.wait(2)
 
@@ -21,17 +23,18 @@ class Test(Scene):
         self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
         self.add(self.saturated_topic)
 
+        methane, ethane, butane = "C(-[2]H)(-[4]H)(-[6]H)"
+
         intro = (
             self.saturated_topic,
-            self.GAP,
             "Those hydrocarbons where all carbon to carbon bonds",
             "are single covalent bond are saturated hydrocarbons",
-            "Its general formula is $C_{n}H_{2n}$/$C_{n}H_{2n+1}$",
+            "Its general formula is $C_{n}H_{2n+2}$",
         )
 
         color_map = {
-            3: {"single": ORANGE, "covalent": ORANGE, "bond": ORANGE},
-            4: {"C": BLUE},
+            2: {"single": ORANGE, "covalent": ORANGE, "bond": ORANGE},
+            3: {"C": BLUE},
         }
 
         self.display_simple_info(
@@ -39,7 +42,7 @@ class Test(Scene):
             color_map=color_map,
             skip_title_anim=True,
             center=True,
-            skip_exit_anim_and_return=[],
+            skip_exit_anim_and_return=[intro[-1]],
         )
 
     def intro(self):
