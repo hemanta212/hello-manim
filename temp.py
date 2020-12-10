@@ -2,15 +2,33 @@ from manimlib.imports import *
 
 
 class Test(Scene):
+    # placeholder for leaving gap between Mobjects
     GAP = "{{GAP}}"
+    saturated_topic = None
 
     def construct(self):
-        self.intro()
+        # self.lab()
+        # self.intro()
+        self.saturated_hydrocarbon_intro()
 
     def lab(self):
         benz = ChemObject("-(-[1]O^{-})=[7]O")
         self.play(Write(benz))
         self.wait(2)
+
+    def saturated_hydrocarbon_intro(self):
+        self.saturated_topic = TextMobject("Saturated hydrocarbons")
+        self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
+        self.add(self.saturated_topic)
+
+        intro = (
+            self.saturated_topic,
+            self.GAP,
+            "Those hydrocarbons having one or two bond",
+            "Its general formula is $C_{n}H_{2n}$/$C_{n}H_{2n+1}$",
+        )
+
+        self.display_simple_info(*intro, skip_title_anim=True, center=True)
 
     def intro(self):
         intro = (
@@ -25,14 +43,13 @@ class Test(Scene):
             4: {"Unsaturated": ORANGE},
         }
 
-        saturated = self.display_simple_info(
+        self.saturated_topic = self.display_simple_info(
             *intro, color_map=color_map, skip_exit_anim_and_return=[3]
         )[0]
 
-        target = saturated.generate_target()
-        target.move_to(ORIGIN).to_edge(UP)
-        self.play(MoveToTarget(saturated))
-        self.play(ScaleInPlace(saturated, 1.5))
+        topic = TextMobject("Saturated hydrocarbons")
+        topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
+        self.play(Transform(self.saturated_topic, topic))
 
     def display_simple_info(
         self,
@@ -46,22 +63,28 @@ class Test(Scene):
         run_time=3,
         center=False,
         wait_at_last=1.0,
+        skip_title_anim=False,
         # index of text
         skip_exit_anim_and_return=[],
     ):
         singlify = lambda x: [f"{i} " for i in x.split(" ")]
-        texts = [TextMobject(*singlify(i)) for i in args]
+        texts = []
+        for i in args:
+            if isinstance(i, str):
+                texts.append(TextMobject(*singlify(i)))
+            else:
+                texts.append(i)
         get_color_map = lambda i: color_map.get(i) if color_map.get(i) else {}
 
         def get_styled_title(title):
-            title.scale(1.5)
+            title = title if skip_title_anim else title.scale(1.5)
             title.to_edge(UP)
             title.set_color(BLUE)
             title.set_color_by_tex_to_color_map(get_color_map(0))
             return title
 
         title = get_styled_title(texts[0])
-        self.play(Write(title), run_time=run_time)
+        self.play(Write(title), run_time=run_time) if not skip_title_anim else ""
 
         processed = [title]
         body_texts = texts[1:]
