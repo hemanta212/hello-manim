@@ -31,3 +31,5 @@ $ sudo apt-get install texlive-full # latex install
 $ python -m pip install -r requirements.txt --user
 $ python setup.py install --user
 #+END_SRC
+
+Note: for older ubuntu version use ppa:jonathonf/texlive-2019 for rendering chemistry.
