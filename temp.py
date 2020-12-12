@@ -5,25 +5,57 @@ class Test(Scene):
     # placeholder for leaving gap between Mobjects
     GAP = "{{GAP}}"
     saturated_topic = None
+    general_formula = None
 
     def construct(self):
-        self.lab()
+        #        self.lab()
 
-    # self.intro()
-    # self.saturated_hydrocarbon_intro()
+        # self.intro()
+        self.saturated_hydrocarbon_intro()
+        self.saturated_hydrocarbon_mol_formulas()
 
     def lab(self):
+        temp = TexMobject(r"R_{2 \times 3}")
         benz = ChemObject("C(-[2]H)(-[4]H)(-[6]H) C(-[2]H)(-[4]H)(-[6]H)")
         benz.to_edge(LEFT)
-        self.play(Write(benz))
+        self.play(Write(temp))
         self.wait(2)
 
+    def saturated_hydrocarbon_mol_formulas(self):
+        molecular_formulas = TextMobject("Molecular formulas:")
+        molecular_formulas.next_to(self.general_formula, DOWN).to_edge(LEFT)
+        self.play(Write(molecular_formulas))
+        gen_formula = (
+            "C_n",
+            "H_{2n+1}",
+        )
+        methane = [
+            gen_formula,
+            ("C_1", "H_{2 \\times 1 + 2}"),
+            ("C", "H_{4}"),
+        ]
+
+        processed = []
+        for index, formulas in enumerate(methane):
+            let_part = TextMobject("take n = 1")
+            let_part.set_color_by_tex_to_color_map({"n": ORANGE, "1": ORANGE})
+            C_part, H_part = (TexMobject(i).set_color(BLUE) for i in formulas)
+            let_part.next_to(molecular_formulas, RIGHT)
+            C_part.next_to(let_part, RIGHT)
+            H_part.next_to(C_part, RIGHT)
+            formula = VGroup(C_part, H_part)
+            if not index:
+                self.play(Write(let_part))
+                self.play(ReplacementTransform(self.general_formula.copy(), formula))
+            else:
+                self.play(ReplacementTransform(processed[index - 1][0], C_part))
+                self.play(ReplacementTransform(processed[index - 1][1], H_part))
+            processed.append((C_part, H_part))
+
     def saturated_hydrocarbon_intro(self):
-        self.saturated_topic = TextMobject("Saturated hydrocarbons")
+        self.saturated_topic = TextMobject("Saturated Hydrocarbons")
         self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
         self.add(self.saturated_topic)
-
-        methane, ethane, butane = "C(-[2]H)(-[4]H)(-[6]H)"
 
         intro = (
             self.saturated_topic,
@@ -37,13 +69,13 @@ class Test(Scene):
             3: {"C": BLUE},
         }
 
-        self.display_simple_info(
+        self.general_formula = self.display_simple_info(
             *intro,
             color_map=color_map,
             skip_title_anim=True,
             center=True,
-            skip_exit_anim_and_return=[intro[-1]],
-        )
+            skip_exit_anim_and_return=[i for i in range(len(intro))],
+        )[-1]
 
     def intro(self):
         intro = (
