@@ -6,56 +6,113 @@ class Test(Scene):
     GAP = "{{GAP}}"
     saturated_topic = None
     general_formula = None
+    molecular_formula = None
 
     def construct(self):
-        #        self.lab()
+        # self.lab()
+        # return
 
-        # self.intro()
+        self.intro()
         self.saturated_hydrocarbon_intro()
         self.saturated_hydrocarbon_mol_formulas()
 
     def lab(self):
         temp = TexMobject(r"R_{2 \times 3}")
+        temp2 = TexMobject(r"R_{2 \times 3}")
+        comma = TexMobject(" ,").next_to(temp, RIGHT, buff=0.5)
+        comma2 = TexMobject(" ,").next_to(temp2, RIGHT, buff=0.5)
         benz = ChemObject("C(-[2]H)(-[4]H)(-[6]H) C(-[2]H)(-[4]H)(-[6]H)")
+        a = VGroup(temp, comma)
+        b = VGroup(temp2, comma2).next_to(a)
         benz.to_edge(LEFT)
-        self.play(Write(temp))
-        self.wait(2)
+        self.play(Write(a))
+        self.play(Write(b))
+        self.wait(4)
 
     def saturated_hydrocarbon_mol_formulas(self):
-        molecular_formulas = TextMobject("Molecular formulas:")
-        molecular_formulas.next_to(self.general_formula, DOWN).to_edge(LEFT)
-        self.play(Write(molecular_formulas))
+        self.molecular_formula = TextMobject("Molecular formulas;")
+        self.molecular_formula.next_to(self.general_formula, DOWN, buff=1.0).to_edge(
+            LEFT
+        )
+        self.play(Write(self.molecular_formula))
         gen_formula = (
             "C_n",
             "H_{2n+1}",
         )
         methane = [
+            "methane",
+            "take n = 1",
             gen_formula,
             ("C_1", "H_{2 \\times 1 + 2}"),
-            ("C", "H_{4}"),
+            ("C", "H_{4},"),
+        ]
+
+        ethane = [
+            "ethane",
+            "take n = 2",
+            gen_formula,
+            ("C_2", "H_{2 \\times 2 + 2}"),
+            ("C_2", "H_{6},"),
+        ]
+        butane = [
+            "butane",
+            "take n = 4",
+            gen_formula,
+            ("C_4", "H_{2 \\times 4 + 2}"),
+            ("C_4", "H_{10},"),
         ]
 
         processed = []
-        for index, formulas in enumerate(methane):
-            let_part = TextMobject("take n = 1")
-            let_part.set_color_by_tex_to_color_map({"n": ORANGE, "1": ORANGE})
+        for molecule in (methane, ethane, butane):
+            last_molecule = processed[-1] if processed else None
+            formula = self.show_molecular_animations(molecule, last_molecule)
+            processed.append(formula)
+
+    def show_molecular_animations(self, molecule, last_molecule):
+        processed = []
+        formula = None
+
+        molecule_name, let, *sequences = molecule
+        singlify = lambda x: [f"{i} " for i in x.split(" ")]
+        let_part = TextMobject(*singlify(let))
+        let_part.set_color_by_tex_to_color_map(
+            {"n": ORANGE, "1": ORANGE, "2": ORANGE, "4": ORANGE}
+        )
+        formula_label = TextMobject(molecule_name)
+
+        for index, formulas in enumerate(sequences):
             C_part, H_part = (TexMobject(i).set_color(BLUE) for i in formulas)
-            let_part.next_to(molecular_formulas, RIGHT)
-            C_part.next_to(let_part, RIGHT)
-            H_part.next_to(C_part, RIGHT)
+            let_part.next_to(self.molecular_formula, RIGHT)
+            C_part.next_to(let_part, RIGHT, buff=1)
+            H_part.next_to(C_part, RIGHT, buff=0.0)
             formula = VGroup(C_part, H_part)
             if not index:
                 self.play(Write(let_part))
                 self.play(ReplacementTransform(self.general_formula.copy(), formula))
             else:
-                self.play(ReplacementTransform(processed[index - 1][0], C_part))
-                self.play(ReplacementTransform(processed[index - 1][1], H_part))
-            processed.append((C_part, H_part))
+                self.play(
+                    ReplacementTransform(processed[index - 1], formula), run_time=2
+                )
+            processed.append(formula)
+            self.wait()
+
+        target = formula.generate_target().next_to(
+            self.molecular_formula, DOWN, buff=1.0
+        )
+        target = (
+            target.next_to(last_molecule, buff=1.5)
+            if last_molecule
+            else target.to_edge(LEFT)
+        )
+        self.play(MoveToTarget(formula), FadeOut(let_part))
+        formula_label.next_to(formula, DOWN, buff=0.5)
+        self.play(Write(formula_label))
+        return formula
 
     def saturated_hydrocarbon_intro(self):
-        self.saturated_topic = TextMobject("Saturated Hydrocarbons")
-        self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
-        self.add(self.saturated_topic)
+        #        self.saturated_topic = TextMobject("Saturated Hydrocarbons")
+        #        self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
+        #        self.add(self.saturated_topic)
 
         intro = (
             self.saturated_topic,
@@ -94,7 +151,7 @@ class Test(Scene):
             *intro, color_map=color_map, skip_exit_anim_and_return=[3]
         )[0]
 
-        topic = TextMobject("Saturated hydrocarbons")
+        topic = TextMobject("Saturated Hydrocarbons")
         topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
         self.play(Transform(self.saturated_topic, topic))
 
