@@ -18,16 +18,50 @@ class Test(Scene):
 
     def lab(self):
         temp = TexMobject(r"R_{2 \times 3}")
-        temp2 = TexMobject(r"R_{2 \times 3}")
-        comma = TexMobject(" ,").next_to(temp, RIGHT, buff=0.5)
-        comma2 = TexMobject(" ,").next_to(temp2, RIGHT, buff=0.5)
-        benz = ChemObject("C(-[2]H)(-[4]H)(-[6]H) C(-[2]H)(-[4]H)(-[6]H)")
-        a = VGroup(temp, comma)
-        b = VGroup(temp2, comma2).next_to(a)
-        benz.to_edge(LEFT)
-        self.play(Write(a))
-        self.play(Write(b))
+        self.play(text)
         self.wait(4)
+
+    def intro(self):
+        intro = (
+            "An Introduction to Hydrocarbons",
+            self.GAP,
+            "Types of hydrocarbons:",
+            "$\circ$ Saturated hydrocarbons",
+            "$\circ$ Unsaturated hydrocarbons",
+        )
+        color_map = {
+            3: {"Saturated": ORANGE},
+            4: {"Unsaturated": ORANGE},
+        }
+
+        self.saturated_topic = self.display_simple_info(
+            *intro, color_map=color_map, skip_exit_anim_and_return=[3]
+        )[0]
+
+        topic = TextMobject("Saturated Hydrocarbons")
+        topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
+        self.play(Transform(self.saturated_topic, topic))
+
+    def saturated_hydrocarbon_intro(self):
+        intro = (
+            self.saturated_topic,
+            "Those hydrocarbons where all carbon to carbon bonds",
+            "are single covalent bond are saturated hydrocarbons",
+            "Its general formula is $C_{n}H_{2n+2}$",
+        )
+
+        color_map = {
+            2: {"single": ORANGE, "covalent": ORANGE, "bond": ORANGE},
+            3: {"C": BLUE},
+        }
+
+        self.general_formula = self.display_simple_info(
+            *intro,
+            color_map=color_map,
+            skip_title_anim=True,
+            center=True,
+            skip_exit_anim_and_return=[i for i in range(len(intro))],
+        )[-1]
 
     def saturated_hydrocarbon_mol_formulas(self):
         self.molecular_formula = TextMobject("Molecular formulas;")
@@ -108,52 +142,6 @@ class Test(Scene):
         formula_label.next_to(formula, DOWN, buff=0.5)
         self.play(Write(formula_label))
         return formula
-
-    def saturated_hydrocarbon_intro(self):
-        #        self.saturated_topic = TextMobject("Saturated Hydrocarbons")
-        #        self.saturated_topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
-        #        self.add(self.saturated_topic)
-
-        intro = (
-            self.saturated_topic,
-            "Those hydrocarbons where all carbon to carbon bonds",
-            "are single covalent bond are saturated hydrocarbons",
-            "Its general formula is $C_{n}H_{2n+2}$",
-        )
-
-        color_map = {
-            2: {"single": ORANGE, "covalent": ORANGE, "bond": ORANGE},
-            3: {"C": BLUE},
-        }
-
-        self.general_formula = self.display_simple_info(
-            *intro,
-            color_map=color_map,
-            skip_title_anim=True,
-            center=True,
-            skip_exit_anim_and_return=[i for i in range(len(intro))],
-        )[-1]
-
-    def intro(self):
-        intro = (
-            "An Introduction to Hydrocarbons",
-            self.GAP,
-            "Types of hydrocarbons:",
-            "$\circ$ Saturated hydrocarbons",
-            "$\circ$ Unsaturated hydrocarbons",
-        )
-        color_map = {
-            3: {"Saturated": ORANGE},
-            4: {"Unsaturated": ORANGE},
-        }
-
-        self.saturated_topic = self.display_simple_info(
-            *intro, color_map=color_map, skip_exit_anim_and_return=[3]
-        )[0]
-
-        topic = TextMobject("Saturated Hydrocarbons")
-        topic.move_to(ORIGIN).to_edge(UP).scale(1.5).set_color(BLUE)
-        self.play(Transform(self.saturated_topic, topic))
 
     def display_simple_info(
         self,
