@@ -9,26 +9,51 @@ class Test(Scene):
     molecular_formula = None
 
     def construct(self):
-        # self.lab()
-        # return
+        self.lab()
+        return
 
-        self.intro()
-        self.saturated_hydrocarbon_intro()
-        self.saturated_hydrocarbon_mol_formulas()
+        # self.intro()
+        # self.saturated_hydrocarbon_intro()
+        # self.saturated_hydrocarbon_mol_formulas()
 
     def lab(self):
-        temp = TexMobject(r"R_{2 \times 3}")
-        self.play(text)
+        first_row = [
+            ("No. of", "C atoms"),
+            "Name",
+        ]
+        first_row_group = self.makeRowGroup(first_row)
+        first_row_group.move_to(TOP)
+        self.play(ShowCreation(first_row_group))
         self.wait(4)
 
-    def makeRowGroup(*texts, tex_class=TextMobject):
+    def makeRowGroup(self, texts, tex_class=TextMobject, spacing=0.5):
         text_objects = []
         for text in texts:
+            obj = None
             if isinstance(text, str):
                 singlify = lambda x: [f"{i} " for i in x.split(" ")]
                 obj = TextMobject(*singlify(text))
+            elif isinstance(text, TexMobject):
+                obj = text
+            elif isinstance(text, tuple):
+                objects = [tex_class(i) for i in text]
+                processed = [objects[0]]
+                for i in objects[1:]:
+                    i.next_to(processed[-1], DOWN, buff=0.2)
+                    processed.append(i)
+                obj = VGroup(*objects)
+            else:
+                AssertionError(f"Unsupported type of {type(text)}: {text}")
 
+            text_objects.append(obj)
 
+        first = text_objects[0]
+        first.to_edge(LEFT)
+        processed = [first]
+        for obj in text_objects[1:]:
+            obj.next_to(processed[-1], RIGHT, buff=spacing)
+
+        return VGroup(*processed)
 
     def intro(self):
         intro = (
