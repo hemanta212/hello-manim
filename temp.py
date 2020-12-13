@@ -21,6 +21,15 @@ class Test(Scene):
         self.play(text)
         self.wait(4)
 
+    def makeRowGroup(*texts, tex_class=TextMobject):
+        text_objects = []
+        for text in texts:
+            if isinstance(text, str):
+                singlify = lambda x: [f"{i} " for i in x.split(" ")]
+                obj = TextMobject(*singlify(text))
+
+
+
     def intro(self):
         intro = (
             "An Introduction to Hydrocarbons",
