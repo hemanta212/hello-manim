@@ -28,7 +28,6 @@ class Test(Scene):
             "Symbol",
             "Word root",
         ]
-
         a = [
             "1",
             "Methane",
@@ -40,12 +39,22 @@ class Test(Scene):
             "$C_1$",
             "Meth"
         ]
+        c = [
+            "Three",
+            "$C_3$",
+            "Prop"
+        ]
         first_row_group = self.makeRowGroup(first_row, spacing=1.3)
         first_row_group.shift(TOP+DOWN)
         b_ = self.makeRowGroup(b, spacing=1.8)
         b_.next_to(first_row_group, DOWN, buff=0.3)
         self.play(Write(first_row_group))
         self.play(Write(b_))
+
+        c_ = self.makeRowGroup(c, spacing=1.8)
+        c_.next_to(b_, DOWN, buff=0.3)
+        self.play(Write(c_))
+
         self.wait(4)
 
     def makeRowGroup(self, texts, tex_class=TextMobject, spacing=0.5):
