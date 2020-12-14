@@ -10,20 +10,42 @@ class Test(Scene):
 
     def construct(self):
         self.lab()
-        return
 
-        # self.intro()
-        # self.saturated_hydrocarbon_intro()
-        # self.saturated_hydrocarbon_mol_formulas()
+    def staturated_intro(self):
+        self.intro()
+        self.saturated_hydrocarbon_intro()
+        self.saturated_hydrocarbon_mol_formulas()
 
     def lab(self):
         first_row = [
             ("No. of", "C atoms"),
             "Name",
+            ("Mol.", "formula"),
+            "Structure",
         ]
-        first_row_group = self.makeRowGroup(first_row)
-        first_row_group.move_to(TOP)
-        self.play(ShowCreation(first_row_group))
+        first_row = [
+            ("No. of", "C atoms"),
+            "Symbol",
+            "Word root",
+        ]
+
+        a = [
+            "1",
+            "Methane",
+            TexMobject(r"CH_4"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}")
+        ]
+        b = [
+            "One",
+            "$C_1$",
+            "Meth"
+        ]
+        first_row_group = self.makeRowGroup(first_row, spacing=1.3)
+        first_row_group.shift(TOP+DOWN)
+        b_ = self.makeRowGroup(b, spacing=1.8)
+        b_.next_to(first_row_group, DOWN, buff=0.3)
+        self.play(Write(first_row_group))
+        self.play(Write(b_))
         self.wait(4)
 
     def makeRowGroup(self, texts, tex_class=TextMobject, spacing=0.5):
@@ -41,7 +63,7 @@ class Test(Scene):
                 for i in objects[1:]:
                     i.next_to(processed[-1], DOWN, buff=0.2)
                     processed.append(i)
-                obj = VGroup(*objects)
+                obj = VGroup(*processed)
             else:
                 AssertionError(f"Unsupported type of {type(text)}: {text}")
 
@@ -52,6 +74,7 @@ class Test(Scene):
         processed = [first]
         for obj in text_objects[1:]:
             obj.next_to(processed[-1], RIGHT, buff=spacing)
+            processed.append(obj)
 
         return VGroup(*processed)
 
