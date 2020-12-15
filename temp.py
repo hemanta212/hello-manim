@@ -16,6 +16,30 @@ class Test(Scene):
         self.saturated_hydrocarbon_intro()
         self.saturated_hydrocarbon_mol_formulas()
 
+    def labi(self):
+        first_row = [
+            ("No. of", "C atoms"),
+            "Name",
+            ]
+        a = TextMobject(first_row[1])
+        b = TextMobject("Rajukoghar")
+        c = TextMobject("Lado chusera bas")
+        b.next_to(a, DOWN)
+        c.next_to(b, DOWN)
+        g = VGroup(a,b,c)
+        g.to_edge(UL)
+
+        aq = TextMobject(first_row[1])
+        ce = TextMobject("Rajukoghar")
+        bw = TextMobject("Lado chusera bas")
+        bw.next_to(aq, DOWN)
+        ce.next_to(bw, DOWN)
+        gg = VGroup(aq,bw,ce)
+        gg.next_to(g, buff=0.5)
+
+        self.play(Write(g), Write(gg))
+
+
     def lab(self):
         first_row = [
             ("No. of", "C atoms"),
@@ -28,36 +52,46 @@ class Test(Scene):
             "Symbol",
             "Word root",
         ]
-        a = [
+        first_row = [
+            ("No. of", "C atoms"),
             "1",
+            "2",
+            "3",
+        ]
+
+        a = [
+            "Symbol"
+            "",
             "Methane",
             TexMobject(r"CH_4"),
             TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}")
         ]
         b = [
-            "One",
+            "Symbol",
             "$C_1$",
-            "Meth"
+            "$C_2$",
+            "$C_4$",
         ]
         c = [
-            "Three",
-            "$C_3$",
-            "Prop"
+            "Word root",
+            "Meth",
+            "Eth",
+            "Prop",
         ]
-        first_row_group = self.makeRowGroup(first_row, spacing=1.3)
-        first_row_group.shift(TOP+DOWN)
-        b_ = self.makeRowGroup(b, spacing=1.8)
-        b_.next_to(first_row_group, DOWN, buff=0.3)
+        first_row_group = self.makeColGroup(first_row)
+        first_row_group.to_edge(UL)
+        b_ = self.makeColGroup(b)
+        b_.next_to(first_row_group, buff=1.0)
         self.play(Write(first_row_group))
         self.play(Write(b_))
 
-        c_ = self.makeRowGroup(c, spacing=1.8)
-        c_.next_to(b_, DOWN, buff=0.3)
+        c_ = self.makeColGroup(c)
+        c_.next_to(b_, buff=1.0)
         self.play(Write(c_))
 
         self.wait(4)
 
-    def makeRowGroup(self, texts, tex_class=TextMobject, spacing=0.5):
+    def makeColGroup(self, texts, tex_class=TextMobject, spacing=0.5):
         text_objects = []
         for text in texts:
             obj = None
@@ -79,10 +113,9 @@ class Test(Scene):
             text_objects.append(obj)
 
         first = text_objects[0]
-        first.to_edge(LEFT)
         processed = [first]
         for obj in text_objects[1:]:
-            obj.next_to(processed[-1], RIGHT, buff=spacing)
+            obj.next_to(processed[-1], DOWN, buff=spacing)
             processed.append(obj)
 
         return VGroup(*processed)
