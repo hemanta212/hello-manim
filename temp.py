@@ -18,82 +18,47 @@ class Test(Scene):
 
     def lab(self):
         title = TextMobject("Word root for saturated hydrocarbons")
-        first_row = [
-            ("No. of", "C atoms"),
-            "Name",
-            ("Mol.", "formula"),
-            "Structure",
-        ]
-        carbon_atoms_col = [
+        a = [
             "No. of C atoms",
             "1",
             "2",
         ]
-
-        a = [
-            "Symbol"
-            "",
-            "Methane",
-            TexMobject(r"CH_4"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}")
-        ]
         b = [
-            "Symbol",
-            "$C_1$",
-            "$C_2$",
-            "$C_3$",
-            "$C_4$",
-            "$C_5$",
-            "$C_6$",
+            "Name",
+            "Methane",
+            "Ethane",
+            "Propane",
         ]
         c = [
-            "Word root",
-            "Meth",
-            "Eth",
-            "Prop",
-            "But",
-            "Pent",
-            "Hex",
+            "Mol. Formula",
+            TexMobject(r"CH_4"),
+            TexMobject(r"C_2H_6"),
+            TexMobject(r"C3H_8"),
+        ]
+        d = [
+            "Structure",
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
         ]
         title.set_color(BLUE)
         title.to_edge(UP)
-        first_row_group = self.makeColGroup(first_row)
-        first_row_group.next_to(title, DOWN, buff=1.0).to_edge(LEFT).shift(RIGHT)
+        a = self.makeColGroup(a)
+        a.next_to(title, DOWN, buff=1.0).to_edge(LEFT)
         b_ = self.makeColGroup(b)
-        b_.next_to(first_row_group, buff=1.0)
-        self.play(Write(title))
-        self.play(Write(first_row_group))
-        self.play(Write(b_))
-
+        b_.next_to(a, buff=0.5)
         c_ = self.makeColGroup(c)
-        c_.next_to(b_, buff=1.0)
+        c_.next_to(b_, buff=0.5)
+        d_ = self.makeColGroup(d)
+        d_.next_to(c_, buff=0.5)
+
+        self.play(Write(title))
+        self.play(Write(a))
+        self.play(Write(b_))
         self.play(Write(c_))
+        self.play(Write(d_))
 
         self.wait(4)
-
-
-
-    def labi(self):
-        first_row = [
-            ("No. of", "C atoms"),
-            "Name",
-            ]
-        a = TextMobject(first_row[1])
-        b = TextMobject("Rajukoghar")
-        c = TextMobject("Lado chusera bas")
-        b.next_to(a, DOWN)
-        c.next_to(b, DOWN)
-        g = VGroup(a,b,c)
-        g.to_edge(UL)
-
-        aq = TextMobject(first_row[1])
-        ce = TextMobject("Rajukoghar")
-        bw = TextMobject("Lado chusera bas")
-        bw.next_to(aq, DOWN)
-        ce.next_to(bw, DOWN)
-        gg = VGroup(aq,bw,ce)
-        gg.next_to(g, buff=0.5)
-        self.play(Write(g), Write(gg))
 
     def word_roots_table(self):
         title = TextMobject("Word root for saturated hydrocarbons")
