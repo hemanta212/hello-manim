@@ -9,59 +9,81 @@ class Test(Scene):
     molecular_formula = None
 
     def construct(self):
-        self.lab()
+        self.staturated_intro()
+        self.word_roots_table()
+        self.hydrocarbons_properties()
 
     def staturated_intro(self):
         self.intro()
         self.saturated_hydrocarbon_intro()
         self.saturated_hydrocarbon_mol_formulas()
 
-    def lab(self):
-        title = TextMobject("Word root for saturated hydrocarbons")
-        a = [
-            "No. of C atoms",
-            "1",
-            "2",
-        ]
-        b = [
-            "Name",
-            "Methane",
-            "Ethane",
-            "Propane",
-        ]
-        c = [
-            "Mol. Formula",
-            TexMobject(r"CH_4"),
-            TexMobject(r"C_2H_6"),
-            TexMobject(r"C3H_8"),
-        ]
-        d = [
-            "Structure",
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}").scale(0.5),
-        ]
-        title.set_color(BLUE)
+    def hydrocarbons_properties(self):
+        title = TextMobject("Some saturated hydrocarbons")
+        methane = (
+            TextMobject("Methane"),
+            TextMobject("1"),
+            TexMobject("CH_4"),
+            TexMobject("CH_3-CH_3"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+        )
+        ethane = (
+            TextMobject("Ethane"),
+            TextMobject("2"),
+            TexMobject("C_2H_6"),
+            TexMobject("CH_3-CH_3"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+        )
+        propane = (
+            TextMobject("Propane"),
+            TextMobject("3"),
+            TexMobject("C_3H_8"),
+            TexMobject("CH_3-CH_2-CH_3"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+        )
+        butane = (
+            TextMobject("Butane"),
+            TextMobject("4"),
+            TexMobject("C_4H_10"),
+            TexMobject("CH_3-CH_2-CH_2-CH_3"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+        )
+        title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
-        a = self.makeColGroup(a)
-        a.next_to(title, DOWN, buff=1.0).to_edge(LEFT)
-        b_ = self.makeColGroup(b)
-        b_.next_to(a, buff=0.5)
-        c_ = self.makeColGroup(c)
-        c_.next_to(b_, buff=0.5)
-        d_ = self.makeColGroup(d)
-        d_.next_to(c_, buff=0.5)
-
         self.play(Write(title))
-        self.play(Write(a))
-        self.play(Write(b_))
-        self.play(Write(c_))
-        self.play(Write(d_))
+        [
+            self.display_properties(i, relative_to=title)
+            for i in (methane, ethane, propane, butane)
+        ]
 
-        self.wait(4)
+    def display_properties(self, properties, relative_to=None):
+        name, c_atoms, mol_formula, cond_formula, structure = properties
+        name.next_to(relative_to, DOWN, buff=1.0)
+        name.set_color(ORANGE)
+        carbon_atoms_text = TextMobject("Carbon atoms:")
+        c_atoms.next_to(carbon_atoms_text)
+        carbon_atoms = VGroup(carbon_atoms_text, c_atoms).next_to(name, DOWN)
+        mol_formula_text = TextMobject("Molecular formula:")
+        mol_formula.next_to(mol_formula_text)
+        molecular_formula = VGroup(mol_formula_text, mol_formula).next_to(
+            carbon_atoms, DOWN
+        )
+        cond_formula_text = TextMobject("Condensed formula:")
+        cond_formula.next_to(cond_formula_text)
+        condensed_formula = VGroup(cond_formula_text, cond_formula).next_to(
+            molecular_formula, DOWN
+        )
+        structure.next_to(name, DOWN).to_edge(RIGHT)
+
+        contents = [name, carbon_atoms, molecular_formula, condensed_formula, structure]
+        contents_group = VGroup(*contents)
+        [i.to_edge(LEFT) for i in contents[:-1]]
+        [self.play(Write(i)) for i in contents]
+        self.wait(3)
+        self.play(FadeOutAndShiftDown(contents_group))
 
     def word_roots_table(self):
-        title = TextMobject("Word root for saturated hydrocarbons")
+        title = TextMobject("Word roots table for saturated hydrocarbons")
         carbon_atoms_col = [
             "No. of C atoms",
             "1",
@@ -95,15 +117,14 @@ class Test(Scene):
         carbon_atoms = self.makeColGroup(carbon_atoms_col)
         carbon_atoms.next_to(title, DOWN, buff=1.0).to_edge(LEFT).shift(RIGHT)
         symbols = self.makeColGroup(symbol_col)
-        symbols.next_to(first_row_group, buff=1.0)
+        symbols.next_to(carbon_atoms, buff=1.0)
         word_roots = self.makeColGroup(word_root_col)
         word_roots.next_to(symbols, buff=1.0)
 
-        self.play(Write(title))
-        self.play(Write(carbon_atoms))
-        self.play(Write(symbols))
-        self.play(Write(word_roots))
+        contents = [title, carbon_atoms, symbols, word_roots]
+        [self.play(Write(i)) for i in contents]
         self.wait(4)
+        self.play(FadeOutAndShiftDown(VGroup(*contents)))
 
     def makeColGroup(self, texts, tex_class=TextMobject, spacing=0.5, text_scale=1.0):
         text_objects = []
@@ -202,6 +223,13 @@ class Test(Scene):
             ("C_2", "H_{2 \\times 2 + 2}"),
             ("C_2", "H_{6},"),
         ]
+        propane = [
+            "propane",
+            "take n = 3",
+            gen_formula,
+            ("C_3", "H_{2 \\times 3 + 2}"),
+            ("C_3", "H_{8},"),
+        ]
         butane = [
             "butane",
             "take n = 4",
@@ -211,10 +239,14 @@ class Test(Scene):
         ]
 
         processed = []
-        for molecule in (methane, ethane, butane):
+        for molecule in (methane, ethane, propane, butane):
             last_molecule = processed[-1] if processed else None
             formula = self.show_molecular_animations(molecule, last_molecule)
             processed.append(formula)
+
+        all_contents = Group(*self.mobjects)
+        self.play(FadeOutAndShiftDown(all_contents))
+
 
     def show_molecular_animations(self, molecule, last_molecule):
         processed = []
