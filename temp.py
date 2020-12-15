@@ -21,32 +21,32 @@ class Test(Scene):
     def hydrocarbons_properties(self):
         title = TextMobject("Some saturated hydrocarbons")
         methane = (
-            TextMobject("Methane"),
+            TextMobject("1. Methane"),
             TextMobject("1"),
             TexMobject("CH_4"),
-            TexMobject("CH_3-CH_3"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+            TexMobject("CH_4"),
+            ChemObject("C(-[0]H)(-[2]H)(-[4]H)(-[6]H)"),
         )
         ethane = (
-            TextMobject("Ethane"),
+            TextMobject("2. Ethane"),
             TextMobject("2"),
             TexMobject("C_2H_6"),
             TexMobject("CH_3-CH_3"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+            ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
         )
         propane = (
-            TextMobject("Propane"),
+            TextMobject("3. Propane"),
             TextMobject("3"),
             TexMobject("C_3H_8"),
             TexMobject("CH_3-CH_2-CH_3"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+            ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
         )
         butane = (
-            TextMobject("Butane"),
+            TextMobject("4. Butane"),
             TextMobject("4"),
-            TexMobject("C_4H_10"),
+            TexMobject("C_4H_{10}"),
             TexMobject("CH_3-CH_2-CH_2-CH_3"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}"),
+             ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
         )
         title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
@@ -59,26 +59,30 @@ class Test(Scene):
     def display_properties(self, properties, relative_to=None):
         name, c_atoms, mol_formula, cond_formula, structure = properties
         name.next_to(relative_to, DOWN, buff=1.0)
-        name.set_color(ORANGE)
-        carbon_atoms_text = TextMobject("Carbon atoms:")
-        c_atoms.next_to(carbon_atoms_text)
-        carbon_atoms = VGroup(carbon_atoms_text, c_atoms).next_to(name, DOWN)
-        mol_formula_text = TextMobject("Molecular formula:")
-        mol_formula.next_to(mol_formula_text)
-        molecular_formula = VGroup(mol_formula_text, mol_formula).next_to(
-            carbon_atoms, DOWN
-        )
-        cond_formula_text = TextMobject("Condensed formula:")
-        cond_formula.next_to(cond_formula_text)
-        condensed_formula = VGroup(cond_formula_text, cond_formula).next_to(
-            molecular_formula, DOWN
-        )
-        structure.next_to(name, DOWN).to_edge(RIGHT)
+        name.to_edge(LEFT).set_color(ORANGE)
+        self.play(Write(name))
 
-        contents = [name, carbon_atoms, molecular_formula, condensed_formula, structure]
+        text_map = {
+            "$\circ$ Carbon atoms:": c_atoms,
+            "$\circ$ Molecular formula:": mol_formula,
+            "$\circ$ Condensed formula:": cond_formula, 
+        }
+
+        property_groups = [name]
+        for text, prop in text_map.items():
+            label = TextMobject(text).next_to(property_groups[-1], DOWN, buff=0.6).to_edge(LEFT)
+            arrow = Arrow(color=YELLOW_C).scale(0.5)
+            arrow.next_to(label, DOWN).to_edge(LEFT)
+            prop.next_to(arrow)
+            property_ = VGroup(arrow, prop)
+            self.play(Write(label))
+            self.play(Write(property_))
+            property_groups.append(VGroup(label, property_))
+
+        structure.next_to(name, DOWN).move_to(RIGHT_SIDE/3)
+        self.play(Write(structure))
+        contents = [*property_groups, structure]
         contents_group = VGroup(*contents)
-        [i.to_edge(LEFT) for i in contents[:-1]]
-        [self.play(Write(i)) for i in contents]
         self.wait(3)
         self.play(FadeOutAndShiftDown(contents_group))
 
