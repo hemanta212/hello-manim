@@ -16,6 +16,63 @@ class Test(Scene):
         self.saturated_hydrocarbon_intro()
         self.saturated_hydrocarbon_mol_formulas()
 
+    def lab(self):
+        title = TextMobject("Word root for saturated hydrocarbons")
+        first_row = [
+            ("No. of", "C atoms"),
+            "Name",
+            ("Mol.", "formula"),
+            "Structure",
+        ]
+        carbon_atoms_col = [
+            "No. of C atoms",
+            "1",
+            "2",
+        ]
+
+        a = [
+            "Symbol"
+            "",
+            "Methane",
+            TexMobject(r"CH_4"),
+            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}")
+        ]
+        b = [
+            "Symbol",
+            "$C_1$",
+            "$C_2$",
+            "$C_3$",
+            "$C_4$",
+            "$C_5$",
+            "$C_6$",
+        ]
+        c = [
+            "Word root",
+            "Meth",
+            "Eth",
+            "Prop",
+            "But",
+            "Pent",
+            "Hex",
+        ]
+        title.set_color(BLUE)
+        title.to_edge(UP)
+        first_row_group = self.makeColGroup(first_row)
+        first_row_group.next_to(title, DOWN, buff=1.0).to_edge(LEFT).shift(RIGHT)
+        b_ = self.makeColGroup(b)
+        b_.next_to(first_row_group, buff=1.0)
+        self.play(Write(title))
+        self.play(Write(first_row_group))
+        self.play(Write(b_))
+
+        c_ = self.makeColGroup(c)
+        c_.next_to(b_, buff=1.0)
+        self.play(Write(c_))
+
+        self.wait(4)
+
+
+
     def labi(self):
         first_row = [
             ("No. of", "C atoms"),
@@ -36,62 +93,54 @@ class Test(Scene):
         ce.next_to(bw, DOWN)
         gg = VGroup(aq,bw,ce)
         gg.next_to(g, buff=0.5)
-
         self.play(Write(g), Write(gg))
 
-
-    def lab(self):
-        first_row = [
-            ("No. of", "C atoms"),
-            "Name",
-            ("Mol.", "formula"),
-            "Structure",
-        ]
-        first_row = [
-            ("No. of", "C atoms"),
-            "Symbol",
-            "Word root",
-        ]
-        first_row = [
-            ("No. of", "C atoms"),
+    def word_roots_table(self):
+        title = TextMobject("Word root for saturated hydrocarbons")
+        carbon_atoms_col = [
+            "No. of C atoms",
             "1",
             "2",
             "3",
+            "4",
+            "5",
+            "6",
         ]
-
-        a = [
-            "Symbol"
-            "",
-            "Methane",
-            TexMobject(r"CH_4"),
-            TexMobject("\chemfig{C(-[0]H)(-[2]H)(-[4]H)(-[6]H)}")
-        ]
-        b = [
+        symbol_col = [
             "Symbol",
             "$C_1$",
             "$C_2$",
+            "$C_3$",
             "$C_4$",
+            "$C_5$",
+            "$C_6$",
         ]
-        c = [
+        word_root_col = [
             "Word root",
             "Meth",
             "Eth",
             "Prop",
+            "But",
+            "Pent",
+            "Hex",
         ]
-        first_row_group = self.makeColGroup(first_row)
-        first_row_group.to_edge(UL)
-        b_ = self.makeColGroup(b)
-        b_.next_to(first_row_group, buff=1.0)
-        self.play(Write(first_row_group))
-        self.play(Write(b_))
 
-        c_ = self.makeColGroup(c)
-        c_.next_to(b_, buff=1.0)
-        self.play(Write(c_))
+        title.set_color(BLUE)
+        title.to_edge(UP)
+        carbon_atoms = self.makeColGroup(carbon_atoms_col)
+        carbon_atoms.next_to(title, DOWN, buff=1.0).to_edge(LEFT).shift(RIGHT)
+        symbols = self.makeColGroup(symbol_col)
+        symbols.next_to(first_row_group, buff=1.0)
+        word_roots = self.makeColGroup(word_root_col)
+        word_roots.next_to(symbols, buff=1.0)
 
+        self.play(Write(title))
+        self.play(Write(carbon_atoms))
+        self.play(Write(symbols))
+        self.play(Write(word_roots))
         self.wait(4)
 
-    def makeColGroup(self, texts, tex_class=TextMobject, spacing=0.5):
+    def makeColGroup(self, texts, tex_class=TextMobject, spacing=0.5, text_scale=1.0):
         text_objects = []
         for text in texts:
             obj = None
@@ -110,6 +159,7 @@ class Test(Scene):
             else:
                 AssertionError(f"Unsupported type of {type(text)}: {text}")
 
+            obj.scale(text_scale)
             text_objects.append(obj)
 
         first = text_objects[0]
