@@ -12,6 +12,9 @@ class Test(Scene):
         self.alkene_intro()
         self.alkene_mol_formulas()
         self.alkene_examples()
+        self.alkyne_intro()
+        self.alkyne_mol_formulas()
+        self.alkyne_examples()
 
     def unsaturated_hydrocarbon_intro(self):
         intro = (
@@ -47,8 +50,6 @@ class Test(Scene):
         self.wait()
 
     def alkene_intro(self):
-#        self.alkene_topic = TextMobject("Alkenes", color=BLUE).scale(1.5)
-#        self.alkene_topic.to_edge(UP)
         intro = (
             self.alkene_topic,
             "Those hydrocarbons in which at least one carbon to carbon",
@@ -113,7 +114,6 @@ class Test(Scene):
         all_contents = Group(*self.mobjects)
         self.play(FadeOutAndShiftDown(all_contents))
 
-
     def alkene_examples(self):
         title = TextMobject("Some basic alkenes")
 
@@ -122,16 +122,16 @@ class Test(Scene):
             TextMobject("2"),
             TexMobject("C_2H_4"),
             TexMobject("CH_2=CH_2"),
-            #ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
-            TexMobject("\chemfig{C(-[2]H)(-[6]H)=C(-[2]H)(-[6]H)}"),
+            # ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
+            TexMobject(r"\chemfig{C(-[2]H)(-[6]H)=C(-[2]H)(-[6]H)}"),
         )
         propene = (
             TextMobject("2. Propene"),
             TextMobject("3"),
             TexMobject("C_3H_6"),
             TexMobject("CH_2=CH_2-CH_3"),
-            #ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
-            TexMobject("\chemfig{C(-[2]H)(-[6]H)=C(-[2]H)-C(-[2]H)(-[6]H)(-[8]H)}"),
+            # ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
+            TexMobject(r"\chemfig{C(-[2]H)(-[6]H)=C(-[2]H)-C(-[2]H)(-[6]H)(-[8]H)}"),
         )
         butene = (
             TextMobject("3. Butene"),
@@ -151,10 +151,9 @@ class Test(Scene):
         ]
         self.play(FadeOut(title))
 
-
     def alkyne_intro(self):
         intro = (
-            "Alkynes" 
+            "Alkynes",
             "Those hydrocarbons in which at least one carbon to carbon",
             "bond is triple covalent bond while the rest maybe triple,",
             "double or single covalent bonds are called alkynes.",
@@ -216,7 +215,6 @@ class Test(Scene):
         all_contents = Group(*self.mobjects)
         self.play(FadeOutAndShiftDown(all_contents))
 
-
     def alkyne_examples(self):
         title = TextMobject("Some basic alkynes")
 
@@ -224,38 +222,37 @@ class Test(Scene):
             TextMobject("1. Ethyne"),
             TextMobject("2"),
             TexMobject("C_2H_2"),
-            #ChemObject("CH~CH"),
+            # ChemObject("CH~CH"),
             TexMobject("CH~CH"),
-            #ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
-            TexMobject("\chemfig{C(-[2]H)~C(-[2]H)}"),
+            # ChemObject("C(-[2]H)~C(-[2]H)"),
+            TexMobject(r"\chemfig{C(-[2]H)~C(-[2]H)}"),
         )
         propyne = (
             TextMobject("2. Propyne"),
             TextMobject("3"),
             TexMobject("C_3H_4"),
-            TexMobject("CH_2=CH_2-CH_3"),
-            #ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)(-[8]H)"),
-            TexMobject("\chemfig{C(-[2]H)~C-C(-[2]H)(-[6]H)(-[8]H)}"),
+            # ChemObject("CH_2=CH_2-CH_3"),
+            TexMobject("CH~C-CH_3"),
+            # ChemObject("C(-[2]H)~C-C(-[2]H)(-[6]H)(-[8]H)"),
+            TexMobject(r"\chemfig{C(-[2]H)~C-C(-[2]H)(-[6]H)(-[8]H)}"),
         )
-        butene = (
-            TextMobject("3. Butene"),
+        butyne = (
+            TextMobject("3. Butyne"),
             TextMobject("4"),
-            TexMobject("C_4H_8"),
-            TexMobject("CH_3-CH=CH-CH_3"),
-            TexMobject(
-                "\chemfig{C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)=C(-[2]H)-C(-[2]H)(-[6]H)(-[8]H)}"
-            ),
+            TexMobject("C_4H_6"),
+            # ChemObject("CH_3-C~C-CH_3"),
+            TexMobject("CH_3-C~C-CH_3"),
+            # ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C~C-C(-[2]H)(-[6]H)(-[8]H)"),
+            TexMobject(r"\chemfig{C(-[2]H)(-[4]H)(-[6]H)-C~C-C(-[2]H)(-[6]H)(-[8]H)}"),
         )
         title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
         self.play(Write(title))
         [
             self.display_properties(i, relative_to=title)
-            for i in (ethene, propene, butene)
+            for i in (ethyne, propyne, butyne)
         ]
         self.play(FadeOut(title))
-
-
 
     def show_molecular_animations(self, molecule, last_molecule):
         processed = []
