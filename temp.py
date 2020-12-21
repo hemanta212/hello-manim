@@ -1,52 +1,101 @@
 from manimlib.imports import *
 
 
-class UnsaturatedHydrocarbon(Scene):
+class Test(Scene):
     # placeholder for leaving gap between Mobjects
     GAP = "{{GAP}}"
-    alkene_topic = None
-    general_formula = None
+    last_sentence = None
 
     def construct(self):
-        self.unsaturated_hydrocarbon_intro()
-        self.alkene_intro()
-        self.alkene_mol_formulas()
-        self.alkene_examples()
-        self.alkyne_intro()
-        self.alkyne_mol_formulas()
-        self.alkyne_examples()
+        self.homologous_defn()
+        self.homologous_expln()
 
-    def unsaturated_hydrocarbon_intro(self):
+    def homologous_expln(self):
+        last_sentence = self.last_sentence
+
+        methane = TexMobject("CH_4")
+        label = TextMobject("Methane")
+        label.next_to(methane, DOWN)
+        methane_g = VGroup(methane, label)
+        methane_g.next_to(last_sentence, DOWN, buff=1.5).to_edge(LEFT)
+        self.play(Write(methane))
+        self.play(Write(label))
+
+        new_methane = methane.copy().next_to(methane, buff=2.0).shift(UP)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_methane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(methane.copy(), new_methane))
+        self.play(Write(ch2_part), FadeIn(line))
+
+        ethane = TexMobject("C_2H_6")
+        ethane.next_to(line, DOWN)
+        label = TextMobject("Ethane")
+        label.next_to(ethane, DOWN)
+        self.play(Write(ethane))
+        self.play(Write(label))
+
+        new_ethane = ethane.copy().next_to(new_methane, buff=2.0)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_ethane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(ethane.copy(), new_ethane))
+        self.play(Write(ch2_part), FadeIn(line))
+
+        propane = TexMobject("C_3H_8")
+        propane.next_to(line, DOWN)
+        label = TextMobject("Propane")
+        label.next_to(propane, DOWN)
+        self.play(Write(propane))
+        self.play(Write(label))
+
+        new_propane = propane.copy().next_to(new_ethane, buff=2.0)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_propane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(propane.copy(), new_propane))
+        self.play(Write(ch2_part), FadeIn(line))
+
+        butane = TexMobject("C_4H_{10}")
+        butane.next_to(line, DOWN)
+        label = TextMobject("Butane")
+        label.next_to(butane, DOWN)
+        self.play(Write(butane))
+        self.play(Write(label))
+
+        comment = TextMobject(
+            "Notice how above elements have same general formula i.e. ",
+            " $C_nH_{2n+2}$",
+        ).set_color_by_tex("C", ORANGE)
+        comment.scale(0.90).next_to(label, DOWN, buff=0.2).to_edge(LEFT)
+
+        self.play(Write(comment), run_time=3)
+        self.wait(2)
+
+    def homologous_defn(self):
         intro = (
-            "Unsaturated Hydrocarbons",
-            "Those hydrocarbons where all carbon to carbon bonds are",
-            "double or triple covalent bonds are unsaturated hydrocarbons",
-            "Types of unsaturated hydrocarbons:",
-            "1. Alkenes",
-            "2. Alkynes",
+            "Homologous series",
+            "A series of organic compounds that can be represented by",
+            "same general formula is called homologous series.",
+            "Succesive elements in this series differ by a $CH_2$ group.",
         )
 
         color_map = {
             2: {
-                "double": ORANGE,
-                "or": ORANGE,
-                "triple": ORANGE,
-                "covalent": ORANGE,
-                "bond": ORANGE,
+                "same": ORANGE,
+                "general": ORANGE,
+                "formula": ORANGE,
             },
-            4: {"Alkenes": BLUE},
-            5: {"Alkynes": BLUE},
+            3: {
+                "CH": ORANGE,
+            },
         }
 
-        self.alkene_topic = self.display_simple_info(
+        self.last_sentence = self.display_simple_info(
             *intro,
             color_map=color_map,
-            skip_exit_anim_and_return=[4],
-        )[0]
-
-        new_alkene_title = TextMobject("Alkenes", color=BLUE).scale(1.5)
-        new_alkene_title.to_edge(UP)
-        self.play(Transform(self.alkene_topic, new_alkene_title))
+            skip_exit_anim_and_return=[i for i in range(len(intro))],
+        )[-1]
         self.wait()
 
     def alkene_intro(self):
@@ -136,7 +185,9 @@ class UnsaturatedHydrocarbon(Scene):
             TextMobject("4"),
             TexMobject("C_4H_8"),
             TexMobject("CH_3-CH=CH-CH_3"),
-            ChemObject("C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)=C(-[2]H)-C(-[2]H)(-[6]H)(-[8]H)"),
+            ChemObject(
+                "C(-[2]H)(-[4]H)(-[6]H)-C(-[2]H)=C(-[2]H)-C(-[2]H)(-[6]H)(-[8]H)"
+            ),
         )
         title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
