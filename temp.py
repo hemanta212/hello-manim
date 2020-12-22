@@ -8,48 +8,102 @@ class Test(Scene):
     general_formula = None
 
     def construct(self):
-        # self.homologous_defn()
-        # self.homologous_expln()
+        self.homologous_defn()
+        self.homologous_anim()
         self.alkyl_radical_intro()
         self.alkyl_radical_anim()
+        self.functional_group_intro()
+        self.functional_group_anim()
+        self.func_group_examples()
 
-    def alkyl_radical_anim(self):
-        gen_formula = self.general_formula
+    def homologous_defn(self):
+        intro = (
+            "Homologous series",
+            "A series of organic compounds that can be represented by",
+            "same general formula is called homologous series.",
+            "Succesive elements in this series differ by a $CH_2$ group.",
+        )
 
-        methane = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)(-[8]H)}")
-        methane.next_to(gen_formula, DOWN).to_edge(LEFT).scale(0.80)
-        label = TextMobject("$CH_4$ (alkane)")
-        label.next_to(methane, DOWN, buff=0.5)
+        color_map = {
+            2: {
+                "same": ORANGE,
+                "general": ORANGE,
+                "formula": ORANGE,
+            },
+            3: {
+                "CH": ORANGE,
+            },
+        }
+
+        self.last_sentence = self.display_simple_info(
+            *intro,
+            color_map=color_map,
+            spacing=0.3,
+            skip_exit_anim_and_return=[i for i in range(len(intro))],
+        )[-1]
+        self.wait()
+
+    def homologous_anim(self):
+        last_sentence = self.last_sentence
+
+        methane = TexMobject("CH_4")
+        label = TextMobject("Methane").scale(0.9)
+        label.next_to(methane, DOWN)
+        methane_g = VGroup(methane, label)
+        methane_g.next_to(last_sentence, DOWN, buff=1.5).to_edge(LEFT)
         self.play(Write(methane))
         self.play(Write(label))
 
-        methane_radical = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)}")
-        methane_radical.next_to(methane, buff=3.0).scale(0.80)
-        label = TextMobject("$CH_3^+$ (alkyl radical)")
-        label.next_to(methane_radical, DOWN, buff=0.5)
+        new_methane = methane.copy().next_to(methane, buff=2.0).shift(UP)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_methane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(methane.copy(), new_methane))
+        self.play(Write(ch2_part), FadeIn(line))
 
-        bond = Line().scale(0.5)
-        h_label = TexMobject("H")
-        h_label.next_to(bond, buff=0.1)
-        h_bond_g = VGroup(bond, h_label)
-        h_bond_g.next_to(methane_radical, buff=0.1)
-
-        ion_circle = Circle()
-        ion = TexMobject("+")
-        ion_circle.surround(ion)
-        positive_ion = VGroup(ion_circle, ion)
-        positive_ion.next_to(methane_radical, buff=0.5)
-
-        methane_radical_g = VGroup(methane_radical, h_bond_g)
-        self.play(ReplacementTransform(methane.copy(), methane_radical_g))
-        self.play(
-            FadeOutAndShiftDown(h_bond_g),
-            FadeInFrom(positive_ion, UP),
-            run_time=3,
-        )
+        ethane = TexMobject("C_2H_6")
+        ethane.next_to(line, DOWN)
+        label = TextMobject("Ethane").scale(0.9)
+        label.next_to(ethane, DOWN)
+        self.play(Write(ethane))
         self.play(Write(label))
-        self.wait(2)
 
+        new_ethane = ethane.copy().next_to(new_methane, buff=2.0)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_ethane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(ethane.copy(), new_ethane))
+        self.play(Write(ch2_part), FadeIn(line))
+
+        propane = TexMobject("C_3H_8")
+        propane.next_to(line, DOWN)
+        label = TextMobject("Propane").scale(0.9)
+        label.next_to(propane, DOWN)
+        self.play(Write(propane))
+        self.play(Write(label))
+
+        new_propane = propane.copy().next_to(new_ethane, buff=2.0)
+        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_propane, DOWN)
+        line = Line().scale(0.5)
+        line.next_to(ch2_part, DOWN)
+        self.play(ReplacementTransform(propane.copy(), new_propane))
+        self.play(Write(ch2_part), FadeIn(line))
+
+        butane = TexMobject("C_4H_{10}")
+        butane.next_to(line, DOWN)
+        label = TextMobject("Butane").scale(0.9)
+        label.next_to(butane, DOWN)
+        self.play(Write(butane))
+        self.play(Write(label))
+
+        comment = TextMobject(
+            "Notice how above elements have same general formula i.e. ",
+            "$C_nH_{2n+2}$",
+        ).set_color_by_tex("C", ORANGE)
+        comment.scale(0.9).next_to(label, DOWN, buff=0.6).to_edge(LEFT)
+
+        self.play(Write(comment), run_time=3)
+        self.wait(2)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def alkyl_radical_intro(self):
@@ -84,93 +138,146 @@ class Test(Scene):
         )[-1]
         self.wait()
 
-    def homologous_expln(self):
-        last_sentence = self.last_sentence
+    def alkyl_radical_anim(self):
+        gen_formula = self.general_formula
 
-        methane = TexMobject("CH_4")
-        label = TextMobject("Methane")
-        label.next_to(methane, DOWN)
-        methane_g = VGroup(methane, label)
-        methane_g.next_to(last_sentence, DOWN, buff=1.5).to_edge(LEFT)
+        methane = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)(-[8]H)}")
+        # methane = ChemObject("C(-[2]H)(-[4]H)(-[6]H)(-[8]H)")
+        methane.next_to(gen_formula, DOWN).to_edge(LEFT).scale(0.80)
+        label = TextMobject("$CH_4$ (alkane)")
+        label.next_to(methane, DOWN, buff=0.5)
         self.play(Write(methane))
         self.play(Write(label))
 
-        new_methane = methane.copy().next_to(methane, buff=2.0).shift(UP)
-        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_methane, DOWN)
-        line = Line().scale(0.5)
-        line.next_to(ch2_part, DOWN)
-        self.play(ReplacementTransform(methane.copy(), new_methane))
-        self.play(Write(ch2_part), FadeIn(line))
+        methane_radical = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)}")
+        # methane_radical = ChemObject("C(-[2]H)(-[4]H)(-[6]H)")
+        methane_radical.next_to(methane, buff=3.0).scale(0.80)
+        label = TextMobject("$CH_3^+$ (alkyl radical)")
+        label.next_to(methane_radical, DOWN, buff=0.5)
 
-        ethane = TexMobject("C_2H_6")
-        ethane.next_to(line, DOWN)
-        label = TextMobject("Ethane")
-        label.next_to(ethane, DOWN)
-        self.play(Write(ethane))
+        bond = Line().scale(0.5)
+        h_label = TexMobject("H")
+        h_label.next_to(bond, buff=0.1)
+        h_bond_g = VGroup(bond, h_label)
+        h_bond_g.next_to(methane_radical, buff=0.1)
+
+        ion_circle = Circle()
+        ion = TexMobject("+")
+        ion_circle.surround(ion)
+        positive_ion = VGroup(ion_circle, ion)
+        positive_ion.next_to(methane_radical, buff=0.5)
+
+        methane_radical_g = VGroup(methane_radical, h_bond_g)
+        self.play(ReplacementTransform(methane.copy(), methane_radical_g))
+        self.play(
+            FadeOutAndShiftDown(h_bond_g),
+            FadeInFrom(positive_ion, UP),
+            run_time=3,
+        )
         self.play(Write(label))
-
-        new_ethane = ethane.copy().next_to(new_methane, buff=2.0)
-        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_ethane, DOWN)
-        line = Line().scale(0.5)
-        line.next_to(ch2_part, DOWN)
-        self.play(ReplacementTransform(ethane.copy(), new_ethane))
-        self.play(Write(ch2_part), FadeIn(line))
-
-        propane = TexMobject("C_3H_8")
-        propane.next_to(line, DOWN)
-        label = TextMobject("Propane")
-        label.next_to(propane, DOWN)
-        self.play(Write(propane))
-        self.play(Write(label))
-
-        new_propane = propane.copy().next_to(new_ethane, buff=2.0)
-        ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_propane, DOWN)
-        line = Line().scale(0.5)
-        line.next_to(ch2_part, DOWN)
-        self.play(ReplacementTransform(propane.copy(), new_propane))
-        self.play(Write(ch2_part), FadeIn(line))
-
-        butane = TexMobject("C_4H_{10}")
-        butane.next_to(line, DOWN)
-        label = TextMobject("Butane")
-        label.next_to(butane, DOWN)
-        self.play(Write(butane))
-        self.play(Write(label))
-
-        comment = TextMobject(
-            "Notice how above elements have same general formula i.e. ",
-            " $C_nH_{2n+2}$",
-        ).set_color_by_tex("C", ORANGE)
-        comment.scale(0.90).next_to(label, DOWN, buff=0.2).to_edge(LEFT)
-
-        self.play(Write(comment), run_time=3)
         self.wait(2)
 
-    def homologous_defn(self):
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
+    def functional_group_intro(self):
         intro = (
-            "Homologous series",
-            "A series of organic compounds that can be represented by",
-            "same general formula is called homologous series.",
-            "Succesive elements in this series differ by a $CH_2$ group.",
+            "Functional Group",
+            "An atom or group of atoms that determine the physical and",
+            "chemical properties of any organic compound is known as",
+            "functional group. Different functional groups attach to",
+            "different alkyl radicals to form organic compounds.",
         )
 
         color_map = {
-            2: {
-                "same": ORANGE,
-                "general": ORANGE,
-                "formula": ORANGE,
+            1: {
+                "atom": ORANGE,
+                "group": ORANGE,
+                "of": ORANGE,
+                "atoms": ORANGE,
+                "physical": ORANGE,
+                "and": ORANGE,
             },
-            3: {
-                "CH": ORANGE,
+            2: {
+                "chemical": ORANGE,
+                "properties": ORANGE,
             },
         }
 
         self.last_sentence = self.display_simple_info(
             *intro,
             color_map=color_map,
+            spacing=0.2,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
         )[-1]
         self.wait()
+
+    def functional_group_anim(self):
+        last_sentence = self.last_sentence
+
+        methane_radical = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)}")
+        # methane_radical = ChemObject("{C(-[2]H)(-[4]H)(-[6]H)")
+        methane_radical.next_to(last_sentence, DOWN, buff=0.3).scale(0.80)
+        label = TextMobject("$CH_3^+$ (alkyl radical)").scale(0.8)
+        label.next_to(methane_radical, DOWN, buff=0.3)
+
+        ion_circle = Circle()
+        ion = TexMobject("+")
+        ion_circle.surround(ion)
+        positive_ion = VGroup(ion_circle, ion)
+        positive_ion.next_to(methane_radical, buff=0.5)
+        methane_radical_g = VGroup(methane_radical, positive_ion)
+        self.play(Write(methane_radical_g))
+        self.play(Write(label))
+
+        func_group = TexMobject("\chemfig{-O-H}").scale(0.80)
+        # func_group = ChemObject("-O-H").scale(0.80)
+        func_group.next_to(methane_radical, buff=2.0)
+        label2 = TextMobject("hydroxyl group").scale(0.8)
+        label2.next_to(label, buff=2.0)
+        self.play(Write(func_group))
+        self.play(Write(label2))
+        self.wait(2)
+
+        self.play(FadeOut(label), FadeOut(label2))
+
+        self.play(
+            FadeOutAndShiftDown(positive_ion),
+            ApplyMethod(func_group.next_to, methane_radical_g, buff=0),
+            ApplyMethod(methane_radical_g.next_to, func_group, LEFT, buff=0),
+            run_time=3,
+        )
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
+    def func_group_examples(self):
+        title = TextMobject("Some functional groups", color=BLUE).scale(1.5).to_edge(UP)
+        self.play(Write(title))
+
+        func_groups = [
+            ("R-O-H", "hydroxyl"),
+            ("R-CH_3", "methyl"),
+            ("R-C(=[2]O)(-[8]H)", "carbonyl"),
+            ("R-NH_2", "amino"),
+            ("R-SH", "sulfhydryl"),
+        ]
+        processed = []
+        for index, func_group in enumerate(func_groups):
+            if len(processed) > 1:
+                self.play(FadeOutAndShift(processed[-2], LEFT))
+            self.play(processed[-1].to_edge, LEFT) if processed else None
+            struc, name = func_group
+            mol = TexMobject("\chemfig{" + struc + "}")
+            #mol = ChemObject(struc)
+            mol.next_to(ORIGIN)
+            label = TextMobject(name)
+            label.next_to(mol, DOWN, buff=1.0)
+            func_group_g = VGroup(mol, label)
+            self.play(Write(mol))
+            self.play(Write(label))
+            processed.append(func_group_g)
+
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
 
     def display_simple_info(
         self,
