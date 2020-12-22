@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Test(Scene):
+class HydrocarbonsPartThree(Scene):
     # placeholder for leaving gap between Mobjects
     GAP = "{{GAP}}"
     last_sentence = None
@@ -18,10 +18,10 @@ class Test(Scene):
 
     def homologous_defn(self):
         intro = (
-            "Homologous series",
+            "Homologous Series",
             "A series of organic compounds that can be represented by",
             "same general formula is called homologous series.",
-            "Succesive elements in this series differ by a $CH_2$ group.",
+            "Successive elements in this series differ by a $CH_2$ group.",
         )
 
         color_map = {
@@ -108,7 +108,7 @@ class Test(Scene):
 
     def alkyl_radical_intro(self):
         intro = (
-            "Alkyl Radicals",
+            "Alkyl Radical",
             "The group of atoms obtained after removing single H atom",
             "from alkanes are called alkyl radicals. It is commonly denoted",
             "by R. Its general formula is $C_nH_{2n+1}$.",
@@ -141,21 +141,19 @@ class Test(Scene):
     def alkyl_radical_anim(self):
         gen_formula = self.general_formula
 
-        methane = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)(-[8]H)}")
-        # methane = ChemObject("C(-[2]H)(-[4]H)(-[6]H)(-[8]H)")
+        methane = ChemObject("C(-[2]H)(-[4]H)(-[6]H)(-[8]H)")
         methane.next_to(gen_formula, DOWN).to_edge(LEFT).scale(0.80)
         label = TextMobject("$CH_4$ (alkane)")
         label.next_to(methane, DOWN, buff=0.5)
         self.play(Write(methane))
         self.play(Write(label))
 
-        methane_radical = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)}")
-        # methane_radical = ChemObject("C(-[2]H)(-[4]H)(-[6]H)")
+        methane_radical = ChemObject("C(-[2]H)(-[4]H)(-[6]H)")
         methane_radical.next_to(methane, buff=3.0).scale(0.80)
         label = TextMobject("$CH_3^+$ (alkyl radical)")
         label.next_to(methane_radical, DOWN, buff=0.5)
 
-        bond = Line().scale(0.5)
+        bond = Line().scale(0.2)
         h_label = TexMobject("H")
         h_label.next_to(bond, buff=0.1)
         h_bond_g = VGroup(bond, h_label)
@@ -214,8 +212,7 @@ class Test(Scene):
     def functional_group_anim(self):
         last_sentence = self.last_sentence
 
-        methane_radical = TexMobject("\chemfig{C(-[2]H)(-[4]H)(-[6]H)}")
-        # methane_radical = ChemObject("{C(-[2]H)(-[4]H)(-[6]H)")
+        methane_radical = ChemObject("{C(-[2]H)(-[4]H)(-[6]H)")
         methane_radical.next_to(last_sentence, DOWN, buff=0.3).scale(0.80)
         label = TextMobject("$CH_3^+$ (alkyl radical)").scale(0.8)
         label.next_to(methane_radical, DOWN, buff=0.3)
@@ -229,11 +226,10 @@ class Test(Scene):
         self.play(Write(methane_radical_g))
         self.play(Write(label))
 
-        func_group = TexMobject("\chemfig{-O-H}").scale(0.80)
-        # func_group = ChemObject("-O-H").scale(0.80)
+        func_group = ChemObject("-O-H").scale(0.80)
         func_group.next_to(methane_radical, buff=2.0)
         label2 = TextMobject("hydroxyl group").scale(0.8)
-        label2.next_to(label, buff=2.0)
+        label2.next_to(label, buff=0.7)
         self.play(Write(func_group))
         self.play(Write(label2))
         self.wait(2)
@@ -242,41 +238,39 @@ class Test(Scene):
 
         self.play(
             FadeOutAndShiftDown(positive_ion),
-            ApplyMethod(func_group.next_to, methane_radical_g, buff=0),
-            ApplyMethod(methane_radical_g.next_to, func_group, LEFT, buff=0),
+            ApplyMethod(func_group.shift, 1.9 * LEFT),
             run_time=3,
         )
         self.wait(2)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def func_group_examples(self):
-        title = TextMobject("Some functional groups", color=BLUE).scale(1.5).to_edge(UP)
+        title = TextMobject("Some Functional Groups", color=BLUE).scale(1.5).to_edge(UP)
         self.play(Write(title))
 
         func_groups = [
-            ("R-O-H", "hydroxyl"),
-            ("R-CH_3", "methyl"),
-            ("R-C(=[2]O)(-[8]H)", "carbonyl"),
-            ("R-NH_2", "amino"),
-            ("R-SH", "sulfhydryl"),
+            ("R-O-H", "Hydroxyl"),
+            ("R-CH_3", "Methyl"),
+            ("R-C(=[2]O)(-[8]H)", "Carbonyl"),
+            ("R-NH_2", "Amino"),
+            ("R-SH", "Sulfhydryl"),
         ]
         processed = []
         for index, func_group in enumerate(func_groups):
-            if len(processed) > 1:
-                self.play(FadeOutAndShift(processed[-2], LEFT))
-            self.play(processed[-1].to_edge, LEFT) if processed else None
             struc, name = func_group
-            mol = TexMobject("\chemfig{" + struc + "}")
-            #mol = ChemObject(struc)
-            mol.next_to(ORIGIN)
-            label = TextMobject(name)
+            mol = ChemObject(struc)
+            label = TextMobject(name + " Group")
             label.next_to(mol, DOWN, buff=1.0)
             func_group_g = VGroup(mol, label)
             self.play(Write(mol))
             self.play(Write(label))
             processed.append(func_group_g)
+            if len(processed) > 1:
+                self.play(FadeOutAndShift(processed[-2], LEFT))
+            self.play(processed[-1].to_edge, LEFT) if processed else None
 
-        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+        self.play(FadeOutAndShift(processed[-1], LEFT))
+        self.play(FadeOutAndShiftDown(title))
 
 
     def display_simple_info(
