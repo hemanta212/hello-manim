@@ -7,23 +7,173 @@ class Test(Scene):
     quadrilateral = None
 
     def construct(self):
-        self.quad_intro()
-        self.quad_variation()
+        #self.quad_intro()
+        #self.quad_variation()
+        #self.parallelogram_intro()
+        self.rectangle_intro()
+
+    def rectangle_intro(self):
+        topic = TextMobject("Rectangle", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+
+        co_ordinate = self.co_ordinate
+        rectangle = Polygon(
+            co_ordinate(-2, 0),
+            co_ordinate(2, 0),
+            co_ordinate(2, -2),
+            co_ordinate(-2, -2),
+        )
+        A, B, C, D = rectangle.get_vertices()
+
+        comment1 = TextMobject(
+            "Rectangle is a quadrilateral whose opposite sides are"
+        )
+        comment2 = TextMobject(" equal and each angle is 90 degrees.")
+        comment1.next_to(topic, DOWN).to_edge(LEFT)
+        comment2.next_to(comment1, DOWN, buff=0.3)
+
+        equal_1 = Line(A, B).to_edge(RIGHT)
+        equal_sign = TextMobject("Equal(=)")
+        equal_sign.next_to(equal_1, LEFT)
+        equal_2 = Line(C, D).next_to(parallel_sign, LEFT)
+        equals = VGroup(equal_1, equal_2)
+
+        perp = DashedLine(A, B - co_ordinate(-1, 0))
+        perp_label = TexMobject("height").scale(0.7)
+        perp_label.next_to(perp, buff=0.2)
+        base = Line(B, C, color=YELLOW)
+        base_label = TexMobject("base")
+        base_label.next_to(rectangle, DOWN)
+
+        comment3 = TextMobject("Area of the rectangle is given by,")
+        area_text = TextMobject("Area(A) = ")
+        base_text = TextMobject("base $\\times$")
+        height_text = TextMobject("height")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        comment3.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for i in (base_text, height_text):
+            i.next_to(processed[-1])
+            processed.append(i)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(rectangle))
+        self.play(Write(comment1))
+        self.play(Write(comment2))
+        self.play(ReplacementTransform(Line(A, B), equal_1))
+        self.play(ReplacementTransform(Line(C, D), equal_2))
+        self.play(Write(equal_sign))
+        self.play(Indicate(equals))
+        self.play(FadeOutAndShift(VGroup(equals, equal_sign), RIGHT))
+        self.play(ShowCreation(perp))
+        self.play(Write(perp_label))
+        self.play(ShowCreation(base))
+        self.play(Write(base_label))
+        self.play(Write(comment3))
+        self.play(Write(area_text))
+        self.play(ReplacementTransform(base_label, base_text))
+        self.play(ReplacementTransform(perp_label, height_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
+    def parallelogram_intro(self):
+        topic = TextMobject("Parallelogram", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+
+        co_ordinate = self.co_ordinate
+        parallelogram = Polygon(
+            co_ordinate(-5, 1),
+            co_ordinate(-6, -1),
+            co_ordinate(-3, -1),
+            co_ordinate(-2, 1),
+        )
+        A, B, C, D = parallelogram.get_vertices()
+
+        comment1 = TextMobject(
+            "Parallelogram is a quadrilateral whose opposite sides are"
+        )
+        comment2 = TextMobject(" equal and parallel.")
+        comment1.next_to(topic, DOWN).to_edge(LEFT)
+        comment2.next_to(comment1, DOWN, buff=0.3)
+
+        equal_1 = Line(A, B).to_edge(RIGHT)
+        equal_sign = TextMobject("Equal(=)")
+        parallel_sign = TextMobject("Parallel(//)")
+        equal_sign.next_to(equal_1, LEFT)
+        parallel_sign.next_to(equal_1, LEFT)
+        equal_2 = Line(C, D).next_to(parallel_sign, LEFT)
+        equals = VGroup(equal_1, equal_2)
+
+        perp = DashedLine(A, B - co_ordinate(-1, 0))
+        perp_label = TexMobject("height").scale(0.7)
+        perp_label.next_to(perp, buff=0.2)
+        base = Line(B, C, color=YELLOW)
+        base_label = TexMobject("base")
+        base_label.next_to(parallelogram, DOWN)
+
+        comment3 = TextMobject("Area of the parallelogram is given by,")
+        area_text = TextMobject("Area(A) = ")
+        base_text = TextMobject("base $\\times$")
+        height_text = TextMobject("height")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        comment3.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for i in (base_text, height_text):
+            i.next_to(processed[-1])
+            processed.append(i)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(parallelogram))
+        self.play(Write(comment1))
+        self.play(Write(comment2))
+        self.play(ReplacementTransform(Line(A, B), equal_1))
+        self.play(ReplacementTransform(Line(C, D), equal_2))
+        self.play(Write(equal_sign))
+        self.play(Indicate(equals))
+        self.play(FadeOutAndShift(equal_sign, RIGHT))
+        self.play(Write(parallel_sign))
+        self.play(Indicate(equals))
+        self.play(ShowCreation(perp))
+        self.play(Write(perp_label))
+        self.play(ShowCreation(base))
+        self.play(Write(base_label))
+        self.play(Write(comment3))
+        self.play(Write(area_text))
+        self.play(ReplacementTransform(base_label, base_text))
+        self.play(ReplacementTransform(perp_label, height_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def quad_variation(self):
         co_ordinate = self.co_ordinate
 
         # Change angles of sides
-        a_side = Line(co_ordinate(-3, 1), co_ordinate(3, 1))
-        b_side = Line(co_ordinate(-3, 1), co_ordinate(-2, -1))
-        c_side = Line(co_ordinate(-2, -1), co_ordinate(2, -1))
-        d_side = Line(co_ordinate(3, 1), co_ordinate(2, -1))
+        # QUadrilateral
+        # A-----------------B
+        # |#################|
+        # |#################|
+        # |#################|
+        # D-----------------C
+        A, B, C, D = (
+            co_ordinate(-3, 1),
+            co_ordinate(3, 1),
+            co_ordinate(2, -1),
+            co_ordinate(-2, -1),
+        )
+
+        a_side = Line(A, B)
+        b_side = Line(B, C)
+        c_side = Line(C, D)
+        d_side = Line(D, A)
         angle_quad_g = VGroup(a_side, b_side, c_side, d_side).set_color(BLUE)
 
-        diagnol_line = Line(co_ordinate(-3, 1), co_ordinate(2, -1)).set_color(YELLOW)
-        perpendicular_1 = Line(co_ordinate(-3, 1), co_ordinate(-3, -1), color=YELLOW)
-        perpendicular_2 = Line(co_ordinate(3, 1), co_ordinate(3, -1), color=YELLOW)
+        diagnol_line = Line(A, C, color=YELLOW)
+        perpendicular_1 = Line(A, co_ordinate(-3, -1), color=YELLOW)
+        perpendicular_2 = Line(B, co_ordinate(3, -1), color=YELLOW)
         perpendiculars = VGroup(perpendicular_1, perpendicular_2)
+        perpendiculars_base_line = Line(
+            co_ordinate(-3, -1), co_ordinate(3, -1), color=YELLOW
+        )
 
         comment1 = TextMobject("The area of the quadrilateral will be,")
         area_text = TextMobject("Area(A) = ")
@@ -37,10 +187,9 @@ class Test(Scene):
             i.next_to(processed[-1])
             processed.append(i)
 
-        # self.play(ReplacementTransform(self.quadrilateral, large_quad_g))
         self.play(ScaleInPlace(self.quadrilateral, 1.5))
         self.play(ScaleInPlace(self.quadrilateral, 0.5))
-        self.play(ReplacementTransform(self.quadrilateral, angle_quad_g))
+        self.play(Transform(self.quadrilateral, angle_quad_g))
         self.wait()
 
         self.play(Write(comment1))
@@ -48,9 +197,12 @@ class Test(Scene):
         self.play(Write(half_frac_text))
         self.play(ShowCreation(diagnol_line))
         self.play(ReplacementTransform(diagnol_line, diagnol_length_text))
+        self.play(ShowCreation(perpendiculars_base_line))
         self.play(ShowCreation(perpendiculars))
         self.play(ReplacementTransform(perpendiculars, perpendicular_sum_text))
+        self.play(FadeOut(perpendiculars_base_line))
         self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def quad_intro(self):
         topic = TextMobject("Quadrilateral", color=BLUE).scale(1.5)
@@ -73,10 +225,23 @@ class Test(Scene):
         comment1.next_to(broken_lines_g, UP, buff=1.0)
 
         co_ordinate = self.co_ordinate
-        a_side = Line(co_ordinate(-2, 0), co_ordinate(2, 0))
-        b_side = Line(co_ordinate(-2, 0), co_ordinate(-2, -2))
-        c_side = Line(co_ordinate(-2, -2), co_ordinate(2, -2))
-        d_side = Line(co_ordinate(2, 0), co_ordinate(2, -2))
+        # QUadrilateral
+        # A-----------------B
+        # |#################|
+        # |#################|
+        # |#################|
+        # D-----------------C
+        A, B, C, D = (
+            co_ordinate(-2, 0),
+            co_ordinate(2, 0),
+            co_ordinate(2, -2),
+            co_ordinate(-2, -2),
+        )
+
+        a_side = Line(A, B)
+        b_side = Line(B, C)
+        c_side = Line(C, D)
+        d_side = Line(D, A)
         quad_sides = [a_side, b_side, c_side, d_side]
         quad_sides_g = VGroup(*quad_sides).set_color(BLUE)
 

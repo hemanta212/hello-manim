@@ -1,0 +1,115 @@
+Video 2
+Scene1:
+Write in top left side “Quadrilateral” as topic.
+A long line moves in the scene from right side and breaks in four lines segment. Then write in upper side of figure “A Quadrilateral has four lines segments.” Then fadeout.
+ Then join the four lines segment forming a Quadrilateral. Then write in upper side of figure “Quadrilateral is a closed plane.” Then fade out.
+Animate the Quadrilateral formed, by changing its length and angle simultaneously such that it forms different Quadrilateral.
+Then write on the lower side “The area of the quadrilateral would be  
+A=1/2[diagonal ×sum of perpendiculars to opposite vertices]”
+You can use this as reference
+Scene 2:
+Write in top left side “Parallelogram” as topic.
+2 / 6
+Transform the Quadrilateral in Parallelogram and also show the sign that opposite side are equal and opposite. Also name it as vertices ABCD and show form perpendicular dotted line for height. Indicate base as b and height as h. Keep the parallelogram in the left side.
+
+
+
+
+Write in Upper side “Opposite side of Parallelogram are equal and parallel.” And highlight (use indicate ()) the sign which show lines are equal and parallel.
+ 
+In the lower side write  
+“In the given figure, area of parallelogram ABCD = BE ×CD = h ×b = b ×h”
+Scene 3:
+Write in top left side “Rectangle” as topic.
+Transform the parallelogram into rectangle. Show the sign of 90 degree in each corner. Indicate the Length as l and Breath as b. Name the rectangle as ABCD.
+Write in upper side “Each angle of Rectangle is 90 degree.” Then highlight the sign of 90 degree.
+Write in the lower side “In the given figure, are of rectangle ABCD = AD ×DC = b ×l = l ×b”
+Scene 4:
+Write in top left side “Rhombus” as topic.
+Transform the rectangle into Rhombus. Show sign that all side are equal. Name the rhombus as ABCD. Also indicate a side as ‘a’ and form a dotted perpendicular line and name it as ‘h’.
+Write in the upper side of rhombus “All sides of Rhombus are equal and none of the angle are 90degree.” Highlight the equality sign.
+Write in lower side “The area of rhombus ABCD = AD ×DH = BC ×DH = a ×h”
+Then in lower side write “The area of rhombus ABCD  
+=1/2(AC ×BD) =1/2(d1×d2), where d1 and d2 are diagonals.
+ 
+3 / 6
+
+
+
+Scene 5:
+Write in top left side “Square” as topic.
+Transform the Rhombus into Square. Show that all adjacent sides are equal.
+Name the square as ABCD.
+Then write “All adjacent sides of square are equal.” Highlight the sign which shows the sides are equal.
+
+
+
+Write in the lower side “In the given figure, Area of the square ABCD = (AB)2= (CD)2= l2”
+ 
+Scene 6:
+Write in top left side “Trapezium” as topic.
+Transform Square into Trapezium. Show sign that a pair of opposite sides is parallel. Name the Trapezium as ABCD. Also draw perpendicular dotted line as height and indicate it as ‘h’.  
+In upper side write “In trapezium one pair of opposite sides are parallel.”
+Then write in the lower part “The area of a trapezium is given by:
+A = 1/2× [height ×sum of parallel sides(bases)] =1/2×CH ×(AB+CD)”
+Scene 7:
+Write in top left side “Kite” as topic.
+Transform Trapezium into Kite. Show sign that 2 pairs of adjacent side are equal. Name the kite as ABCD.
+Draw two diagonal as dotted line.
+In upper side write “In kite one of the diagonals separates it into two isosceles triangles of different length of two sides.”
+In lower side write “Area of kite ABCD is given by A =1/2× (AC ×BD) =1/2×(d1×d2)”
+
+4 / 6
+Video 3
+In this video you can use this as reference.
+Scene 1:
+Write in top left side “Theorem 1” as topic.
+Just Under topic write “Statement: Parallelograms standing on the same base and lying between the same parallels are equal in area.”
+ 
+Then show two parallelogram ABCD and BCEF with common base BC like this figure in the center.
+Then shift the figure to the upper right side. Then continue
+Under the statement write “Given: Parallelograms ABCD and BCEF are standing on the same base BC and lying between the same parallels AE and BC as shown in the figure.”
+Then write “To prove: Parallelogram ABCD = Parallelogram BCEF in area.”
+Draw a table of 9 rows and 3 columns. First column is of ‘S.N’, second column of ‘Statement’ and third statement as ‘Reasons’. Take reference from here.
+Write 1 point and highlight (Use indicate ()) to show triangle ABF and CDE.
+Write 1(i)point and highlight AB and CD.
+Write 1(ii) point and highlight angle BAF and CDE.
+Write 1(iii) point and highlight BF and CE.
+Write point 2 and highlight statement of   1(i),(ii) and (iii).
+Write point 3 and fill triangle ABF and CDE with same color.
+Write point 4. At first highlight triangle ABF then quadrilateral BCDF then both. Secondly, highlight triangle CDE then quadrilateral BCDF then both.  
+Write point 5 then highlight parallelogram ABCD and BCEF one after another.
+Scene 2:
+Write in top left side “Theorem 2” as topic.
+Just below the topic write “Statement: The area of a triangle is half of the area of a parallelogram standing on the same base and lying between the same parallels.”
+ 
+Then draw triangle ABC and parallelogram BCDE with common base BC in the center like this.
+5 / 6
+Shift the figure to the upper right and continue.
+Below statement write “Given: △ABC and parallelogram BCDE are standing on the same base and lying between the same parallels AD and BC.”
+Below Given write “To prove: △ABC = 1/2 parallelogram BCDE”
+Below To prove write “Construction: CF || BA is drawn “
+Draw a table of 7 rows and 3 columns. First column is of ‘S.N’, second column of ‘Statement’ and third statement as ‘Reasons’. Take reference from here.
+Write point 1 then highlight AB and FC.
+Write point 2 then highlight AF and BC.
+Write point 3 then highlight parallelogram ABCF.
+Write point 4 then highlight triangle ABC and parallelogram ABCF.
+Write point 5 then highlight parallelogram ABCF and BCDE.
+Write point 6 then highlight triangle ABC and parallelogram BCDE.
+Scene 3:
+Write in top left side “Theorem 3” as topic.
+Under the topic write “Statement: Two triangles standing on the same base and lying between the same parallels are equal in area.”
+ 
+Draw two triangles ABC and BCD with same base BC in the center like this.
+Then shift the figure to the upper right side. Then continue.
+Below statement write “Given: △ABC and △BCD are standing on the same base BC and between the same parallels AD and BC”
+Below Given write “To prove: △ABC = △BCD in area”
+Below To prove write “Construction: BE || CD is drawn.”
+Draw a table of 5 rows and 3 columns. First column is of ‘S.N’, second column of ‘Statement’ and third statement as ‘Reasons’. Take reference from here.
+Write point 1 and highlight parallelogram BCDE.
+Write point 2 and highlight triangle BCD and parallelogram BCDE.
+Write point 3 and highlight triangle ABC and parallelogram BCDE.
+6 / 6
+Write point 4 and highlight triangle ABC and BCD.
+
+
