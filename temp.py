@@ -7,10 +7,74 @@ class Test(Scene):
     quadrilateral = None
 
     def construct(self):
-        self.quad_intro()
-        self.quad_variation()
-        self.parallelogram_intro()
-        self.rectangle_intro()
+        # self.quad_intro()
+        # self.quad_variation()
+        # self.parallelogram_intro()
+        # self.rectangle_intro()
+        self.rhombus_intro()
+
+    def rhombus_intro(self):
+        topic = TextMobject("Rhombus", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+
+        rhombus = Polygon(
+            UL,
+            UR,
+            DR + LEFT,
+            DL + LEFT,
+        )
+        rhombus.scale(1.5)
+        A, B, C, D = rhombus.get_vertices()
+
+        defn_comment = TextMobject(
+            "Rhombus is a quadrilateral whose all sides are equal."
+        )
+        defn_comment.next_to(topic, DOWN, buff=0.5).to_edge(LEFT)
+
+        lines = []
+        for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
+            index += 1
+            midpoint = lambda x, y: (x + y) / 2
+            line = Line(color=YELLOW_A).scale(0.25)
+            line.shift(midpoint(*point))
+            line.rotate(PI / 2) if index % 2 != 0 else None
+            lines.append(line)
+
+        lines = VGroup(*lines)
+        perp = DashedLine(A, D + 1.5 * RIGHT)
+        perp_label = TexMobject("height")
+        perp_label.next_to(perp, buff=0.2)
+        base = Line(D, C, color=YELLOW)
+        base_label = TexMobject("base")
+        base_label.next_to(rhombus, DOWN)
+
+        area_comment = TextMobject("Area of the rhombus is given by,")
+        area_text = TextMobject("Area(A) = ")
+        base_text = TextMobject("base $\\times$")
+        height_text = TextMobject("height")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for text in (base_text, height_text):
+            text.next_to(processed[-1])
+            processed.append(text)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(rhombus))
+        self.play(Write(defn_comment))
+        self.wait()
+        self.play(ShowCreation(lines))
+        self.play(Indicate(lines))
+        self.play(ShowCreation(perp))
+        self.play(Write(perp_label))
+        self.play(ShowCreation(base))
+        self.play(Write(base_label))
+        self.play(Write(area_comment))
+        self.play(Write(area_text))
+        self.play(ReplacementTransform(base_label, base_text))
+        self.play(ReplacementTransform(perp_label, height_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def rectangle_intro(self):
         topic = TextMobject("Rectangle", color=BLUE).scale(1.5)
@@ -25,12 +89,12 @@ class Test(Scene):
         )
         A, B, C, D = rectangle.get_vertices()
 
-        comment1 = TextMobject(
+        defn_comment = TextMobject(
             "Rectangle is a quadrilateral whose opposite sides are equal"
         )
-        comment2 = TextMobject("and each angle is a right angle.")
-        comment1.next_to(topic, DOWN, buff=1.0).to_edge(LEFT)
-        comment2.next_to(comment1, DOWN, buff=0.3)
+        defn_comment2 = TextMobject("and each angle is a right angle.")
+        defn_comment.next_to(topic, DOWN, buff=1.0).to_edge(LEFT)
+        defn_comment2.next_to(defn_comment, DOWN, buff=0.3)
 
         equal_1 = Line(A, D).to_edge(RIGHT)
         equal_sign = TextMobject("Equal(=)")
@@ -39,7 +103,7 @@ class Test(Scene):
         equals = VGroup(equal_1, equal_2)
 
         elbows = []
-        for corner in ([A,B,C], [B,C,D], [C,D,A], [D,A,B]):
+        for corner in ([A, B, C], [B, C, D], [C, D, A], [D, A, B]):
             elbow = Elbow(color=YELLOW)
             elbow.set_points_as_corners(corner)
             elbow.set_width(elbow.width, about_point=corner[1])
@@ -52,7 +116,7 @@ class Test(Scene):
         length_label.next_to(length, LEFT)
         breadth = Line(D, C, color=YELLOW)
         breadth_label = TexMobject("breadth")
-        breadth_label.next_to(Line(C,D), UP)
+        breadth_label.next_to(Line(C, D), UP)
 
         area_comment = TextMobject("Area of the rectangle is given by,")
         area_text = TextMobject("Area(A) = ")
@@ -67,8 +131,8 @@ class Test(Scene):
 
         self.play(Write(topic))
         self.play(ShowCreation(rectangle))
-        self.play(Write(comment1))
-        self.play(Write(comment2))
+        self.play(Write(defn_comment))
+        self.play(Write(defn_comment2))
         self.play(ReplacementTransform(Line(A, D), equal_1))
         self.play(ReplacementTransform(Line(B, C), equal_2))
         self.play(Write(equal_sign))
@@ -76,7 +140,7 @@ class Test(Scene):
         self.play(FadeOutAndShift(VGroup(equals, equal_sign), RIGHT))
         self.play(ShowCreation(elbows))
         self.play(FadeOut(elbows))
-        self.play(FadeOut(VGroup(comment1, comment2)))
+        self.play(FadeOut(VGroup(defn_comment, defn_comment2)))
         self.play(ShowCreation(length))
         self.play(Write(length_label))
         self.play(ShowCreation(breadth))
@@ -101,12 +165,12 @@ class Test(Scene):
         )
         A, B, C, D = parallelogram.get_vertices()
 
-        comment1 = TextMobject(
+        defn_comment = TextMobject(
             "Parallelogram is a quadrilateral whose opposite sides are"
         )
-        comment2 = TextMobject(" equal and parallel.")
-        comment1.next_to(topic, DOWN).to_edge(LEFT)
-        comment2.next_to(comment1, DOWN, buff=0.3)
+        defn_comment2 = TextMobject(" equal and parallel.")
+        defn_comment.next_to(topic, DOWN).to_edge(LEFT)
+        defn_comment2.next_to(defn_comment, DOWN, buff=0.3)
 
         equal_1 = Line(A, B).to_edge(RIGHT)
         equal_sign = TextMobject("Equal(=)")
@@ -136,8 +200,8 @@ class Test(Scene):
 
         self.play(Write(topic))
         self.play(ShowCreation(parallelogram))
-        self.play(Write(comment1))
-        self.play(Write(comment2))
+        self.play(Write(defn_comment))
+        self.play(Write(defn_comment2))
         self.play(ReplacementTransform(Line(A, B), equal_1))
         self.play(ReplacementTransform(Line(C, D), equal_2))
         self.play(Write(equal_sign))
@@ -181,20 +245,20 @@ class Test(Scene):
         angle_quad_g = VGroup(a_side, b_side, c_side, d_side).set_color(BLUE)
 
         diagnol_line = Line(A, C, color=YELLOW)
-        perpendicular_1 = Line(A, co_ordinate(-3, -1), color=YELLOW)
-        perpendicular_2 = Line(B, co_ordinate(3, -1), color=YELLOW)
+        perpendicular_1 = DashedLine(A, co_ordinate(-3, -1), color=YELLOW)
+        perpendicular_2 = DashedLine(B, co_ordinate(3, -1), color=YELLOW)
         perpendiculars = VGroup(perpendicular_1, perpendicular_2)
         perpendiculars_base_line = Line(
             co_ordinate(-3, -1), co_ordinate(3, -1), color=YELLOW
         )
 
-        comment1 = TextMobject("Area of the quadrilateral is given by,")
+        area_comment = TextMobject("Area of the quadrilateral is given by,")
         area_text = TextMobject("Area(A) = ")
         half_frac_text = TexMobject(r"\frac{1}{2}")
         diagnol_length_text = TextMobject("Diagnol length + ")
         perpendicular_sum_text = TextMobject("Sum of perpendiculars")
         area_text.to_edge(DOWN).to_edge(LEFT)
-        comment1.next_to(area_text, UP).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
         processed = [area_text]
         for text in (half_frac_text, diagnol_length_text, perpendicular_sum_text):
             text.next_to(processed[-1])
@@ -205,7 +269,7 @@ class Test(Scene):
         self.play(Transform(self.quadrilateral, angle_quad_g))
         self.wait()
 
-        self.play(Write(comment1))
+        self.play(Write(area_comment))
         self.play(Write(area_text))
         self.play(Write(half_frac_text))
         self.play(ShowCreation(diagnol_line))
