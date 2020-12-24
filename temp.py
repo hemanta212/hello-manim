@@ -11,8 +11,8 @@ class Test(Scene):
         # self.quad_variation()
         # self.parallelogram_intro()
         # self.rectangle_intro()
-        # self.rhombus_intro()
-        self.square_intro()
+        self.rhombus_intro()
+        #self.square_intro()
 
     def square_intro(self):
         topic = TextMobject("Square", color=BLUE).scale(1.5)
@@ -126,6 +126,9 @@ class Test(Scene):
         base_label = TexMobject("base")
         base_label.next_to(rhombus, DOWN)
 
+        diagnol = Line(A, C, color=YELLOW)
+        diagnol2 = Line(B, D, color=YELLOW)
+
         area_comment = TextMobject("Area of the rhombus is given by,")
         area_text = TextMobject("Area(A) = ")
         base_text = TextMobject("base $\\times$")
@@ -134,6 +137,19 @@ class Test(Scene):
         area_comment.next_to(area_text, UP).to_edge(LEFT)
         processed = [area_text]
         for text in (base_text, height_text):
+            text.next_to(processed[-1])
+            processed.append(text)
+
+        area_comment2 = TextMobject("Similarly, area of the rhombus is also given by,")
+        area_text2 = TextMobject("Area(A) = ")
+        half_frac_text = TexMobject(r"\frac{1}{2}")
+        diagnol_text = TextMobject("diagnol 1 $\\times$")
+        diagnol2_text = TextMobject("diagnol 2")
+        area_text2.to_edge(DOWN).to_edge(LEFT)
+        area_comment2.next_to(area_text2, UP).to_edge(LEFT)
+        processed = [area_text2]
+
+        for text in (half_frac_text, diagnol_text, diagnol2_text):
             text.next_to(processed[-1])
             processed.append(text)
 
@@ -151,6 +167,15 @@ class Test(Scene):
         self.play(Write(area_text))
         self.play(ReplacementTransform(base_label, base_text))
         self.play(ReplacementTransform(perp_label, height_text))
+        self.wait()
+        self.play(FadeOut(base), FadeOut(perp))
+        self.play(Transform(area_comment, area_comment2))
+        self.play(Transform(area_text, area_text2))
+        self.play(Transform(VGroup(base_text, height_text), half_frac_text))
+        self.play(ShowCreation(diagnol))
+        self.play(ShowCreation(diagnol2))
+        self.play(ReplacementTransform(diagnol, diagnol_text))
+        self.play(ReplacementTransform(diagnol2, diagnol2_text))
         self.wait(2)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
