@@ -11,8 +11,76 @@ class Test(Scene):
         # self.quad_variation()
         # self.parallelogram_intro()
         # self.rectangle_intro()
-        self.rhombus_intro()
-        #self.square_intro()
+        # self.rhombus_intro()
+        self.trapezium_intro()
+
+    def trapezium_intro(self):
+        topic = TextMobject("Trapezium", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+
+        trapezium = Polygon(
+            UL,
+            UR,
+            DR + RIGHT,
+            DL + LEFT,
+        )
+        trapezium.scale(1.3)
+        trapezium_orig = trapezium.generate_target()
+        trapezium_edge = trapezium.copy().to_edge(LEFT)
+        A, B, C, D = trapezium.get_vertices()
+        P, Q, R, S = trapezium_edge.get_vertices()
+
+        parallel_comment = TextMobject(
+            "Any two opposite sides of a trapezium are parallel."
+        )
+        parallel_comment.next_to(topic, DOWN, buff=0.5)
+
+        parallel_1 = Line(A, B).to_edge(RIGHT)
+        parallel_sign = TextMobject("Parallel(//)")
+        parallel_sign.next_to(parallel_1, DOWN, buff=1.0)
+        parallel_2 = Line(D, C).next_to(parallel_sign, DOWN, buff=1.0)
+        parallels = VGroup(parallel_1, parallel_2)
+
+        perp = DashedLine(A, D + 1.3 * RIGHT)
+        perp_label = TexMobject("height")
+        perp_label.next_to(perp, buff=0.2)
+        side1 = Line(A, B, color=YELLOW)
+        side2 = Line(D, C, color=YELLOW)
+        sides = VGroup(side1, side2)
+
+        area_comment = TextMobject("Area of the trapezium is given by,")
+        area_text = TextMobject("Area(A) = ")
+        half_frac_text = TexMobject(r"\frac{1}{2}")
+        height_text = TextMobject("height $\\times$")
+        sides_sum_text = TextMobject("sum of length of two parallel sides")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for text in (half_frac_text, height_text, sides_sum_text):
+            text.next_to(processed[-1])
+            processed.append(text)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(trapezium))
+        self.wait()
+        self.play(Write(parallel_comment))
+        self.play(ReplacementTransform(trapezium, trapezium_edge))
+        self.play(ReplacementTransform(Line(P, Q), parallel_1))
+        self.play(ReplacementTransform(Line(R, S), parallel_2))
+        self.play(Write(parallel_sign))
+        self.play(Indicate(parallels))
+        self.play(FadeOutAndShift(VGroup(parallels, parallel_sign), RIGHT))
+        self.play(ReplacementTransform(trapezium_edge, trapezium_orig))
+        self.play(ShowCreation(perp))
+        self.play(Write(perp_label))
+        self.play(Write(area_comment))
+        self.play(Write(area_text))
+        self.play(Write(half_frac_text))
+        self.play(ReplacementTransform(perp_label, height_text))
+        self.play(ShowCreation(sides))
+        self.play(ReplacementTransform(sides, sides_sum_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def square_intro(self):
         topic = TextMobject("Square", color=BLUE).scale(1.5)
