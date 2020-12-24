@@ -11,7 +11,85 @@ class Test(Scene):
         # self.quad_variation()
         # self.parallelogram_intro()
         # self.rectangle_intro()
-        self.rhombus_intro()
+        # self.rhombus_intro()
+        self.square_intro()
+
+    def square_intro(self):
+        topic = TextMobject("Square", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+        square = Polygon(
+            UL,
+            UR,
+            DR,
+            DL,
+        )
+        square.scale(1.2).shift(DOWN)
+        A, B, C, D = square.get_vertices()
+
+        defn_comment = TextMobject(
+            "Square is a quadrilateral whose all sides are equal and each"
+        )
+        defn_comment2 = TextMobject("angle is a right angle.")
+        defn_comment.next_to(topic, DOWN, buff=0.5).to_edge(LEFT)
+        defn_comment2.next_to(defn_comment, DOWN, buff=0.3)
+
+        lines = []
+        for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
+            index += 1
+            midpoint = lambda x, y: (x + y) / 2
+            line = Line(color=YELLOW_A).scale(0.25)
+            line.shift(midpoint(*point))
+            line.rotate(PI / 2) if index % 2 != 0 else None
+            lines.append(line)
+        lines = VGroup(*lines)
+
+        elbows = []
+        for corner in ([A, B, C], [B, C, D], [C, D, A], [D, A, B]):
+            elbow = Elbow(color=YELLOW)
+            elbow.set_points_as_corners(corner)
+            elbow.set_width(elbow.width, about_point=corner[1])
+            elbow.rotate(PI)
+            elbows.append(elbow)
+        elbows = VGroup(*elbows)
+
+        length = Line(A, D, color=RED)
+        length_label = TexMobject("length")
+        length_label.next_to(length, LEFT)
+        breadth = Line(D, C, color=YELLOW)
+        breadth_label = TexMobject("length")
+        breadth_label.next_to(Line(C, D), UP)
+
+        area_comment = TextMobject("Area of the square is given by,")
+        area_text = TextMobject("Area(A) = ")
+        length_text = TextMobject("length $\\times$")
+        breadth_text = TextMobject("length")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for text in (length_text, breadth_text):
+            text.next_to(processed[-1])
+            processed.append(text)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(square))
+        self.play(Write(defn_comment))
+        self.play(Write(defn_comment2))
+        self.wait()
+        self.play(ShowCreation(lines))
+        self.play(Indicate(lines))
+        self.play(ShowCreation(elbows))
+        self.wait()
+        self.play(FadeOut(elbows))
+        self.play(ShowCreation(length))
+        self.play(Write(length_label))
+        self.play(ShowCreation(breadth))
+        self.play(Write(breadth_label))
+        self.play(Write(area_comment))
+        self.play(Write(area_text))
+        self.play(ReplacementTransform(length_label, length_text))
+        self.play(ReplacementTransform(breadth_label, breadth_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def rhombus_intro(self):
         topic = TextMobject("Rhombus", color=BLUE).scale(1.5)
