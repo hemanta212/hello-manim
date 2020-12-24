@@ -7,12 +7,89 @@ class Test(Scene):
     quadrilateral = None
 
     def construct(self):
-        # self.quad_intro()
-        # self.quad_variation()
-        # self.parallelogram_intro()
-        # self.rectangle_intro()
-        # self.rhombus_intro()
-        self.trapezium_intro()
+        #self.quad_intro()
+        #self.quad_variation()
+        #self.parallelogram_intro()
+        #self.rectangle_intro()
+        #self.rhombus_intro()
+        #self.trapezium_intro()
+        self.kite_intro()
+        #self.lab()
+
+    def lab(self):
+        a = TextMobject("hello ")
+        line = Line()
+        line.move_to(a)
+        self.play(Write(a))
+        self.play(ShowCreation(line))
+
+
+    def kite_intro(self):
+        topic = TextMobject("Kite", color=BLUE).scale(1.5)
+        topic.to_edge(UP)
+        kite = Polygon(
+            UL,
+            UP + UP,
+            UR,
+            DOWN,
+        )
+        kite.shift(DOWN)
+        A, B, C, D = kite.get_vertices()
+
+        lines = []
+        for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
+            index += 1
+            midpoint = lambda x, y: (x + y) / 2
+            line = Line(color=YELLOW_A).scale(0.25)
+            line.shift(midpoint(*point))
+            line.rotate(-PI / 6) if index == 1 else None
+            line.rotate(PI / 6) if index == 2 else None
+            if index > 2:
+                line.set_color(YELLOW_E)
+                line1 = line.copy()
+                line2 = line.copy().next_to(line1, UP, buff=0.1)
+                line = VGroup(line1, line2)
+            lines.append(line)
+        lines = VGroup(*lines)
+
+        perpendicular_1 = DashedLine(A,C)
+        perpendicular_2 = DashedLine(B,D)
+
+        perp_comment = TextMobject("In kite, one of the diagnol separates it into two")
+        perp_comment2 = TextMobject("isosceles triangles.")
+        perp_comment2.next_to(kite, UP, buff=0.5)
+        perp_comment.next_to(perp_comment2, UP)
+
+        area_comment = TextMobject("Area of the kite is given by,")
+        area_text = TextMobject("Area(A) = ")
+        half_frac_text = TexMobject(r"\frac{1}{2}")
+        diagnol1_text = TextMobject("diagnol 1 $\\times$")
+        diagnol2_text = TextMobject("diagnol 2")
+        area_text.to_edge(DOWN).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
+        processed = [area_text]
+        for text in (half_frac_text, diagnol1_text, diagnol2_text):
+            text.next_to(processed[-1])
+            processed.append(text)
+
+        self.play(Write(topic))
+        self.play(ShowCreation(kite))
+        self.wait()
+        self.play(ShowCreation(lines))
+        self.play(ShowCreation(perpendicular_1))
+        self.play(ShowCreation(perpendicular_2))
+        self.play(Write(perp_comment))
+        self.play(Write(perp_comment2))
+        self.play(Indicate(lines), Indicate(perpendicular_1))
+        self.wait()
+        self.play(Write(area_comment))
+        self.play(Write(area_text))
+        self.play(Write(half_frac_text))
+        self.play(ReplacementTransform(perpendicular_1, diagnol1_text))
+        self.play(ReplacementTransform(perpendicular_2, diagnol2_text))
+        self.wait(2)
+        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
 
     def trapezium_intro(self):
         topic = TextMobject("Trapezium", color=BLUE).scale(1.5)
