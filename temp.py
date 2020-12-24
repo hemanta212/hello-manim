@@ -7,9 +7,9 @@ class Test(Scene):
     quadrilateral = None
 
     def construct(self):
-        #self.quad_intro()
-        #self.quad_variation()
-        #self.parallelogram_intro()
+        self.quad_intro()
+        self.quad_variation()
+        self.parallelogram_intro()
         self.rectangle_intro()
 
     def rectangle_intro(self):
@@ -26,53 +26,65 @@ class Test(Scene):
         A, B, C, D = rectangle.get_vertices()
 
         comment1 = TextMobject(
-            "Rectangle is a quadrilateral whose opposite sides are"
+            "Rectangle is a quadrilateral whose opposite sides are equal"
         )
-        comment2 = TextMobject(" equal and each angle is 90 degrees.")
-        comment1.next_to(topic, DOWN).to_edge(LEFT)
+        comment2 = TextMobject("and each angle is a right angle.")
+        comment1.next_to(topic, DOWN, buff=1.0).to_edge(LEFT)
         comment2.next_to(comment1, DOWN, buff=0.3)
 
-        equal_1 = Line(A, B).to_edge(RIGHT)
+        equal_1 = Line(A, D).to_edge(RIGHT)
         equal_sign = TextMobject("Equal(=)")
         equal_sign.next_to(equal_1, LEFT)
-        equal_2 = Line(C, D).next_to(parallel_sign, LEFT)
+        equal_2 = Line(B, C).next_to(equal_sign, LEFT)
         equals = VGroup(equal_1, equal_2)
 
-        perp = DashedLine(A, B - co_ordinate(-1, 0))
-        perp_label = TexMobject("height").scale(0.7)
-        perp_label.next_to(perp, buff=0.2)
-        base = Line(B, C, color=YELLOW)
-        base_label = TexMobject("base")
-        base_label.next_to(rectangle, DOWN)
+        elbows = []
+        for corner in ([A,B,C], [B,C,D], [C,D,A], [D,A,B]):
+            elbow = Elbow(color=YELLOW)
+            elbow.set_points_as_corners(corner)
+            elbow.set_width(elbow.width, about_point=corner[1])
+            elbow.rotate(PI)
+            elbows.append(elbow)
+        elbows = VGroup(*elbows)
 
-        comment3 = TextMobject("Area of the rectangle is given by,")
+        length = Line(A, D, color=RED)
+        length_label = TexMobject("length")
+        length_label.next_to(length, LEFT)
+        breadth = Line(D, C, color=YELLOW)
+        breadth_label = TexMobject("breadth")
+        breadth_label.next_to(Line(C,D), UP)
+
+        area_comment = TextMobject("Area of the rectangle is given by,")
         area_text = TextMobject("Area(A) = ")
-        base_text = TextMobject("base $\\times$")
-        height_text = TextMobject("height")
+        length_text = TextMobject("length $\\times$")
+        breadth_text = TextMobject("breadth")
         area_text.to_edge(DOWN).to_edge(LEFT)
-        comment3.next_to(area_text, UP).to_edge(LEFT)
+        area_comment.next_to(area_text, UP).to_edge(LEFT)
         processed = [area_text]
-        for i in (base_text, height_text):
-            i.next_to(processed[-1])
-            processed.append(i)
+        for text in (length_text, breadth_text):
+            text.next_to(processed[-1])
+            processed.append(text)
 
         self.play(Write(topic))
         self.play(ShowCreation(rectangle))
         self.play(Write(comment1))
         self.play(Write(comment2))
-        self.play(ReplacementTransform(Line(A, B), equal_1))
-        self.play(ReplacementTransform(Line(C, D), equal_2))
+        self.play(ReplacementTransform(Line(A, D), equal_1))
+        self.play(ReplacementTransform(Line(B, C), equal_2))
         self.play(Write(equal_sign))
         self.play(Indicate(equals))
         self.play(FadeOutAndShift(VGroup(equals, equal_sign), RIGHT))
-        self.play(ShowCreation(perp))
-        self.play(Write(perp_label))
-        self.play(ShowCreation(base))
-        self.play(Write(base_label))
-        self.play(Write(comment3))
+        self.play(ShowCreation(elbows))
+        self.play(FadeOut(elbows))
+        self.play(FadeOut(VGroup(comment1, comment2)))
+        self.play(ShowCreation(length))
+        self.play(Write(length_label))
+        self.play(ShowCreation(breadth))
+        self.play(Write(breadth_label))
+        self.play(Write(area_comment))
         self.play(Write(area_text))
-        self.play(ReplacementTransform(base_label, base_text))
-        self.play(ReplacementTransform(perp_label, height_text))
+        self.play(ReplacementTransform(length_label, length_text))
+        self.play(ReplacementTransform(breadth_label, breadth_text))
         self.wait(2)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
@@ -105,7 +117,7 @@ class Test(Scene):
         equals = VGroup(equal_1, equal_2)
 
         perp = DashedLine(A, B - co_ordinate(-1, 0))
-        perp_label = TexMobject("height").scale(0.7)
+        perp_label = TexMobject("height")
         perp_label.next_to(perp, buff=0.2)
         base = Line(B, C, color=YELLOW)
         base_label = TexMobject("base")
@@ -118,9 +130,9 @@ class Test(Scene):
         area_text.to_edge(DOWN).to_edge(LEFT)
         comment3.next_to(area_text, UP).to_edge(LEFT)
         processed = [area_text]
-        for i in (base_text, height_text):
-            i.next_to(processed[-1])
-            processed.append(i)
+        for text in (base_text, height_text):
+            text.next_to(processed[-1])
+            processed.append(text)
 
         self.play(Write(topic))
         self.play(ShowCreation(parallelogram))
@@ -133,6 +145,7 @@ class Test(Scene):
         self.play(FadeOutAndShift(equal_sign, RIGHT))
         self.play(Write(parallel_sign))
         self.play(Indicate(equals))
+        self.play(FadeOutAndShift(VGroup(equals, parallel_sign), RIGHT))
         self.play(ShowCreation(perp))
         self.play(Write(perp_label))
         self.play(ShowCreation(base))
@@ -175,7 +188,7 @@ class Test(Scene):
             co_ordinate(-3, -1), co_ordinate(3, -1), color=YELLOW
         )
 
-        comment1 = TextMobject("The area of the quadrilateral will be,")
+        comment1 = TextMobject("Area of the quadrilateral is given by,")
         area_text = TextMobject("Area(A) = ")
         half_frac_text = TexMobject(r"\frac{1}{2}")
         diagnol_length_text = TextMobject("Diagnol length + ")
@@ -183,9 +196,9 @@ class Test(Scene):
         area_text.to_edge(DOWN).to_edge(LEFT)
         comment1.next_to(area_text, UP).to_edge(LEFT)
         processed = [area_text]
-        for i in (half_frac_text, diagnol_length_text, perpendicular_sum_text):
-            i.next_to(processed[-1])
-            processed.append(i)
+        for text in (half_frac_text, diagnol_length_text, perpendicular_sum_text):
+            text.next_to(processed[-1])
+            processed.append(text)
 
         self.play(ScaleInPlace(self.quadrilateral, 1.5))
         self.play(ScaleInPlace(self.quadrilateral, 0.5))
