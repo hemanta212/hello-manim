@@ -3,26 +3,18 @@ from manimlib.imports import *
 
 class Test(Scene):
     co_ordinate = lambda self, x, y: np.array([x, y, 0])
+    midpoint = lambda self, x, y: (x + y) / 2
     quad_sides = None
     quadrilateral = None
 
     def construct(self):
-        #self.quad_intro()
-        #self.quad_variation()
-        #self.parallelogram_intro()
-        #self.rectangle_intro()
-        #self.rhombus_intro()
-        #self.trapezium_intro()
+        self.quad_intro()
+        self.quad_variation()
+        self.parallelogram_intro()
+        self.rectangle_intro()
+        self.rhombus_intro()
+        self.trapezium_intro()
         self.kite_intro()
-        #self.lab()
-
-    def lab(self):
-        a = TextMobject("hello ")
-        line = Line()
-        line.move_to(a)
-        self.play(Write(a))
-        self.play(ShowCreation(line))
-
 
     def kite_intro(self):
         topic = TextMobject("Kite", color=BLUE).scale(1.5)
@@ -39,9 +31,8 @@ class Test(Scene):
         lines = []
         for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
             index += 1
-            midpoint = lambda x, y: (x + y) / 2
             line = Line(color=YELLOW_A).scale(0.25)
-            line.shift(midpoint(*point))
+            line.shift(self.midpoint(*point))
             line.rotate(-PI / 6) if index == 1 else None
             line.rotate(PI / 6) if index == 2 else None
             if index > 2:
@@ -181,9 +172,8 @@ class Test(Scene):
         lines = []
         for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
             index += 1
-            midpoint = lambda x, y: (x + y) / 2
             line = Line(color=YELLOW_A).scale(0.25)
-            line.shift(midpoint(*point))
+            line.shift(self.midpoint(*point))
             line.rotate(PI / 2) if index % 2 != 0 else None
             lines.append(line)
         lines = VGroup(*lines)
@@ -257,9 +247,8 @@ class Test(Scene):
         lines = []
         for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
             index += 1
-            midpoint = lambda x, y: (x + y) / 2
             line = Line(color=YELLOW_A).scale(0.25)
-            line.shift(midpoint(*point))
+            line.shift(self.midpoint(*point))
             line.rotate(PI / 2) if index % 2 != 0 else None
             lines.append(line)
 
@@ -327,14 +316,13 @@ class Test(Scene):
     def rectangle_intro(self):
         topic = TextMobject("Rectangle", color=BLUE).scale(1.5)
         topic.to_edge(UP)
-
-        co_ordinate = self.co_ordinate
         rectangle = Polygon(
-            co_ordinate(-2, 0),
-            co_ordinate(2, 0),
-            co_ordinate(2, -2),
-            co_ordinate(-2, -2),
+            UL + LEFT,
+            UR + RIGHT,
+            DR + RIGHT,
+            DL + LEFT,
         )
+        rectangle.shift(DOWN)
         A, B, C, D = rectangle.get_vertices()
 
         defn_comment = TextMobject(
@@ -343,6 +331,19 @@ class Test(Scene):
         defn_comment2 = TextMobject("and each angle is a right angle.")
         defn_comment.next_to(topic, DOWN, buff=1.0).to_edge(LEFT)
         defn_comment2.next_to(defn_comment, DOWN, buff=0.3)
+
+        lines = []
+        for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
+            index += 1
+            line = Line(color=YELLOW_A).scale(0.25)
+            line.shift(self.midpoint(*point))
+            if index % 2 != 0:
+                line.rotate(PI / 2).set_color(YELLOW_E)
+                line1 = line.copy()
+                line2 = line.copy().next_to(line1, buff=0.1)
+                line = VGroup(line1, line2)
+            lines.append(line)
+        lines = VGroup(*lines)
 
         equal_1 = Line(A, D).to_edge(RIGHT)
         equal_sign = TextMobject("Equal(=)")
@@ -381,6 +382,7 @@ class Test(Scene):
         self.play(ShowCreation(rectangle))
         self.play(Write(defn_comment))
         self.play(Write(defn_comment2))
+        self.play(ShowCreation(lines))
         self.play(ReplacementTransform(Line(A, D), equal_1))
         self.play(ReplacementTransform(Line(B, C), equal_2))
         self.play(Write(equal_sign))
@@ -403,13 +405,11 @@ class Test(Scene):
     def parallelogram_intro(self):
         topic = TextMobject("Parallelogram", color=BLUE).scale(1.5)
         topic.to_edge(UP)
-
-        co_ordinate = self.co_ordinate
         parallelogram = Polygon(
-            co_ordinate(-5, 1),
-            co_ordinate(-6, -1),
-            co_ordinate(-3, -1),
-            co_ordinate(-2, 1),
+                UL + LEFT,
+                UR + RIGHT,
+                DR,
+                DL + 2 * LEFT,
         )
         A, B, C, D = parallelogram.get_vertices()
 
@@ -420,18 +420,31 @@ class Test(Scene):
         defn_comment.next_to(topic, DOWN).to_edge(LEFT)
         defn_comment2.next_to(defn_comment, DOWN, buff=0.3)
 
-        equal_1 = Line(A, B).to_edge(RIGHT)
+        lines = []
+        for index, point in enumerate([(A, B), (B, C), (C, D), (D, A)]):
+            index += 1
+            line = Line(color=YELLOW_A).scale(0.25)
+            line.shift(self.midpoint(*point))
+            if index % 2 != 0:
+                line.rotate(PI / 2).set_color(YELLOW_E)
+                line1 = line.copy()
+                line2 = line.copy().next_to(line1, buff=0.1)
+                line = VGroup(line1, line2)
+            lines.append(line)
+        lines = VGroup(*lines)
+
+        equal_1 = Line(A, D).to_edge(RIGHT)
         equal_sign = TextMobject("Equal(=)")
         parallel_sign = TextMobject("Parallel(//)")
-        equal_sign.next_to(equal_1, LEFT)
-        parallel_sign.next_to(equal_1, LEFT)
-        equal_2 = Line(C, D).next_to(parallel_sign, LEFT)
+        equal_sign.next_to(equal_1, LEFT, buff=0)
+        parallel_sign.next_to(equal_1, LEFT, buff=0)
+        equal_2 = Line(B, C).next_to(parallel_sign, LEFT, buff=0)
         equals = VGroup(equal_1, equal_2)
 
-        perp = DashedLine(A, B - co_ordinate(-1, 0))
+        perp = DashedLine(A, D - LEFT)
         perp_label = TexMobject("height")
         perp_label.next_to(perp, buff=0.2)
-        base = Line(B, C, color=YELLOW)
+        base = Line(C, D, color=YELLOW)
         base_label = TexMobject("base")
         base_label.next_to(parallelogram, DOWN)
 
@@ -450,8 +463,9 @@ class Test(Scene):
         self.play(ShowCreation(parallelogram))
         self.play(Write(defn_comment))
         self.play(Write(defn_comment2))
-        self.play(ReplacementTransform(Line(A, B), equal_1))
-        self.play(ReplacementTransform(Line(C, D), equal_2))
+        self.play(ShowCreation(lines))
+        self.play(ReplacementTransform(Line(A, D), equal_1))
+        self.play(ReplacementTransform(Line(B, C), equal_2))
         self.play(Write(equal_sign))
         self.play(Indicate(equals))
         self.play(FadeOutAndShift(equal_sign, RIGHT))
@@ -470,20 +484,18 @@ class Test(Scene):
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def quad_variation(self):
-        co_ordinate = self.co_ordinate
-
-        # Change angles of sides
         # QUadrilateral
         # A-----------------B
         # |#################|
         # |#################|
         # |#################|
         # D-----------------C
+        # Change angles of sides
         A, B, C, D = (
-            co_ordinate(-3, 1),
-            co_ordinate(3, 1),
-            co_ordinate(2, -1),
-            co_ordinate(-2, -1),
+            UL + LEFT,
+            UR + RIGHT,
+            DR,
+            DL,
         )
 
         a_side = Line(A, B)
@@ -493,11 +505,11 @@ class Test(Scene):
         angle_quad_g = VGroup(a_side, b_side, c_side, d_side).set_color(BLUE)
 
         diagnol_line = Line(A, C, color=YELLOW)
-        perpendicular_1 = DashedLine(A, co_ordinate(-3, -1), color=YELLOW)
-        perpendicular_2 = DashedLine(B, co_ordinate(3, -1), color=YELLOW)
+        perpendicular_1 = DashedLine(A, D + LEFT, color=YELLOW)
+        perpendicular_2 = DashedLine(B, C + RIGHT, color=YELLOW)
         perpendiculars = VGroup(perpendicular_1, perpendicular_2)
         perpendiculars_base_line = Line(
-            co_ordinate(-3, -1), co_ordinate(3, -1), color=YELLOW
+            D + LEFT, C + RIGHT, color=YELLOW
         )
 
         area_comment = TextMobject("Area of the quadrilateral is given by,")
@@ -541,7 +553,7 @@ class Test(Scene):
         broken_lines = []
         for i in range(4):
             line = Line(color=BLUE)
-            line.next_to(big_line_target.start, LEFT).shift(LEFT + UP)
+            line.next_to(topic, DOWN, buff=2.0).shift(3 * LEFT)
             line.next_to(broken_lines[-1]) if broken_lines else None
             broken_lines.append(line)
         broken_lines_g = VGroup(*broken_lines)
@@ -549,7 +561,6 @@ class Test(Scene):
         comment1 = TextMobject("A quadrilateral has four sides")
         comment1.next_to(broken_lines_g, UP, buff=1.0)
 
-        co_ordinate = self.co_ordinate
         # QUadrilateral
         # A-----------------B
         # |#################|
@@ -557,10 +568,10 @@ class Test(Scene):
         # |#################|
         # D-----------------C
         A, B, C, D = (
-            co_ordinate(-2, 0),
-            co_ordinate(2, 0),
-            co_ordinate(2, -2),
-            co_ordinate(-2, -2),
+            UL,
+            UR,
+            DR,
+            DL,
         )
 
         a_side = Line(A, B)
