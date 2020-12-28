@@ -1,10 +1,8 @@
 from manimlib.imports import *
 
 
-class Test(Scene):
-    co_ordinate = lambda self, x, y: np.array([x, y, 0])
+class Quadrilaterals(Scene):
     midpoint = lambda self, x, y: (x + y) / 2
-    quad_sides = None
     quadrilateral = None
 
     def construct(self):
@@ -597,5 +595,4 @@ class Test(Scene):
         self.play(Write(comment2), run_time=2)
         self.wait()
         self.play(FadeOut(comment2))
-        self.quad_sides = quad_sides
         self.quadrilateral = quad_sides_g
