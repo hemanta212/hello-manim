@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Test(Scene):
+class Theorems(Scene):
 
     theorem_fig = None
 
@@ -324,14 +324,6 @@ class Test(Scene):
             to_prove_processed.append(i)
 
         self.theorem_fig = figure_g
-
-        # angle = Arc(
-        #     radius=0.5,
-        #     start_angle=Line(A, B).get_angle(),
-        #     angle=Line(B, C).get_angle(),
-        #     color=YELLOW,
-        # )
-        # self.play(ShowCreation(angle))
 
         self.play(Write(topic))
         self.play(Write(statement_t))
