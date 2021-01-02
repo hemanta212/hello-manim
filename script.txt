@@ -1,10 +1,17 @@
-Video 1: “Formula to calculate Area of a Triangle who base and height is given.”
-1. Display a Triangle given in [When a base and a height is given (Web View) here].
-2. Display, “In the above Triangle, △ ABC,”
-3. Display “We have,”
-4. Display “ ” Highlight the base in the diagram of the triangle and display ”b”
-5. Display “  ” Highlight the height in the diagram of the triangle and display ”h”
-6. Display “ Then,”
-7. Display “Area of triangle =  ”
-8. Display “Area of  ”
-9. Display “=  ”
+Video 2: “Formula to calculate Area of Right Angled Triangle”
+1. Display a Triangle given in [If the Triangle is Right Angled Triangle (Web View) here].
+2. Display “With Right angled triangle, we know that BAC is  
+3. Highlight the Right Angle in the Triangle.
+4. Display “ Thus,”
+5. Display “ Height, h = AC”
+6. Highlight “AC” and display “h” along its length with an arrow along its length.
+7. Display “Base, b = AB”
+8. Highlight “AB” and display “b” along its length with an arrow its length.
+9. Display “Area of  ”
+10. Shade the diagram of Right Angled Triangle.
+11. Display “  ”
+12. Display “ Now notice that in the above right-angled triangle,”
+13. Display “AC is the perpendicular, p” Highlight the perpendicular line “p” in the diagram of a Right Angled Triangle.
+14. Display “AB is the base, b” Highlight the base line “b” in the diagram of a Right Angled Triangle.
+15. Display, “Therefore,”
+16. Display “Area of , which is the formula for every right angled triangle”
