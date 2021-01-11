@@ -1,17 +1,18 @@
-Video 2: “Formula to calculate Area of Right Angled Triangle”
-1. Display a Triangle given in [If the Triangle is Right Angled Triangle (Web View) here].
-2. Display “With Right angled triangle, we know that BAC is  
-3. Highlight the Right Angle in the Triangle.
-4. Display “ Thus,”
-5. Display “ Height, h = AC”
-6. Highlight “AC” and display “h” along its length with an arrow along its length.
-7. Display “Base, b = AB”
-8. Highlight “AB” and display “b” along its length with an arrow its length.
-9. Display “Area of  ”
-10. Shade the diagram of Right Angled Triangle.
-11. Display “  ”
-12. Display “ Now notice that in the above right-angled triangle,”
-13. Display “AC is the perpendicular, p” Highlight the perpendicular line “p” in the diagram of a Right Angled Triangle.
-14. Display “AB is the base, b” Highlight the base line “b” in the diagram of a Right Angled Triangle.
-15. Display, “Therefore,”
-16. Display “Area of , which is the formula for every right angled triangle”
+Video 1: Surface area and volume of a triangular prism
+· Display “Triangular Prism: Surface area and volume”
+· Define a triangular prism as a prism with a triangle for a cross section, with a figure highlighting the triangle
+· Transition into “Surface area”; Derive the formula to calculate the surface area of a triangular prism [Surface Area and Volume of Triangular Prisms] using the net of the solid [image]
+· Transition into “Volume”; Show the formula to calculate the volume of the solid [Surface Area and Volume of Triangular Prisms]
+
+
+Video 2: Surface area and volume of a cone
+· Display “Cone: Surface area and volume”
+· Define a cone as “a solid or hollow object which tapers from a circular or roughly circular base to a point” and show figure
+· Transition into “Surface area”; Derive the formula to calculate the surface area of cone [Total surface area (TSA) of a cone  (Web view)] using the net of the solid [image]
+· Transition into “Volume”; Show the formula to calculate the volume of a cone [Volume of a cone ]
+
+Video 3: Surface area and volume of a square based pyramid
+· Display “Square based Pyramid: Surface area and volume”
+· Define a triangular prism as “a solid having a rectangular base and four sloping triangular sides meeting at an apex”, with a figure
+· Transition into “Surface area”; Derive the formula to calculate the surface area of a Square based Pyramid [Square based pyramid  (Web view) using the net of the solid
+· Transition into “Volume”; Show the formula to calculate the volume of the solid [Square based pyramid  (Web view)]
