@@ -106,7 +106,7 @@ class TriangularPrism(Scene):
 
         texts = [
             (
-                "Area = ",
+                "L.S.A = ",
                 r"$\square$ ABED + ",
                 r"$\square$ ACFD + ",
                 r"$\square$ BCEF",
@@ -156,7 +156,7 @@ class TriangularPrism(Scene):
 
         texts = [
             (
-                "Area = ",
+                "T.S.A = ",
                 r"2 $\cdot$ $\triangle$ Triangular base area + ",
                 r"L.S.A",
             ),

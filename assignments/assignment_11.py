@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Test(Scene):
+class Cone(Scene):
     topic = None
     figs = None
 
