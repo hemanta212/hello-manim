@@ -16,6 +16,7 @@ class SaturatedHydrocarbon(Scene):
     def staturated_intro(self):
         self.intro()
         self.saturated_hydrocarbon_intro()
+        self.wait(2)
         self.saturated_hydrocarbon_mol_formulas()
 
     def intro(self):
@@ -56,6 +57,7 @@ class SaturatedHydrocarbon(Scene):
             *intro,
             color_map=color_map,
             skip_title_anim=True,
+            run_time=4,
             center=True,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
         )[-1]
@@ -148,6 +150,7 @@ class SaturatedHydrocarbon(Scene):
         self.play(MoveToTarget(formula), FadeOut(let_part))
         formula_label.next_to(formula, DOWN, buff=0.5)
         self.play(Write(formula_label))
+        self.wait()
         return formula
 
     def word_roots_table(self):
@@ -190,7 +193,14 @@ class SaturatedHydrocarbon(Scene):
         word_roots.next_to(symbols, buff=1.0)
 
         contents = [title, carbon_atoms, symbols, word_roots]
-        [self.play(Write(i)) for i in contents]
+        self.play(Write(title), run_time=3)
+        for i,j,k in zip(*(i.submobjects for i in contents[1:])):
+            self.play(Write(i))
+            self.play(Write(j))
+            self.play(Write(k))
+            self.wait()
+			
+        #[self.play(Write(i)) for i in contents]
         self.wait(4)
         self.play(FadeOutAndShiftDown(VGroup(*contents)))
 
@@ -269,6 +279,7 @@ class SaturatedHydrocarbon(Scene):
         name.next_to(relative_to, DOWN, buff=1.0)
         name.to_edge(LEFT).set_color(ORANGE)
         self.play(Write(name))
+        self.wait()
 
         text_map = {
             "$\circ$ Carbon atoms:": c_atoms,
@@ -289,6 +300,7 @@ class SaturatedHydrocarbon(Scene):
             property_ = VGroup(arrow, prop)
             self.play(Write(label))
             self.play(Write(property_))
+            self.wait()
             property_groups.append(VGroup(label, property_))
 
         structure.next_to(name, DOWN).move_to(RIGHT_SIDE / 3)
