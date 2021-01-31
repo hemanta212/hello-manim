@@ -40,6 +40,7 @@ class UnsaturatedHydrocarbon(Scene):
 
         self.alkene_topic = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             skip_exit_anim_and_return=[4],
         )[0]
@@ -66,11 +67,14 @@ class UnsaturatedHydrocarbon(Scene):
 
         self.general_formula = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             skip_title_anim=True,
             center=True,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
         )[-1]
+
+        self.wait()
 
     def alkene_mol_formulas(self):
         self.molecular_formula = TextMobject("Molecular formulas;")
@@ -140,7 +144,8 @@ class UnsaturatedHydrocarbon(Scene):
         )
         title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
-        self.play(Write(title))
+        self.play(Write(title), run_time=3)
+        self.wait()
         [
             self.display_properties(i, relative_to=title)
             for i in (ethene, propene, butene)
@@ -164,10 +169,13 @@ class UnsaturatedHydrocarbon(Scene):
 
         self.general_formula = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             center=True,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
         )[-1]
+
+        self.wait()
 
     def alkyne_mol_formulas(self):
         self.molecular_formula = TextMobject("Molecular formulas;")
@@ -175,6 +183,7 @@ class UnsaturatedHydrocarbon(Scene):
             LEFT
         )
         self.play(Write(self.molecular_formula))
+
         gen_formula = (
             "C_n",
             "H_{2n-2}",
@@ -237,7 +246,8 @@ class UnsaturatedHydrocarbon(Scene):
         )
         title.set_color(BLUE).scale(1.5)
         title.to_edge(UP)
-        self.play(Write(title))
+        self.play(Write(title), run_time=3)
+        self.wait()
         [
             self.display_properties(i, relative_to=title)
             for i in (ethyne, propyne, butyne)
@@ -283,6 +293,7 @@ class UnsaturatedHydrocarbon(Scene):
         self.play(MoveToTarget(formula), FadeOut(let_part))
         formula_label.next_to(formula, DOWN, buff=0.3)
         self.play(Write(formula_label))
+        self.wait()
         return formula
 
     def display_properties(self, properties, relative_to=None):
@@ -290,6 +301,7 @@ class UnsaturatedHydrocarbon(Scene):
         name.next_to(relative_to, DOWN, buff=1.0)
         name.to_edge(LEFT).set_color(ORANGE)
         self.play(Write(name))
+        self.wait()
 
         text_map = {
             "$\circ$ Carbon atoms:": c_atoms,
@@ -310,6 +322,7 @@ class UnsaturatedHydrocarbon(Scene):
             property_ = VGroup(arrow, prop)
             self.play(Write(label))
             self.play(Write(property_))
+            self.wait()
             property_groups.append(VGroup(label, property_))
 
         structure.next_to(name, DOWN).move_to(RIGHT_SIDE / 3)
