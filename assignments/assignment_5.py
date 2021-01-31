@@ -37,6 +37,7 @@ class HydrocarbonsPartThree(Scene):
 
         self.last_sentence = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             spacing=0.3,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
@@ -67,6 +68,7 @@ class HydrocarbonsPartThree(Scene):
         label.next_to(ethane, DOWN)
         self.play(Write(ethane))
         self.play(Write(label))
+        self.wait()
 
         new_ethane = ethane.copy().next_to(new_methane, buff=2.0)
         ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_ethane, DOWN)
@@ -74,6 +76,7 @@ class HydrocarbonsPartThree(Scene):
         line.next_to(ch2_part, DOWN)
         self.play(ReplacementTransform(ethane.copy(), new_ethane))
         self.play(Write(ch2_part), FadeIn(line))
+        self.wait()
 
         propane = TexMobject("C_3H_8")
         propane.next_to(line, DOWN)
@@ -81,6 +84,7 @@ class HydrocarbonsPartThree(Scene):
         label.next_to(propane, DOWN)
         self.play(Write(propane))
         self.play(Write(label))
+        self.wait()
 
         new_propane = propane.copy().next_to(new_ethane, buff=2.0)
         ch2_part = TexMobject("+ CH_2", color=ORANGE).next_to(new_propane, DOWN)
@@ -88,6 +92,7 @@ class HydrocarbonsPartThree(Scene):
         line.next_to(ch2_part, DOWN)
         self.play(ReplacementTransform(propane.copy(), new_propane))
         self.play(Write(ch2_part), FadeIn(line))
+        self.wait()
 
         butane = TexMobject("C_4H_{10}")
         butane.next_to(line, DOWN)
@@ -95,6 +100,7 @@ class HydrocarbonsPartThree(Scene):
         label.next_to(butane, DOWN)
         self.play(Write(butane))
         self.play(Write(label))
+        self.wait()
 
         comment = TextMobject(
             "Notice how above elements have same general formula i.e. ",
@@ -102,7 +108,7 @@ class HydrocarbonsPartThree(Scene):
         ).set_color_by_tex("C", ORANGE)
         comment.scale(0.9).next_to(label, DOWN, buff=0.6).to_edge(LEFT)
 
-        self.play(Write(comment), run_time=3)
+        self.play(Write(comment), run_time=4)
         self.wait(2)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
@@ -132,6 +138,7 @@ class HydrocarbonsPartThree(Scene):
 
         self.general_formula = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             spacing=0.3,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
@@ -147,6 +154,7 @@ class HydrocarbonsPartThree(Scene):
         label.next_to(methane, DOWN, buff=0.5)
         self.play(Write(methane))
         self.play(Write(label))
+        self.wait()
 
         methane_radical = ChemObject("C(-[2]H)(-[4]H)(-[6]H)")
         methane_radical.next_to(methane, buff=3.0).scale(0.80)
@@ -167,12 +175,13 @@ class HydrocarbonsPartThree(Scene):
 
         methane_radical_g = VGroup(methane_radical, h_bond_g)
         self.play(ReplacementTransform(methane.copy(), methane_radical_g))
+        self.wait()
         self.play(
             FadeOutAndShiftDown(h_bond_g),
             FadeInFrom(positive_ion, UP),
-            run_time=3,
+            run_time=4,
         )
-        self.play(Write(label))
+        self.play(Write(label), run_time=3)
         self.wait(2)
 
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
@@ -203,6 +212,7 @@ class HydrocarbonsPartThree(Scene):
 
         self.last_sentence = self.display_simple_info(
             *intro,
+            run_time=4,
             color_map=color_map,
             spacing=0.2,
             skip_exit_anim_and_return=[i for i in range(len(intro))],
@@ -246,7 +256,8 @@ class HydrocarbonsPartThree(Scene):
 
     def func_group_examples(self):
         title = TextMobject("Some Functional Groups", color=BLUE).scale(1.5).to_edge(UP)
-        self.play(Write(title))
+        self.play(Write(title), run_time=3)
+        self.wait()
 
         func_groups = [
             ("R-O-H", "Hydroxyl"),
@@ -263,7 +274,7 @@ class HydrocarbonsPartThree(Scene):
             label.next_to(mol, DOWN, buff=1.0)
             func_group_g = VGroup(mol, label)
             self.play(Write(mol))
-            self.play(Write(label))
+            self.play(Write(label), run_time=2)
             processed.append(func_group_g)
             if len(processed) > 1:
                 self.play(FadeOutAndShift(processed[-2], LEFT))
