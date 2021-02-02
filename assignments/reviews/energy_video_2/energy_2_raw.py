@@ -1,27 +1,8 @@
 from manimlib.imports import *
 
 
-class Test(GraphScene):
-    CONFIG = {
-        "y_max": 100,
-        "y_min": 0,
-        "x_max": 100,
-        "x_min": 0,
-        "y_tick_frequency": 10,
-        "x_tick_frequency": 10,
-        "y_axis_label": "Energy Consumption",
-        "x_axis_label": "Population",
-        "axes_color": BLUE,
-        "include_tip": True,
-    }
-
+class energy(Scene):
     def construct(self):
-        self.clear()
-        self.energy_intro_pop()
-        self.energy_population_graph()
-        self.explain()
-
-    def energy_intro_pop(self):
         askpop = TextMobject(
             "Do you know what population growth leads to?",
             "You guessed it! Industrialization. But what does it lead to?",
@@ -38,16 +19,31 @@ class Test(GraphScene):
             self.wait(2)
         self.play(Indicate(askpop[2]))
         self.wait(3)
-        self.play(FadeOut(Group(*self.mobjects)))
 
-    def energy_population_graph(self):
+
+class graph(GraphScene):
+    CONFIG = {
+        "y_max": 100,
+        "y_min": 0,
+        "x_max": 100,
+        "x_min": 0,
+        "y_tick_frequency": 10,
+        "x_tick_frequency": 10,
+        "y_axis_label": "Energy Consumption",
+        "x_axis_label": "Population",
+        "axes_color": BLUE,
+        "include_tip": True,
+    }
+
+    def construct(self):
         self.setup_axes(animate=True)
         graph = self.get_graph(lambda x: x, color=RED_D, x_min=0, x_max=90)
         self.play(ShowCreation(graph), run_time=4)
         self.wait(2)
-        self.play(FadeOut(Group(*self.mobjects)))
 
-    def explain(self):
+
+class explain(Scene):
+    def construct(self):
         evidence = TexMobject(
             r"Research \ shows \ 75 \ percentage \ of \ energy \ consumption \ is \ nonrenewable \ energy.",
             r"This \ is \ leading \ to \ energy \ crisis.",
@@ -71,11 +67,12 @@ class Test(GraphScene):
             self.play(
                 ReplacementTransform(evidence[i - 1], evidence[i]), FadeOut(arrow)
             )
-            self.wait(4)
+            self.wait(3)
+            self.wait()
         self.remove(evidence[3])
         self.wait()
-        sun = ImageMobject("sun_image.png")
-        sun.scale(0.8)
+        Sun = ImageMobject("sun_image")
+        Sun.scale(0.8)
         header = TextMobject(
             "Use renewable sources of energy which are generally derived from sources found in nature. One example is the energy produced by the Sun."
         ).scale(0.8)
@@ -83,7 +80,7 @@ class Test(GraphScene):
             TextMobject(
                 "Use other alternatives for sources of energy like Biogas, Hydropower, Electrical energy, and so many more."
             )
-            .scale(0.8)
+            .scale(0.7)
             .set_color(GOLD_D)
         )
         footer2 = TextMobject("SAVE ENERGY!").scale(0.8).set_color(BLUE_E)
@@ -91,14 +88,13 @@ class Test(GraphScene):
         footers.arrange(DOWN, buff=0.5)
         header.set_color_by_gradient(BLUE_A, YELLOW_C, RED_C, PINK)
         header.to_edge(UP)
-        self.play(Write(header), run_time=5)
+        self.play(Write(header), run_time=3)
         self.wait()
-        self.play(GrowFromCenter(sun))
-        self.play(Rotating(sun), run_time=3)
-        self.remove(sun)
+        self.play(GrowFromCenter(Sun))
+        self.wait(3)
+        self.remove(Sun)
         self.play(FadeInFromDown(footer), run_time=3)
-        self.wait(5)
+        self.wait(3)
         self.play(Write(footer2))
         self.play(Indicate(footer2))
         self.wait(3)
-        self.play(FadeOut(Group(*self.mobjects)))
