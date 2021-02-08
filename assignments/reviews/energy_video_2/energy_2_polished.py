@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Test(GraphScene):
+class Energy(GraphScene):
     CONFIG = {
         "y_max": 100,
         "y_min": 0,
@@ -16,7 +16,6 @@ class Test(GraphScene):
     }
 
     def construct(self):
-        self.clear()
         self.energy_intro_pop()
         self.energy_population_graph()
         self.explain()
@@ -49,9 +48,9 @@ class Test(GraphScene):
 
     def explain(self):
         evidence = TexMobject(
-            r"Research \ shows \ 75 \ percentage \ of \ energy \ consumption \ is \ nonrenewable \ energy.",
+            r"Research \ shows \ 75 \ percentage \ of \ energy \ consumption \ is \ non-renewable \ energy.",
             r"This \ is \ leading \ to \ energy \ crisis.",
-            r"Nonrenewable \ sources \ of \ energy \ might \ be \ extinct \ in \ 25-31 \ years.",
+            r"Non-renewable \ sources \ of \ energy \ might \ be \ extinct \ in \ 25-31 \ years.",
             r"What \ can \ be \ done?",
         )
         evidence.scale(0.7)
@@ -81,7 +80,7 @@ class Test(GraphScene):
         ).scale(0.8)
         footer = (
             TextMobject(
-                "Use other alternatives for sources of energy like Biogas, Hydropower, Electrical energy, and so many more."
+                "Use other alternative sources of energy like Biogas, Hydropower, Electrical energy, etc."
             )
             .scale(0.8)
             .set_color(GOLD_D)
