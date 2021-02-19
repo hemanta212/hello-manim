@@ -1,0 +1,130 @@
+[
+  {
+    "Year": 2020,
+    "TotalPopulation": "29136.8080",
+    "GrowthRate": "0.0185",
+    "Density": "203.2564",
+    "TotalPopulationRank": 49,
+    "DensityRank": 72
+  },
+  {
+    "Year": 2025,
+    "TotalPopulation": "31757.4460",
+    "GrowthRate": "0.0174",
+    "Density": "221.5378",
+    "TotalPopulationRank": 49,
+    "DensityRank": 69
+  },
+  {
+    "Year": 2030,
+    "TotalPopulation": "33389.5360",
+    "GrowthRate": "0.0101",
+    "Density": "232.9232",
+    "TotalPopulationRank": 54,
+    "DensityRank": 68
+  },
+  {
+    "Year": 2035,
+    "TotalPopulation": "34299.6170",
+    "GrowthRate": "0.0054",
+    "Density": "239.2718",
+    "TotalPopulationRank": 54,
+    "DensityRank": 66
+  },
+  {
+    "Year": 2040,
+    "TotalPopulation": "34889.2920",
+    "GrowthRate": "0.0034",
+    "Density": "243.3854",
+    "TotalPopulationRank": 56,
+    "DensityRank": 66
+  },
+  {
+    "Year": 2045,
+    "TotalPopulation": "35220.6410",
+    "GrowthRate": "0.0019",
+    "Density": "245.6968",
+    "TotalPopulationRank": 55,
+    "DensityRank": 67
+  },
+  {
+    "Year": 2050,
+    "TotalPopulation": "35323.9210",
+    "GrowthRate": "0.0006",
+    "Density": "246.4173",
+    "TotalPopulationRank": 56,
+    "DensityRank": 68
+  },
+  {
+    "Year": 2055,
+    "TotalPopulation": "35174.2800",
+    "GrowthRate": "-0.0008",
+    "Density": "245.3734",
+    "TotalPopulationRank": 59,
+    "DensityRank": 68
+  },
+  {
+    "Year": 2060,
+    "TotalPopulation": "34737.6660",
+    "GrowthRate": "-0.0025",
+    "Density": "242.3276",
+    "TotalPopulationRank": 61,
+    "DensityRank": 70
+  },
+  {
+    "Year": 2065,
+    "TotalPopulation": "34023.7050",
+    "GrowthRate": "-0.0041",
+    "Density": "237.3471",
+    "TotalPopulationRank": 61,
+    "DensityRank": 71
+  },
+  {
+    "Year": 2070,
+    "TotalPopulation": "33045.0580",
+    "GrowthRate": "-0.0058",
+    "Density": "230.5201",
+    "TotalPopulationRank": 64,
+    "DensityRank": 72
+  },
+  {
+    "Year": 2075,
+    "TotalPopulation": "31818.2100",
+    "GrowthRate": "-0.0075",
+    "Density": "221.9617",
+    "TotalPopulationRank": 64,
+    "DensityRank": 75
+  },
+  {
+    "Year": 2080,
+    "TotalPopulation": "30374.0810",
+    "GrowthRate": "-0.0092",
+    "Density": "211.8876",
+    "TotalPopulationRank": 66,
+    "DensityRank": 79
+  },
+  {
+    "Year": 2085,
+    "TotalPopulation": "28766.4920",
+    "GrowthRate": "-0.0108",
+    "Density": "200.6731",
+    "TotalPopulationRank": 68,
+    "DensityRank": 83
+  },
+  {
+    "Year": 2090,
+    "TotalPopulation": "27074.8680",
+    "GrowthRate": "-0.0120",
+    "Density": "188.8725",
+    "TotalPopulationRank": 69,
+    "DensityRank": 86
+  },
+  {
+    "Year": 2095,
+    "TotalPopulation": "25373.4250",
+    "GrowthRate": "-0.0129",
+    "Density": "177.0033",
+    "TotalPopulationRank": 70,
+    "DensityRank": 90
+  }
+]
