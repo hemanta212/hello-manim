@@ -1,8 +1,7 @@
 from manimlib.imports import *
-from helper import Grid, ScreenGrid
 
 
-class Depreciation(GraphScene):
+class Depreciation(Scene):
     def construct(self):
         self.start()
         self.formula()
@@ -20,7 +19,7 @@ class Depreciation(GraphScene):
         t2 = VGroup(
             TextMobject("Suppose, you buy a laptop at Rs. 50,000.").scale(0.8),
             TextMobject(
-                "Do you think you call sell it in the same price after you buy and use it?"
+                "Do you think you can sell it in the same price after you buy and use it?"
             ).scale(0.8),
         ).arrange(DOWN, aligned_edge=LEFT)
 
