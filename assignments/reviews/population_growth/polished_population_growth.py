@@ -2,23 +2,7 @@
 from manimlib.imports import *
 
 
-class PopGrowth(GraphScene):
-    CONFIG = {
-        "x_min": 1950,
-        "x_max": 1975,
-        "x_axis_width": 9,
-        "y_min": 0,
-        "y_max": 40,
-        "graph_origin": [-5, -2.5, 0],
-        "function_color": RED,
-        "axes_color": GREEN,
-        "x_tick_frequency": 10,  # this is literally for showing the tick on the screen
-        "y_tick_frequency": 5,
-        "area_opacity": 5,
-        "x_axis_label": "Year",
-        "y_axis_label": "Population",
-    }
-
+class PopGrowth(Scene):
     def construct(self):
         self.first()
         self.graph_img()
