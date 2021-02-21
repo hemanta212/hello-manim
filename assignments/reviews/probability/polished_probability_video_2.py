@@ -1,139 +1,216 @@
 from manimlib.imports import *
 
 
-class Probability(TeacherStudentsScene, Scene):
+class Probability2(TeacherStudentsScene, Scene):
     def construct(self):
         self.intro()
-        self.principles()
-        self.mutually_exclusive_events()
-        self.examples_mutually_exclusive_events()
+        self.addition_rule()
+        self.addition_rule_ques()
+        self.product_rule()
+        self.product_rule_ques()
+        self.tree_diagram()
 
     def intro(self):
-        self.wait()
+        self.wait(2)
         Text1 = TextMobject("What will we study today, Teacher?")
         Text1.scale(1.8).set_color(RED)
         self.student_says(Text1)
         self.wait(2)
 
-        Text2 = TextMobject("Today we will study about Probability and its Principles")
+        Text2 = TextMobject(
+            " We will continue on principles of probability and Tree Diagram"
+        )
         Text2.scale(1.8).set_color(MAROON)
         self.teacher_says(Text2)
         self.wait(2)
         self.clear()
+        self.wait(2)
 
-        topic = TextMobject("Probability")
-        topic.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
+    def addition_rule(self):
+        topic = TextMobject("Addition rule of probability")
+        topic.scale(1.2).set_color_by_gradient(RED, BLUE, PURPLE)
         self.play(GrowFromCenter(topic), run_time=3, rate_func=rush_into)
         self.play(ApplyMethod(topic.shift, 3.5 * UP))
         self.wait(2)
 
         text3 = TextMobject(
-            "Probability is a branch of mathematics which deals with the likelihood of an event or circumstance through numbers."
+            "The addition rule states that if two events are mutually exclusive, the probability of that A or B will occur is the sum of the probability of each event."
         )
-        text3.scale(0.8).set_color(PURPLE).align_to(LEFT)
-
-        self.play(Write(text3), run_time=7)
+        text3.scale(0.7).set_color(RED).align_to(LEFT)
+        self.play(Write(text3), run_time=8)
         self.play(ApplyMethod(text3.shift, 2 * UP))
         self.wait(2)
-
-        text4 = TextMobject("Value of probability ranges from 0 to 1.")
-        text4.scale(1.2).set_color(GREEN).align_to(LEFT).move_to(DOWN * 0.5)
-        self.play(FadeIn(text4), run_time=4)
-        self.wait()
         self.play(Uncreate(text3), run_time=2)
-        self.wait()
 
-        self.play(ApplyMethod(text4.shift, 2 * UP), run_time=2)
-        self.wait()
-        self.play(FadeOut(text4), run_time=2)
-        self.teacher_says("0 indicates impossibility.")
-        self.wait(2)
-        self.student_says("What does 1 indicate teacher?")
-        self.wait(2)
-        self.teacher_says("1 indicates full possibility/certainty.")
-        self.wait(2)
-
-        self.teacher_says("Now let's learn Principles of Probability")
-        self.wait(2)
-        self.clear()
-        self.wait()
-
-    def principles(self):
-        topic1 = TextMobject("Principles of Probability")
-        topic1.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
-        self.play(GrowFromCenter(topic1), run_time=3, rate_func=rush_into)
-        self.play(ApplyMethod(topic1.shift, 3.5 * UP))
-        self.wait(2)
-
-        text5 = TextMobject(
-            "We use addition, multiplication, and complement rules to calculate probability of an event(s) or an outcome(s). "
+        given1 = TexMobject(
+            r" P \left ( A\ or\ B \right ) = P\left ( A \right ) + P\left ( B \right ) ",
+            r" or ",
+            r" n \left ( A\ or\ B \right ) = n\left ( A \right ) + n\left ( B \right )",
         )
-        text5.scale(0.8).set_color(BLUE).align_to(LEFT).move_to(UP * 2)
-        self.play(Write(text5), run_time=8)
+
+        given1.arrange(DOWN)
+        given1.scale(0.7)
+        given1.set_color(BLUE)
+        for text in given1:
+            self.play(Write(text), run_time=3)
+            self.wait()
         self.wait(2)
         self.clear()
 
-    def mutually_exclusive_events(self):
-        topic2 = TextMobject("Mutually Exclusive Events")
-        topic2.scale(1.5).set_color_by_gradient(RED, YELLOW, GREEN)
-        self.play(GrowFromCenter(topic2), run_time=3, rate_func=rush_into)
-        self.play(ApplyMethod(topic2.shift, 3.5 * UP))
+    def addition_rule_ques(self):
+        self.teacher_says("Lets solve a question on addition rule")
         self.wait(2)
-
-        text6 = TextMobject(
-            "If two events cannot occur at a same time, they are said to be mutually exclusive. "
-        )
-        text6.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
-        self.play(Write(text6), run_time=7)
-        self.wait(2)
-        self.play(Uncreate(text6), run_time=2)
+        self.student_says("Ok Teacher ")
         self.wait()
-
-        text7 = TextMobject(
-            "Let A and B be two mutually exclusive events. As stated earlier, their probability of occurrence at the same time is 0."
-        )
-        text7.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
-        self.play(Write(text7), run_time=8)
-        self.wait(2)
-
-        probimg = ImageMobject("vennd")
-        probimg.move_to(DOWN * 0.5).scale(1.2)
-        self.play(FadeIn(probimg), run_time=2)
-        self.wait(2)
-        self.play(Uncreate(text7), run_time=2)
-        self.wait()
-        self.play(FadeOut(probimg), run_time=2)
-        self.wait(2)
         self.clear()
-
-    def examples_mutually_exclusive_events(self):
-        self.clear()
-        text8 = TextMobject(" Example of Mutually Exclusive Events ")
-        text8.scale(1.5).set_color_by_gradient(RED, YELLOW, BLUE)
-        self.play(GrowFromCenter(text8), run_time=3, rate_func=rush_into)
-        self.play(ApplyMethod(text8.shift, 3.5 * UP))
         self.wait(2)
 
-        text9 = TextMobject(
-            " 1. Getting multiple(s) of 2 and multiple(s) of 5 after rolling an unbiased dice 2 times respectively. "
+        topic1 = TextMobject(
+            "1. Find the probability of getting either a Heart or a Black card from a well shuffled pack of 52 cards. "
         )
-        text9.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
-        self.play(Write(text9), run_time=8)
+        topic1.scale(0.7).set_color_by_gradient(RED, BLUE, PURPLE)
+        self.play(Write(topic1), run_time=7)
+        self.play(ApplyMethod(topic1.shift, 3.2 * UP))
         self.wait(2)
 
         given2 = TexMobject(
-            r" Here,\ Possible\ of\ outcomes/sample\ space\  = \left \{1, 2, 3, 4, 5, 6   \right \} ",
-            r" Event\ A: Multiples\ of\ 2 = \left \{ 2, 4, 6 \right \}",
-            r" Event\ B: Multiple\ of\ 5 = \left \{ 5 \right \}",
-            r" Since\ both\ the\ events\ don't\ have\ any\ common\ outcome,\ they\ are\ mutually\ exclusive",
+            r" Solution,",
+            r" Sample\ space\ n\left ( s \right ) = 52 ",
+            r" Event\  1:",
+            r" No.\ of\ Hearts\ n\left ( H \right ) = 13",
+            r" Probability\ of\ getting\ Hearts\ P\left ( H \right ) = \frac{n\left ( H \right )}{n\left ( s \right )} = \frac{13}{52}",
+            r" Event\  2:",
+            r" No.\ of\ Blacks\ n\left ( B \right ) = 26",
+            r" Probability\ of\ getting\ Black\ Cards\  P\left ( B \right ) = \frac{n\left ( B \right )}{n\left ( s \right )} = \frac{26}{52}",
+            r" Since\ the\ events\ are\ mutually\ exclusive\ we\ follow\ the\ additive\ rule.",
+            r" P\left ( H\ or\ B \right ) = P\left ( H \right ) + P\left ( B \right ) = \frac{13}{52} + \frac{26}{52} = \frac{3}{4}",
         )
 
         given2.arrange(DOWN)
-        given2.scale(0.7)
+        given2.scale(0.6)
         given2.set_color(BLUE)
         for text in given2:
-            self.play(Write(text), run_time=6)
+            self.play(Write(text), run_time=4)
             self.wait()
         self.wait(2)
         self.clear()
         self.wait()
+
+    def product_rule(self):
+        topic2 = TextMobject("Multiplication rule of probability")
+        topic2.scale(1.2).set_color_by_gradient(RED, BLUE, PURPLE)
+        self.play(GrowFromCenter(topic2), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic2.shift, 3.5 * UP))
+        self.wait(2)
+
+        text4 = TextMobject(
+            "For multiplicative rule of probability, let's understand dependent and independent events first. By definition, two events are said to be independent if the outcome/occurrence of one of the events is not dependent on another event. For instance, if you toss a coin and a dice at the same time, the probability of getting Head on the coin and 1 on the dice have no relation at all. So, they are independent events.  "
+        )
+        text4.scale(0.75).set_color(RED).align_to(LEFT)
+        self.play(Write(text4), run_time=25)
+        self.play(ApplyMethod(text4.shift, 1.5 * UP))
+        self.wait(2)
+        self.play(Uncreate(text4), run_time=2)
+
+        given3 = TexMobject(
+            r" The\ probability\ of\ occurrence\ of\ two\ independent\ events\ is\ equal\ to\ product\ of",
+            r"\ the\ probability\ of\ occurrence\ of\ each\ individual\ event.  ",
+            r" P\left ( A\cap B \right ) = P\left ( A \right ) * P\left ( B \right ) ",
+            r" This\ is\ the\ multiplicative\ rule\ of\ probability.  ",
+        )
+
+        given3.arrange(DOWN)
+        given3.set_color(BLUE)
+        for text in given3:
+            text.scale(0.6)
+            self.play(Write(text), run_time=6)
+            self.wait(1)
+        self.wait(2)
+        self.clear()
+
+    def product_rule_ques(self):
+        self.teacher_says("Lets solve a question on multiplication rule")
+        self.wait(2)
+        self.student_says("Ok Teacher ")
+        self.wait()
+        self.clear()
+        self.wait(2)
+
+        topic3 = TextMobject(
+            "2. Two cards are drawn from a well shuffled deck of 52 cards one after another with replacement before the second draw. Find the probability that both of them are red cards. "
+        )
+        topic3.scale(0.7).set_color_by_gradient(RED, BLUE, ORANGE)
+        self.play(Write(topic3), run_time=15)
+        self.play(ApplyMethod(topic3.shift, 3.2 * UP))
+        self.wait(2)
+
+        given4 = TexMobject(
+            r" Solution,",
+            r" Numbers\ of\ cards/sample\ space\ n\left ( s \right ) = 52 ",
+            r" No.\ of\ red\ cards\ n\left ( R \right ) = 26",
+            r" Event\ 1\ P\left ( X \right ): The\ first\ card\ is\ drawn",
+            r" Probability\ of\ getting\ a\ red\ card\ P\left ( R\right ) = \frac{n\left ( R\right )}{n\left ( s \right )} = \frac{26}{52}",
+            r" Event\ 2\ P\left ( Y\right ): The\ second\ card\ is\ drawn\ after\ replacement",
+            r" Probability\ of\ getting\ a\ red\ card\ P\left ( R\right ) = \frac{n\left ( R\right )}{n\left ( s \right )} = \frac{26}{52}",
+            r" Probability\ of\ both\ the\ drawn\ card\ being\ red:",
+            r" P\left ( X\cap Y \right ) = P\left ( X \right ) * P\left ( Y \right ) = \frac{26}{52} * \frac{26}{52} = \frac{1}{4} ",
+        )
+
+        given4.arrange(DOWN)
+        given4.scale(0.6)
+        given4.set_color(BLUE)
+        for text in given4:
+            self.play(Write(text), run_time=3)
+            self.wait(2)
+        self.wait(2)
+        self.clear()
+        self.wait()
+
+    def tree_diagram(self):
+        topic4 = TextMobject("Tree Diagram")
+        topic4.scale(1.2).set_color_by_gradient(RED, BLUE, PURPLE)
+        self.play(GrowFromCenter(topic4), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic4.shift, 3.5 * UP))
+        self.wait(2)
+
+        self.student_says("Sir, What is Tree Diagram?")
+        self.wait(2)
+        self.teacher_says(
+            "A probability tree diagram is a schematic representation of all events and their outcomes."
+        )
+        self.wait(3)
+        self.teacher_says(
+            "It uses lines and boxes to represent probability and events respectively. "
+        )
+        self.wait(3)
+        self.teacher_says("This can be further explained by an example")
+        self.wait(2)
+        self.clear()
+        self.wait()
+
+        text5 = TextMobject(
+            "3. A fair coin is tossed three times. Make a tree diagram and find the probability of obtaining three tails."
+        )
+        text5.scale(0.7).set_color(RED).align_to(LEFT)
+        self.play(Write(text5), run_time=8)
+        self.play(ApplyMethod(text5.shift, 3.3 * UP))
+        self.wait(2)
+
+        treeimg = ImageMobject("treed")
+        treeimg.scale(1.5).move_to(UP * 1)
+        self.play(FadeIn(treeimg), run_time=3)
+        self.wait(2)
+
+        given5 = TexMobject(
+            r" Solution,",
+            r" We\ have\ only\ one\ possible\ case\ for\ three\ tails\ \left \{ TTT \right \} ",
+            r" Probability;",
+            r" P\left ( TTT \right ) = P\left ( T1\cap T2\cap T3 \right ) = \frac{1}{2} * \frac{1}{2} * \frac{1}{2} = \frac{1}{8}",
+        )
+        given5.scale(0.7)
+        given5.arrange(DOWN).move_to(DOWN * 2.2)
+        given5.set_color(BLUE)
+        for text in given5:
+            self.play(Write(text), run_time=3)
+            self.wait(2)
+        self.wait(2)
