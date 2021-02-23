@@ -1,204 +1,135 @@
-# what is more beautiful than objects moving by my programmatic expression of will
 from manimlib.imports import *
 
 
-class PopGrowth(GraphScene):
-    CONFIG = {
-        "x_min": 1950,
-        "x_max": 1975,
-        "x_axis_width": 9,
-        "y_min": 0,
-        "y_max": 40,
-        "graph_origin": [-5, -2.5, 0],
-        "function_color": RED,
-        "axes_color": GREEN,
-        "x_tick_frequency": 10,  # this is literally for showing the tick on the screen
-        "y_tick_frequency": 5,
-        "area_opacity": 5,
-        "x_axis_label": "Year",
-        "y_axis_label": "Population",
-    }
-
+class Test(TeacherStudentsScene, Scene):
     def construct(self):
-        self.first()
-        self.graph_img()
-        self.formula()
-        self.lformula()
+        self.wait(2)
+        Text1 = TextMobject("What will we study today, Teacher?")
+        Text1.scale(1.8).set_color(RED)
+        self.student_says(Text1)
+        self.wait(2)
 
-    def first(self):
-        title = TextMobject("What is Population?")
-        self.play(Write(title))
-        self.wait()
-
-        self.play(title.shift, [0, 2, 0])
-        desc = TextMobject(
-            "The number of people living in an area at a particular time is known as population."
-        ).scale(0.8)
-        self.play(Write(desc, run_time=6))
-        self.wait()
+        Text2 = TextMobject("Today we will study about Probability and its Principles")
+        Text2.scale(1.8).set_color(MAROON)
+        self.teacher_says(Text2)
+        self.wait(2)
         self.clear()
+        self.wait(2)
 
-        title2 = TextMobject("Do you think this number will always remain the same?")
-        self.play(Transform(title, title2))
+        topic = TextMobject("Probability")
+        topic.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
+        self.play(GrowFromCenter(topic), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic.shift, 3.5 * UP))
+        self.wait(2)
+
+        text3 = TextMobject(
+            "Probability is a branch of mathematics which deals with the likelihood of an event or circumstance through numbers."
+        )
+        text3.scale(0.8).set_color(PURPLE).align_to(LEFT)
+
+        self.play(Write(text3), run_time=3)
+        self.play(ApplyMethod(text3.shift, 2 * UP))
+        self.wait(2)
+
+        text4 = TextMobject("Probability ranges its value from 0 to 1. 0")
+        text4.scale(1.2).set_color(GREEN).align_to(LEFT).move_to(DOWN * 0.5)
+        self.play(FadeIn(text4), run_time=3)
+        self.wait(2)
+        self.play(Uncreate(text3), run_time=2)
         self.wait()
-        self.play(title.shift, [0, 2, 0])
 
-        desc = TextMobject(
-            "Population changes over a course of period, and in most cases, population grows over a course of period."
-        ).scale(0.8)
+        self.play(ApplyMethod(text4.shift, 2 * UP), run_time=2)
+        self.wait(2)
+        self.teacher_says("0 indicates impossibility ")
+        self.wait(2)
+        self.student_says(" What does 1 indicate teacher?")
+        self.wait(2)
+        self.teacher_says("1 indicates full possibility/certainty")
+        self.wait(2)
+        self.play(FadeOut(text4), run_time=2)
+        self.wait(2)
 
-        self.play(Write(desc, run_time=6))
+        self.teacher_says("Now let's learn Principles of Probability")
+        self.wait(2)
+        self.clear()
+        self.wait(2)
+
+        topic1 = TextMobject("Principles of Probability")
+        topic1.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
+        self.play(GrowFromCenter(topic1), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic1.shift, 3.5 * UP))
+        self.wait(2)
+
+        text5 = TextMobject(
+            "We use addition, multiplication, and complement rules to calculate probability of an event(s) or an outcome(s). "
+        )
+        text5.scale(0.8).set_color(BLUE).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text5), run_time=4)
+        self.wait(2)
+        self.clear()
+        self.wait(2)
+
+        topic2 = TextMobject("Mutually Exclusive Events")
+        topic2.scale(1.5).set_color_by_gradient(RED, YELLOW, GREEN)
+        self.play(GrowFromCenter(topic2), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic2.shift, 3.5 * UP))
+        self.wait(2)
+
+        text6 = TextMobject(
+            "If two events cannot occur at a same time, they are said to be mutually exclusive. "
+        )
+        text6.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text6), run_time=4)
+        self.wait(2)
+        self.play(Uncreate(text6), run_time=2)
+        self.wait(2)
+
+        text7 = TextMobject(
+            "Let A and B be two mutually exclusive events. As stated earlier, their probability of occurrence at the same time is 0."
+        )
+        text7.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text7), run_time=4)
+        self.wait(2)
+
+        """
+        probimg = ImageMobject("prob1")
+        probimg.move_to(DOWN * 0.5).scale(1.2)
+        self.play(FadeIn(probimg), run_time=2)
+        self.wait(2)
+        self.play(Uncreate(text7), run_time=2)
+        self.wait(2)
+        self.play(FadeOut(probimg), run_time=2)
         self.wait(2)
         self.clear()
 
-    def graph_img(self):
-        """
-        Attempted to make a graph in manim but failed--will try again in the future.
-        For now, using the image from the document
-        """
-
-        img = ImageMobject("pop-graph").scale(3.4)
-        self.add(img)
-        self.wait()
-        self.wait()
-
-        self.play(img.shift, [0, 2, 0])
-        self.wait()
-
-        t1 = TextMobject(
-            "The population of Nepal according to World Population Review has been changing from years earlier, and is predicted to change for years to come."
-        ).scale(0.8)
-        t1.shift([0, -2, 0])
-        self.play(Write(t1, run_time=8))
+        text8 = TextMobject(" Example of Mutually Exclusive Events ")
+        text8.scale(1.5).set_color_by_gradient(RED, YELLOW, BLUE)
+        self.play(GrowFromCenter(text8), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(text8.shift, 3.5 * UP))
         self.wait(2)
-        self.remove(t1)
-        self.play(img.shift, [0, -2, 0])
-        self.wait()
-        self.clear()
 
-        t1 = (
-            TextMobject(
-                "But did you know that we can actually calculate this change with simple mathematical formulas you have been learning?"
-            )
-            .scale(0.8)
-            .shift([0, 3, 0])
+        text9 = TextMobject(
+            " 1. Getting multiple(s) of 2 and multiple(s) of 5 after rolling an unbiased dice 2 times respectively. "
         )
-        t2 = TextMobject(
-            "Before we dive into formulas, let me introduce you to some basic terms associated with population growth."
-        ).scale(0.8)
+        text9.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text9), run_time=2)
+        self.wait(2)
 
-        self.play(Write(t1, run_time=8))
-        self.wait()
-        self.play(Write(t2, run_time=8))
-        self.wait()
-        self.clear()
-
-        terms = VGroup(
-            TexMobject("\\text{Initial Population } (P_0)").set_color(RED),
-            TexMobject("\\text{Final Population } (P)").set_color(BLUE),
-            TexMobject("\\text{Growth Rate } (R)").set_color(GREEN),
-            TexMobject("\\text{Time Interval } (T)").set_color(YELLOW),
-        ).arrange(DOWN, buff=MED_LARGE_BUFF, aligned_edge=LEFT)
-
-        for each in terms:
-            self.play(FadeIn(each, RIGHT))
-            self.wait()
-
-        self.wait()
-        self.play(FadeOutAndShift(terms))
-
-    def formula(self):
-        t1 = (
-            TextMobject(
-                "Now, what are the formulas that will enable you to calculate the population growth, or population depreciation over the course of time?"
-            )
-            .scale(0.8)
-            .shift([0, 2, 0])
+        Given2 = TexMobject(
+            r" Here,\ Possible\ of\ outcomes/sample\ space\  = \left \{1, 2, 3, 4, 5, 6   \right \} ",
+            r" Event\ A: Multiples\ of\ 2 = \left \{ 2, 4, 6 \right \}",
+            r" Event\ B: Multiple\ of\ 5 = \left \{ 5 \right \}",
+            r" Since\ both\ the\ events\ don't\ have\ any\ common\ outcome,\ they\ are\ mutually\ exclusive",
         )
-        t2 = VGroup(
-            TexMobject(
-                "\\text{Suppose a town has a }",
-                " \\text{total population } (P_0) ",
-                "\\text{ of now and is subjected to have a }",
-                " \\text{growth rate of } (R)",
-                " \\text{ for years } (T).}",
-            ).scale(0.55),
-            TexMobject(
-                "\\text{The final }",
-                "\\text{population } (P)",
-                "\\text{ of the town after T years can be represented by the formulae:}",
-            ).scale(0.55),
-        ).arrange(DOWN, aligned_edge=LEFT)
-        t2[0][1].set_color(RED)
-        t2[0][3].set_color(YELLOW)
-        t2[0][4].set_color(GREEN)
-        t2[1][1].set_color(BLUE)
 
-        self.play(Write(t1, run_time=8))
-        self.wait()
+        Given2.arrange(DOWN)
+        Given2.scale(0.7)
+        Given2.set_color(BLUE)
+        for x in range(0, len(Given2)):
 
-        for each in t2:
-            self.play(Write(each, run_time=8))
+            self.play(Write(Given2[x]), run_time=3)
             self.wait(2)
-
         self.wait(2)
-
-        formula1 = TexMobject("P ", "", "= P_0 ", "(1 + \\frac{R}{100})^T ", "").shift(
-            [0, -1.5, 0]
-        )
-        formula2 = TexMobject(
-            "P ", "- P_0", "= P_0 (1 + \\frac{R}{100})^T", "- P_0"
-        ).shift([0, -0.5, 0])
-
-        self.play(Write(formula1, run_time=3))
-        self.wait()
-        self.remove(t1)
-        for each in t2:
-            self.remove(each)
-
-        t3 = (
-            TextMobject(
-                "If the population is subjected to decrease after T years, the rate must be negative."
-            )
-            .scale(0.8)
-            .shift([0, 2, 0])
-        )
-        t4 = TextMobject("For the decreased population:").scale(0.8).shift([0, 1, 0])
-
-        self.play(Write(t3, run_time=5))
-        self.play(Write(t4))
-        self.wait()
-
-        self.play(formula1.shift, [0, 1, 0])
-        self.play(ReplacementTransform(formula1, formula2))
-        self.wait()
-        self.wait()
         self.clear()
-
-    def lformula(self):
-        t1 = (
-            TexMobject(
-                "\\text{However, sometimes, we might encounter problems with separate growth rate for each individual year. ",
-                "In that case, if } R(1), R(2), R(3) ... R(t) \\text{ be the rates of growth of } 1^\\text{st}, 2^\\text{nd}, 3^\\text{rd}, ... T^\\text{th} \\text{ different years:}",
-            )
-            .scale(0.6)
-            .arrange(DOWN, aligned_edge=LEFT)
-            .shift([0, 2, 0])
-        )
-
-        for each in t1:
-            self.play(Write(each, run_time=7))
-            self.wait()
-
-        eqn = TexMobject(
-            "P=",
-            "P_0 ",
-            "(1 + \\frac{R(1)}{100}) ",
-            "(1 + \\frac{R(2)}{100}) ",
-            "(1 + \\frac{R(3)}{100}) ",
-            "...",
-            "(1 + \\frac{R(t)}{100}) ",
-        )
-
-        self.play(Write(eqn, run_time=5))
         self.wait()
+        """
