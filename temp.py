@@ -1,294 +1,135 @@
 from manimlib.imports import *
 
 
-class Set2(Scene):
+class Test(TeacherStudentsScene, Scene):
     def construct(self):
-        self.set_terms()
-        self.three_sets()
-
-    def set_terms(self):
-        rec = Rectangle(height=3.5, width=4.5)
-        cir1 = Circle(radius=1.2).shift(np.array([0.7, 0, 0]))
-        cir2 = Circle(radius=1.2).shift(np.array([-0.7, 0, 0]))
-
-        arr1 = Arrow(np.array([0, -2, 0]), np.array([0, 0, 0]), buff=0)
-        arr2 = Arrow(np.array([3, 1, 0]), np.array([1.5, 0, 0]), buff=0)
-        arr3 = Arrow(np.array([-3, 1, 0]), np.array([-1.5, 0, 0]), buff=0)
-        arr4 = Arrow(np.array([-2.8, -1, 0]), np.array([-1.6, -1, 0]), buff=0)
-
-        arr1_1 = (
-            TextMobject("Elements shared by set A and B")
-            .scale(0.6)
-            .shift(np.array([0, -2.3, 0]))
-        )
-        arr1_2 = (
-            TextMobject("Elements in set A").scale(0.6).shift(np.array([4.2, 1, 0]))
-        )
-        arr1_3 = (
-            TextMobject("Elements in set B").scale(0.6).shift(np.array([-4.2, 1, 0]))
-        )
-        arr1_4 = (
-            TextMobject("Elements outside A and B")
-            .scale(0.6)
-            .shift(np.array([-5, -1, 0]))
-        )
-        arr1_5 = (
-            TextMobject("but inside universal set")
-            .scale(0.6)
-            .next_to(arr1_4, DOWN, buff=0.2)
-            .align_to(arr1_4, LEFT)
-        )
-
-        a1 = TextMobject("2").scale(0.6).shift(np.array([1.1, 0, 0]))
-        b1 = TextMobject("1").scale(0.6).shift(np.array([-1.1, 0, 0]))
-        aub1 = TextMobject("3").scale(0.6).move_to(np.array([0, 0.5, 0]))
-        aub2 = TextMobject("5").scale(0.6).next_to(aub1, DOWN, buff=0.2)
-        aub3 = TextMobject("7").scale(0.6).next_to(aub2, DOWN, buff=00.2)
-        uni = TextMobject("9").scale(0.6).shift(np.array([-1.3, -1.3, 0]))
-        group = VGroup(a1, b1, aub1, aub2, aub3, uni)
-
-        self.play(ShowCreation(rec))
-        self.play(ShowCreation(cir1))
-        self.play(ShowCreation(cir2))
-
-        U = TextMobject("U").scale(0.7).move_to(np.array([2, 1.5, 0]))
-        A = TextMobject("A").scale(0.7).move_to(np.array([0.7, 1.54, 0]))
-        B = TextMobject("B").scale(0.7).move_to(np.array([-0.7, 1.54, 0]))
-        C = TextMobject("C").scale(0.7).move_to(np.array([-0.5, -2.5, 0]))
-
-        for i in (U, A, B):
-            self.play(FadeIn(i))
-
-        self.play(FadeIn(group, run_time=2))
-
-        u = TextMobject("Union").shift(np.array([0, 3.5, 0])).set_color(GREEN_D)
-        u1 = (
-            TextMobject(
-                "The union of two sets A and B (A $\\cup$ B) is a set containing all elements that"
-            )
-            .scale(0.7)
-            .shift(np.array([0, 3, 0]))
-        )
-        u2 = (
-            TextMobject(" are in A or in B (possibly both).")
-            .scale(0.7)
-            .next_to(u1, DOWN, buff=0.2)
-            .align_to(u1, LEFT)
-        )
-        u3 = TextMobject("").scale(0.6).next_to(u2, DOWN, buff=0)
-
-        i = TextMobject("Intersection").shift(np.array([0, 3.5, 0])).set_color(GREEN_D)
-        i1 = (
-            TextMobject(
-                "The intersection of two sets A and B (A $\\cap$ B) consists of all elements that"
-            )
-            .scale(0.7)
-            .shift(np.array([0, 3, 0]))
-        )
-        i2 = (
-            TextMobject("are both in A and B.")
-            .scale(0.7)
-            .next_to(i1, DOWN, buff=0.2)
-            .align_to(i1, LEFT)
-        )
-        i3 = TextMobject("").scale(0.6).next_to(i2, DOWN, buff=0)
-
-        d = TextMobject("Difference").shift(np.array([0, 3.5, 0])).set_color(GREEN_D)
-        d1 = (
-            TextMobject(
-                "The difference (subtraction) of set B from A (A-B) consists of elements that"
-            )
-            .scale(0.7)
-            .shift(np.array([0, 3, 0]))
-        )
-        d2 = (
-            TextMobject("are in A but not in B.")
-            .scale(0.7)
-            .next_to(d1, DOWN, buff=0.2)
-            .align_to(d1, LEFT)
-        )
-        d3 = TextMobject("").scale(0.6).next_to(d2, DOWN, buff=0)
-
-        c = TextMobject("Complement").shift(np.array([0, 3.5, 0])).set_color(GREEN_D)
-        c1 = (
-            TextMobject(
-                "The complement of a set A ($\overline{A}$) is the set of all elements that are in the"
-            )
-            .scale(0.7)
-            .shift(np.array([0, 3, 0]))
-        )
-        c2 = (
-            TextMobject("universal set S but are not in A.")
-            .scale(0.7)
-            .next_to(c1, DOWN, buff=0.2)
-            .align_to(c1, LEFT)
-        )
-        c3 = TextMobject("").scale(0.6).next_to(c2, DOWN, buff=0)
-
-        self.play(FadeIn(u))
-        self.play(Write(u1, run_time=7))
-        self.play(Write(u2), run_time=3)
-
-        self.play(
-            Indicate(VGroup(a1, b1, aub1, aub2, aub3)),
-            Indicate(cir1),
-            Indicate(cir2),
-            run_time=3,
-        )
         self.wait(2)
-        self.play(FadeOut(u1), FadeOut(u2))
-
-        self.play(ReplacementTransform(u, i))
-        self.play(Write(i1, run_time=7))
-        self.play(Write(i2), run_time=3)
-
-        self.play(
-            Indicate(VGroup(aub1, aub2, aub3), scale_factor=2, color=PURPLE_E),
-            run_time=3,
-        )
-        self.wait(2)
-        self.play(FadeOut(i1), FadeOut(i2))
-
-        self.play(ReplacementTransform(i, d))
-        self.play(Write(d1, run_time=7))
-        self.play(Write(d2), run_time=3)
-
-        self.play(Indicate(a1, scale_factor=2, color=PURPLE_E), run_time=3)
-        self.wait(2)
-        self.play(FadeOut(d1), FadeOut(d2))
-
-        self.play(ReplacementTransform(d, c))
-        self.play(Write(c1, run_time=7))
-        self.play(Write(c2), run_time=3)
-
-        self.play(Indicate(VGroup(b1, uni)), run_time=3)
-        self.wait(2)
-        self.play(FadeOut(c), FadeOut(c1), FadeOut(c2))
-
-        self.play(
-            FadeOutAndShift(VGroup(rec, cir1, cir2, group, U, A, B), direction=DOWN)
-        )
-
-    def three_sets(self):
-        U = TextMobject("U").scale(0.7).move_to(np.array([2, 1.5, 0]))
-        A = TextMobject("A").scale(0.7).move_to(np.array([0.7, 1.54, 0]))
-        B = TextMobject("B").scale(0.7).move_to(np.array([-0.7, 1.54, 0]))
-        C = TextMobject("C").scale(0.7).move_to(np.array([-0.5, -2.5, 0]))
-
-        rec = Rectangle(height=4.5, width=4.5).shift(np.array([0, -0.5, 0]))
-        cir1 = Circle(radius=1.2).shift(np.array([0.7, 0, 0]))
-        cir2 = Circle(radius=1.2).shift(np.array([-0.7, 0, 0]))
-        cir3 = Circle(radius=1.2).shift(np.array([0, -1, 0]))
-
-        self.play(ShowCreation(rec))
-        self.play(ShowCreation(cir1))
-        self.play(ShowCreation(cir2))
-        self.play(ShowCreation(cir3))
-        self.play(FadeIn(VGroup(U, A, B, C)))
+        Text1 = TextMobject("What will we study today, Teacher?")
+        Text1.scale(1.8).set_color(RED)
+        self.student_says(Text1)
         self.wait(2)
 
-        arrA = Arrow(np.array([4, 0, 0]), np.array([2, 0, 0]), buff=0, stroke_width=3)
-        arrAo = Arrow(np.array([3, 0.4, 0]), np.array([0.9, 0.4, 0]), buff=0)
-        arranb = Arrow(np.array([3, 2, 0]), np.array([0, 0.5, 0]), buff=0)
-        arrB = Arrow(np.array([-4, 0, 0]), np.array([-2, 0, 0]), buff=0)
-        arrBo = Arrow(np.array([-2.8, 1, 0]), np.array([-1.1, 0.2, 0]), buff=0)
-        arrbnc = Arrow(np.array([-3, -0.5, 0]), np.array([-0.7, -0.5, 0]), buff=0)
-        arrCo = Arrow(np.array([0, -3, 0]), np.array([0, -1.6, 0]), buff=0)
-        arrC = Arrow(np.array([-3, -1.4, 0]), np.array([-1.2, -1.4, 0]), buff=0)
-        arranc = Arrow(np.array([2.5, -0.5, 0]), np.array([0.7, -0.5, 0]), buff=0)
-        arranbnc = Arrow(np.array([2.7, -3, 0]), np.array([0, -0.5, 0]), buff=0)
-        arruni = Arrow(np.array([-3.2, -2.2, 0]), np.array([-1.4, -1.8, 0]), buff=0)
+        Text2 = TextMobject("Today we will study about Probability and its Principles")
+        Text2.scale(1.8).set_color(MAROON)
+        self.teacher_says(Text2)
+        self.wait(2)
+        self.clear()
+        self.wait(2)
 
-        A_1 = TextMobject("n(A)").scale(0.6).shift(np.array([4.3, 0, 0]))
-        Ao = TextMobject("$n_0(A)$").scale(0.6).shift(np.array([0.9, 0.4, 0]))
-        AnB = TextMobject("n(A $\\cap$ B)").scale(0.6).shift(np.array([3.7, 2, 0]))
-        B_1 = TextMobject("n(B)").scale(0.6).shift(np.array([-4.3, 0, 0]))
-        Bo = TextMobject("$n_0(B)$").scale(0.6).shift(np.array([-1.1, 0.2, 0]))
-        BnC = TextMobject("n(B $\\cap$ C)").scale(0.6).shift(np.array([-3.7, -0.5, 0]))
-        C_1 = TextMobject("n(C)").scale(0.6).shift(np.array([-3.3, -1.4, 0]))
-        Co = TextMobject("$n_0(C)$").scale(0.6).shift(np.array([0, -1.6, 0]))
-        AnC = TextMobject("n(A $\\cap$ C)").scale(0.6).shift(np.array([3.2, -0.5, 0]))
-        AnBnC = (
-            TextMobject("n(A $\\cap$ B $\\cap$ C)")
-            .scale(0.6)
-            .shift(np.array([3.3, -3.1, 0]))
+        topic = TextMobject("Probability")
+        topic.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
+        self.play(GrowFromCenter(topic), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic.shift, 3.5 * UP))
+        self.wait(2)
+
+        text3 = TextMobject(
+            "Probability is a branch of mathematics which deals with the likelihood of an event or circumstance through numbers."
         )
-        uni1 = (
-            TextMobject("n($\overline{A \\cap B \\cap C}$)")
-            .scale(0.6)
-            .shift(np.array([-3.9, -2.5, 0]))
-        )
+        text3.scale(0.8).set_color(PURPLE).align_to(LEFT)
 
-        topic = TextMobject("Venn Diagram of Three Sets").shift(np.array([0, 3.5, 0]))
-        U1 = TextMobject("U=\{1,2,3,4,5,6,7,8\}").scale(0.6).shift(np.array([-2, 3, 0]))
-        A1 = (
-            TextMobject("A=\{1,2,3,4,5\}")
-            .scale(0.6)
-            .next_to(U1, DOWN, buff=0.2)
-            .align_to(U1, LEFT)
-        )
-        B1 = (
-            TextMobject("B=\{4,5,6,7\}")
-            .scale(0.6)
-            .next_to(A1, DOWN, buff=0.2)
-            .align_to(A1, LEFT)
-        )
-        C1 = TextMobject("C=\{3,5,7,9\}").scale(0.6).next_to(U1, RIGHT, buff=0.6)
+        self.play(Write(text3), run_time=3)
+        self.play(ApplyMethod(text3.shift, 2 * UP))
+        self.wait(2)
 
-        a1 = TextMobject("1").scale(0.6).shift(np.array([0.8, 0.4, 0]))
-        a2 = TextMobject("2").scale(0.6).next_to(a1, RIGHT, buff=0.2)
-        a3 = TextMobject("3").scale(0.6).shift(np.array([1.1, 0, 0]))
-
-        b1 = TextMobject("6").scale(0.6).shift(np.array([-1.1, 0.2, 0]))
-
-        c1 = TextMobject("9").scale(0.6).move_to(np.array([0, -1.6, 0]))
-
-        anb = TextMobject("4").scale(0.6).move_to(np.array([0, 0.5, 0]))
-        anbnc = TextMobject("5").scale(0.6).move_to(np.array([0, -0.5, 0]))
-        anc = TextMobject("3").scale(0.6).move_to(np.array([0.7, -0.5, 0]))
-        bnc = TextMobject("7").scale(0.6).move_to(np.array([-0.7, -0.5, 0]))
-        uni = TextMobject("8").scale(0.6).shift(np.array([-1.3, -1.8, 0]))
-
-        self.play(DrawBorderThenFill(topic), run_time=2)
-        fadeins_from_up = [U1, A1, B1, C1]
-        for obj in fadeins_from_up:
-            self.play(FadeInFrom(obj, direction=UP), run_time=2)
+        text4 = TextMobject("Probability ranges its value from 0 to 1. 0")
+        text4.scale(1.2).set_color(GREEN).align_to(LEFT).move_to(DOWN * 0.5)
+        self.play(FadeIn(text4), run_time=3)
+        self.wait(2)
+        self.play(Uncreate(text3), run_time=2)
         self.wait()
-        
-        fadeins = [
-            VGroup(arrA, A_1),
-            Ao,
-            VGroup(arrB, B_1),
-            Bo,
-            VGroup(arrC, C_1),
-            Co,
-            VGroup(arranb, AnB),
-            VGroup(arrbnc, BnC),
-            VGroup(arranc, AnC),
-            VGroup(AnBnC, arranbnc),
-            VGroup(arruni, uni1),
-        ]
-        for obj in fadeins:
-            self.play(FadeIn(obj), run_time=3)
 
-        self.play(
-            ReplacementTransform(Ao, a2),
-            ReplacementTransform(Bo, b1),
-            ReplacementTransform(Co, c1),
-            FadeOut(VGroup(arrA, arrB, arrC, B_1, C_1, A_1)),
-        )
+        self.play(ApplyMethod(text4.shift, 2 * UP), run_time=2)
+        self.wait(2)
+        self.teacher_says("0 indicates impossibility ")
+        self.wait(2)
+        self.student_says(" What does 1 indicate teacher?")
+        self.wait(2)
+        self.teacher_says("1 indicates full possibility/certainty")
+        self.wait(2)
+        self.play(FadeOut(text4), run_time=2)
         self.wait(2)
 
-        self.play(ReplacementTransform(AnB, anb), ReplacementTransform(arranb, anb))
-        self.wait()
-        self.play(ReplacementTransform(BnC, bnc), ReplacementTransform(arrbnc, bnc))
-        self.wait()
-        self.play(ReplacementTransform(AnC, anc), ReplacementTransform(arranc, anc))
-        self.wait()
-        self.play(
-            ReplacementTransform(AnBnC, anbnc), ReplacementTransform(arranbnc, anbnc)
-        )
-        self.wait()
-        self.play(ReplacementTransform(uni1, uni), ReplacementTransform(arruni, uni))
-
+        self.teacher_says("Now let's learn Principles of Probability")
         self.wait(2)
+        self.clear()
+        self.wait(2)
+
+        topic1 = TextMobject("Principles of Probability")
+        topic1.scale(1.5).set_color_by_gradient(RED, BLUE, GREEN)
+        self.play(GrowFromCenter(topic1), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic1.shift, 3.5 * UP))
+        self.wait(2)
+
+        text5 = TextMobject(
+            "We use addition, multiplication, and complement rules to calculate probability of an event(s) or an outcome(s). "
+        )
+        text5.scale(0.8).set_color(BLUE).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text5), run_time=4)
+        self.wait(2)
+        self.clear()
+        self.wait(2)
+
+        topic2 = TextMobject("Mutually Exclusive Events")
+        topic2.scale(1.5).set_color_by_gradient(RED, YELLOW, GREEN)
+        self.play(GrowFromCenter(topic2), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(topic2.shift, 3.5 * UP))
+        self.wait(2)
+
+        text6 = TextMobject(
+            "If two events cannot occur at a same time, they are said to be mutually exclusive. "
+        )
+        text6.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text6), run_time=4)
+        self.wait(2)
+        self.play(Uncreate(text6), run_time=2)
+        self.wait(2)
+
+        text7 = TextMobject(
+            "Let A and B be two mutually exclusive events. As stated earlier, their probability of occurrence at the same time is 0."
+        )
+        text7.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text7), run_time=4)
+        self.wait(2)
+
+        """
+        probimg = ImageMobject("prob1")
+        probimg.move_to(DOWN * 0.5).scale(1.2)
+        self.play(FadeIn(probimg), run_time=2)
+        self.wait(2)
+        self.play(Uncreate(text7), run_time=2)
+        self.wait(2)
+        self.play(FadeOut(probimg), run_time=2)
+        self.wait(2)
+        self.clear()
+
+        text8 = TextMobject(" Example of Mutually Exclusive Events ")
+        text8.scale(1.5).set_color_by_gradient(RED, YELLOW, BLUE)
+        self.play(GrowFromCenter(text8), run_time=3, rate_func=rush_into)
+        self.play(ApplyMethod(text8.shift, 3.5 * UP))
+        self.wait(2)
+
+        text9 = TextMobject(
+            " 1. Getting multiple(s) of 2 and multiple(s) of 5 after rolling an unbiased dice 2 times respectively. "
+        )
+        text9.scale(0.8).set_color(GREEN).align_to(LEFT).move_to(UP * 2)
+        self.play(Write(text9), run_time=2)
+        self.wait(2)
+
+        Given2 = TexMobject(
+            r" Here,\ Possible\ of\ outcomes/sample\ space\  = \left \{1, 2, 3, 4, 5, 6   \right \} ",
+            r" Event\ A: Multiples\ of\ 2 = \left \{ 2, 4, 6 \right \}",
+            r" Event\ B: Multiple\ of\ 5 = \left \{ 5 \right \}",
+            r" Since\ both\ the\ events\ don't\ have\ any\ common\ outcome,\ they\ are\ mutually\ exclusive",
+        )
+
+        Given2.arrange(DOWN)
+        Given2.scale(0.7)
+        Given2.set_color(BLUE)
+        for x in range(0, len(Given2)):
+
+            self.play(Write(Given2[x]), run_time=3)
+            self.wait(2)
+        self.wait(2)
+        self.clear()
+        self.wait()
+        """
