@@ -40,7 +40,6 @@ class Set3(Scene):
             .next_to(a3, DOWN, buff=0.2)
             .to_edge(LEFT)
         )
-
         self.play(Write(a), run_time=5)
         self.play(Write(a1))
         self.wait(3)
@@ -58,6 +57,7 @@ class Set3(Scene):
         arr2 = Arrow(np.array([-0.7, -2.5, 0]), np.array([-0.7, -1.2, 0]), buff=0)
         arr3 = Arrow(np.array([1, -2, 0]), np.array([0, 0, 0]), buff=0)
         arr4 = Arrow(np.array([3, 1.2, 0]), np.array([2.3, 1.2, 0]), buff=0)
+        # arr4=Arrow(np.array([3,1.2,0]),np.array([2.3,1.2,0]),buff=0)
 
         arr11 = TextMobject("n(I)=450").scale(0.7).shift(np.array([3.8, 0, 0]))
         arr21 = TextMobject("n(T)=400").scale(0.7).shift(np.array([-0.7, -2.7, 0]))
