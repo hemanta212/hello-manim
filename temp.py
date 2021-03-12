@@ -1,6 +1,42 @@
 from manimlib.imports import *
 
 
+class Test(PiCreatureScene):
+    def construct(self):
+        self.clear()
+        self.topic_anim()
+        self.history()
+        self.demo()
+
+    def topic_anim(self):
+        topic = TextMobject("Calculus: Introduction")
+        self.play(Write(topic), run_time=3)
+        self.wait(1)
+        self.play(FadeOutAndShiftDown(topic))
+
+    def history(self):
+        topic = TextMobject("Calculus is a branch of mathematics that deals with")
+        topic2 = TextMobject("non linear change")
+        topic.to_edge(UL)
+        topic2.next_to(topic, DOWN).to_edge(LEFT)
+
+        self.play(Write(topic))
+        self.play(Write(topic2))
+        self.wait()
+
+    def demo(self):
+        ball = Circle(color=RED).scale(0.5)
+        falling_arc = ArcBetweenPoints(
+            ORIGIN + (0, 2, 0),
+            (BOTTOM + RIGHT_SIDE) + UP,
+            angle=-PI / 2,
+            start_angle=TAU / 4,
+        )
+        self.play(MoveAlongPath(ball, falling_arc), run_time=10)
+        self.say("hello")
+        self.wait()
+ 
+
 class Set3(Scene):
     def construct(self):
         self.one()
