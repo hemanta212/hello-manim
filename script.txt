@@ -1,18 +1,23 @@
-Video 1: Surface area and volume of a triangular prism
-· Display “Triangular Prism: Surface area and volume”
-· Define a triangular prism as a prism with a triangle for a cross section, with a figure highlighting the triangle
-· Transition into “Surface area”; Derive the formula to calculate the surface area of a triangular prism [Surface Area and Volume of Triangular Prisms] using the net of the solid [image]
-· Transition into “Volume”; Show the formula to calculate the volume of the solid [Surface Area and Volume of Triangular Prisms]
+Video 2:
+Animate: “There are different topics that go around Calculus”
+Again: The Floating (Limits, Derivatives...) around “Calculus” (OR a Bubble chart)
+“Lets look at them one at a time”
+//Clear Screen// OR //ReplacementTransform “Limits & Continuity” to another position suitable as a Title//
 
-
-Video 2: Surface area and volume of a cone
-· Display “Cone: Surface area and volume”
-· Define a cone as “a solid or hollow object which tapers from a circular or roughly circular base to a point” and show figure
-· Transition into “Surface area”; Derive the formula to calculate the surface area of cone [Total surface area (TSA) of a cone  (Web view)] using the net of the solid [image]
-· Transition into “Volume”; Show the formula to calculate the volume of a cone [Volume of a cone ]
-
-Video 3: Surface area and volume of a square based pyramid
-· Display “Square based Pyramid: Surface area and volume”
-· Define a triangular prism as “a solid having a rectangular base and four sloping triangular sides meeting at an apex”, with a figure
-· Transition into “Surface area”; Derive the formula to calculate the surface area of a Square based Pyramid [Square based pyramid  (Web view) using the net of the solid
-· Transition into “Volume”; Show the formula to calculate the volume of the solid [Square based pyramid  (Web view)]
+Title: Limits & Continuity
+Starting out with a scenario:
+“Let’s consider an equation y=1/x and look at how y behaves as x increases”
+Animator is requested to animate a x, y value table and end it with ellipsis.
+//CLEAR SCREEN//
+Animator is requested to Animate a Graph of y = 1/x at the same rate as the text explaining that “as the value of x increase, notice that the value of y decreases, but never reaches 0, no matter how large x gets.
+If possible: in the “No matter how large x gets” zoom into the graph showing that it never touched the x-axis.
+“Here, the “Limiting” (in different color) value of y is 0.” “Limit deals with values that come very close to each other but never meet”
+Equation of limit is expressed as:
+limx→af(x)=l
+This equation is read as, 'As x approaches a, the limit of f(x) is l.'
+//clear screen//
+Sub-topic: Identifying Continuous Function
+- Define what a continuous function is.
+- Animate a graph saying “you can draw this without lifting your pen”
+- Let’s see if y = sin(x) is continuous. Animate the same.
+//clear screen//
