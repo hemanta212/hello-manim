@@ -1,8 +1,41 @@
 from manimlib.imports import *
 
 
-# class LimitsAndContinuity(PiCreatureScene):
-class Test(PiCreatureScene):
+class Test(GraphScene):
+
+    CONFIG = {
+        "x_min": -10,
+        "x_max": 10.3,
+        "y_min": -1.5,
+        "y_max": 1.5,
+        "graph_origin": ORIGIN,
+        "function_color": RED,
+        "axes_color": GREEN,
+        "x_labeled_nums": range(-10, 12, 2),
+    }
+
+    def construct(self):
+        self.setup_axes(animate=True)
+        func_graph = self.get_graph(lambda x: np.cos(x), self.function_color)
+        func_graph2 = self.get_graph(lambda x: np.sin(x))
+        vert_line = self.get_vertical_line_to_graph(TAU, func_graph, color=YELLOW)
+        graph_label = self.get_graph_label(func_graph, label="\\cos(x)")
+        graph_label2 = self.get_graph_label(
+            func_graph2, label="\\sin(x)", x_val=-10, direction=UP / 2
+        )
+
+        two_pi = TexMobject("x = 2 \\pi")
+        label_coord = self.input_to_graph_point(TAU, func_graph)
+        two_pi.next_to(label_coord, RIGHT + UP)
+
+        self.play(ShowCreation(func_graph), ShowCreation(func_graph2))
+        self.play(ShowCreation(vert_line), ShowCreation(graph_label))
+        self.play(Write(graph_label2), ShowCreation(two_pi))
+        self.wait(3)
+
+
+class LimitsAndContinuity(PiCreatureScene):
+# class Test(PiCreatureScene):
 
     topic_bubble = None
 
