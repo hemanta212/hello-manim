@@ -1,6 +1,7 @@
 from manimlib.imports import *
 
-# class LimitsAndContinuity(PiCreatureScene, GraphScene, MovingCameraScene):
+
+# class LimitsAndContinuity(GraphScene, MovingCameraScene):
 class Test(GraphScene, MovingCameraScene):
     topic_bubble = None
     CONFIG = {
@@ -14,25 +15,60 @@ class Test(GraphScene, MovingCameraScene):
     }
 
     def setup(self):
+        '''
+        Trick to integrating multiple scenes.
+        By default, setup of only the first class i.e in this case GraphScene is called.
+        Thus, other classes' setups are not called and errors happen while using them
+        
+        We override that setup method and call all claesses setups manually.
+        '''
         GraphScene.setup(self)
         MovingCameraScene.setup(self)
 
+    def scene_setup(axes=False, exit=FadeOutAndShiftDown):
+        """
+        Since the animations have both graphical and thoery parts, 
+        instead of destroying and calling setup_axes in each functions
+        this decorater is used.
+        
+        similarly after each scene all objects have to be destroyed anyway
+        
+        This decorater basically calls setup_axes before each function and 
+        does the exit animations after those functions
+        
+        You can opt out to fine tune these using keyword args
+        
+        Execution/method resolution order, 
+        @scene_setup(**kwargs) -> inner
+        innner(func) -> wrapper
+        wrapper replaces our target func and thus it needs to accept self as arg
+        """
+        def inner(func):
+            def wrapper(self):
+                if axes:
+                    self.setup_axes(animate=False)
+                func(self)
+                if exit:
+                    self.play(exit(Group(*self.mobjects)))
+            return wrapper
+        return inner
+        
 
     def construct(self):
-        self.clear()
-        # self.fore_shadow()
-        # self.bubble()
-        # self.topic_anim()
-        # self.intro_example()
-        self.setup_axes(animate=False)
-        # self.graph_draw()
-        # self.limits_intro()
-        # self.continuous_function_intro()
-        # self.continuous_function_example()
+        self.fore_shadow()
+        self.bubble()
+        self.topic_anim()
+        self.intro_example()
+        self.graph_draw()
+        self.limits_intro()
+        self.continuous_function_intro()
+        self.continuous_function_example()
+
+        # TODO : after text wala part write latex of lim x-.a f(x)
+
         # self.limit_of_a_linear_func()
-        # self.linear_func_graph()
-        self.clear()
-        self.limit_of_a_quad_func()
+        self.linear_func_graph()
+        # self.limit_of_a_quad_func()
         # self.quadratic_func_graph()
 
 
@@ -103,13 +139,13 @@ class Test(GraphScene, MovingCameraScene):
             row.next_to(proof_lines[-1], DOWN, buff=0.5)  # .to_edge(LEFT)
             proof_lines.append(row)
 
-        for line in proof_lines:
+        # TODO : remove track
+        for line in track(proof_lines):
             self.play(Write(line), run_time=3)
 
         ellipsis.next_to(proof_lines[-1])
         self.play(FadeIn(ellipsis))
         self.wait(3)
-        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def make_row(self, texts, buff=1.0):
         txt_objs = [TextMobject(i) for i in texts]
@@ -160,7 +196,6 @@ class Test(GraphScene, MovingCameraScene):
         self.play(Restore(self.camera_frame))
         self.play(Write(conclusion), run_time=4)
         self.wait(2)
-        self.play(FadeOut(VGroup(*self.mobjects)))
 
     def limits_intro(self):
         text = TextMobject(
@@ -195,8 +230,8 @@ class Test(GraphScene, MovingCameraScene):
         self.play(Write(eqn), run_time=5)
         self.play(Write(read_as), run_time=7)
         self.wait(2)
-        self.play(FadeOut(VGroup(*self.mobjects)))
 
+    @scene_setup(axes=True, exit=False)
     def continuous_function_intro(self):
         defn = TextMobject(
             "Continuous function is",
@@ -210,7 +245,6 @@ class Test(GraphScene, MovingCameraScene):
         defn2.arrange(DOWN).to_edge(UR)
         defn2.next_to(defn, DOWN, buff=0.2)
 
-        self.setup_axes(animate=False)
         func_graph = self.get_graph(lambda x: np.sin(x/2))
         func_graph.shift(3 * UP)
 
@@ -222,8 +256,9 @@ class Test(GraphScene, MovingCameraScene):
         self.play(Write(VGroup(defn, defn2)), ShowCreation(func_graph), run_time=10)
         self.wait(2)
         self.play(Write(text), run_time=5)
-        self.play(FadeOut(VGroup(func_graph, defn, defn2, text)))
+        self.play(FadeOut(VGroup(func_graph, defn, defn2, text)), run_time=3)
 
+    @scene_setup(axes=False, exit=FadeOutAndShiftDown)
     def continuous_function_example(self):
         sine_func = self.get_graph(lambda x: np.sin(x))
         sine_func_test = TextMobject(
@@ -242,7 +277,6 @@ class Test(GraphScene, MovingCameraScene):
         self.wait(2)
         self.play(Write(sine_func_conclusion))
         self.wait(2)
-        self.play(FadeOut(VGroup(*self.mobjects)))
 
     def limit_of_a_linear_func(self):
         topic = TextMobject("Limit of a function", color=BLUE).scale(1.5)
@@ -280,13 +314,12 @@ class Test(GraphScene, MovingCameraScene):
             self.wait()
         self.wait()
         self.play(Write(note), run_time=8)
-        self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
     def limit_of_a_quad_func(self):
         intro_text = (
-            "Lets now look at a another function f(x) = $x^2+2$",
-            "and take a look at its domain and range",
-            "represented by x and f(x) respectively.",
+            "Lets now look at a another function f(x) = $x^2+2$ and take",
+            "a look at its domain and range represented",
+            "by x and f(x) respectively.",
         )
         intro = VGroup(*[TextMobject(i) for i in intro_text])
         intro.arrange(DOWN, center=False).to_edge(UL)
@@ -301,7 +334,7 @@ class Test(GraphScene, MovingCameraScene):
         second_row.next_to(first_row, DOWN, buff=0.5).to_edge(LEFT)
 
         note_text = (
-            "Note that the value of x is closing in towards 1 and",
+            "Note, the value of x is closing in towards 1 and",
             "the value of f(x) is approaching 3.",
         )
         note = VGroup(*[TextMobject(i) for i in note_text])
@@ -314,9 +347,8 @@ class Test(GraphScene, MovingCameraScene):
             self.wait()
         self.wait()
         self.play(Write(note), run_time=8)
-        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
-
+    @scene_setup(axes=True)
     def linear_func_graph(self):
         func_logic = lambda x: 2 * x + 3
         func_graph = self.get_graph(func_logic)
@@ -358,8 +390,6 @@ class Test(GraphScene, MovingCameraScene):
         )
         self.play(x_value.set_value, 1, rate_func=rush_from, run_time=5)
         self.wait(3)
-        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
-
         
     def quadratic_func_graph(self):
         func_logic = lambda x: x ** 2 + 2
@@ -402,4 +432,5 @@ class Test(GraphScene, MovingCameraScene):
         )
         self.play(x_value.set_value, 1, rate_func=rush_from, run_time=5)
         self.wait(3)
-        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
+
+
