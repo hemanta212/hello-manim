@@ -113,6 +113,12 @@ import math
 
 from PIL import Image
 from colour import Color
+from rich import print
+from rich.progress import track
+from rich.traceback import install
+
+install()
+
 
 from manimlib.chem_objects import *
 from manimlib.compounds import *
