@@ -11,48 +11,49 @@ class Test(GraphScene, MovingCameraScene):
         "x_min": 0,
         "function_color": RED,
         "axes_color": GREEN,
-
     }
 
     def setup(self):
-        '''
+        """
         Trick to integrating multiple scenes.
         By default, setup of only the first class i.e in this case GraphScene is called.
         Thus, other classes' setups are not called and errors happen while using them
-        
+
         We override that setup method and call all claesses setups manually.
-        '''
+        """
         GraphScene.setup(self)
         MovingCameraScene.setup(self)
 
-    def scene_setup(axes=False, exit=FadeOutAndShiftDown):
+    def scene_setup(axes=True, exit=FadeOut):
         """
-        Since the animations have both graphical and thoery parts, 
+        Since the animations have both graphical and thoery parts,
         instead of destroying and calling setup_axes in each functions
         this decorater is used.
-        
+
         similarly after each scene all objects have to be destroyed anyway
-        
-        This decorater basically calls setup_axes before each function and 
+
+        This decorater basically calls setup_axes before each function and
         does the exit animations after those functions
-        
+
         You can opt out to fine tune these using keyword args
-        
-        Execution/method resolution order, 
+
+        Execution/method resolution order,
         @scene_setup(**kwargs) -> inner
         innner(func) -> wrapper
         wrapper replaces our target func and thus it needs to accept self as arg
         """
+
         def inner(func):
             def wrapper(self):
                 if axes:
                     self.setup_axes(animate=False)
                 func(self)
                 if exit:
-                    self.play(exit(Group(*self.mobjects)))
+                    self.play(exit(Group(*self.mobjects)), run_time=3)
+
             return wrapper
+
         return inner
-        
 
     def construct(self):
         self.fore_shadow()
@@ -64,13 +65,12 @@ class Test(GraphScene, MovingCameraScene):
         self.continuous_function_intro()
         self.continuous_function_example()
 
-        # TODO : after text wala part write latex of lim x-.a f(x)
-
-        # self.limit_of_a_linear_func()
+        self.limit_of_a_linear_func()
         self.linear_func_graph()
-        # self.limit_of_a_quad_func()
-        # self.quadratic_func_graph()
-
+        self.limit_of_a_quad_func()
+        self.quadratic_func_graph()
+        self.x_tends_zero()
+        self.x_tends_infinity()
 
     def fore_shadow(self):
         text = TextMobject(
@@ -139,13 +139,13 @@ class Test(GraphScene, MovingCameraScene):
             row.next_to(proof_lines[-1], DOWN, buff=0.5)  # .to_edge(LEFT)
             proof_lines.append(row)
 
-        # TODO : remove track
-        for line in track(proof_lines):
+        for line in proof_lines:
             self.play(Write(line), run_time=3)
 
         ellipsis.next_to(proof_lines[-1])
         self.play(FadeIn(ellipsis))
         self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
     def make_row(self, texts, buff=1.0):
         txt_objs = [TextMobject(i) for i in texts]
@@ -160,6 +160,7 @@ class Test(GraphScene, MovingCameraScene):
         row = VGroup(*processed)
         return row
 
+    @scene_setup()
     def graph_draw(self):
         func_graph = self.get_graph(
             lambda x: np.divide(1, x), x_min=self.x_min, x_max=self.x_max
@@ -230,8 +231,9 @@ class Test(GraphScene, MovingCameraScene):
         self.play(Write(eqn), run_time=5)
         self.play(Write(read_as), run_time=7)
         self.wait(2)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
-    @scene_setup(axes=True, exit=False)
+    @scene_setup(exit=False)
     def continuous_function_intro(self):
         defn = TextMobject(
             "Continuous function is",
@@ -245,7 +247,7 @@ class Test(GraphScene, MovingCameraScene):
         defn2.arrange(DOWN).to_edge(UR)
         defn2.next_to(defn, DOWN, buff=0.2)
 
-        func_graph = self.get_graph(lambda x: np.sin(x/2))
+        func_graph = self.get_graph(lambda x: np.sin(x / 2))
         func_graph.shift(3 * UP)
 
         text = TextMobject(
@@ -258,7 +260,7 @@ class Test(GraphScene, MovingCameraScene):
         self.play(Write(text), run_time=5)
         self.play(FadeOut(VGroup(func_graph, defn, defn2, text)), run_time=3)
 
-    @scene_setup(axes=False, exit=FadeOutAndShiftDown)
+    @scene_setup(axes=False)
     def continuous_function_example(self):
         sine_func = self.get_graph(lambda x: np.sin(x))
         sine_func_test = TextMobject(
@@ -266,9 +268,7 @@ class Test(GraphScene, MovingCameraScene):
         )
         sine_func_test.next_to(BOTTOM, UP, buff=0.2)
 
-        sine_func_conclusion = TextMobject(
-            "Turns out it is!", color=ORANGE
-        )
+        sine_func_conclusion = TextMobject("Turns out it is!", color=ORANGE)
         sine_func_conclusion.to_edge(RIGHT)
 
         self.play(Write(sine_func_test), run_time=5)
@@ -314,6 +314,7 @@ class Test(GraphScene, MovingCameraScene):
             self.wait()
         self.wait()
         self.play(Write(note), run_time=8)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
     def limit_of_a_quad_func(self):
         intro_text = (
@@ -347,8 +348,9 @@ class Test(GraphScene, MovingCameraScene):
             self.wait()
         self.wait()
         self.play(Write(note), run_time=8)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
-    @scene_setup(axes=True)
+    @scene_setup()
     def linear_func_graph(self):
         func_logic = lambda x: 2 * x + 3
         func_graph = self.get_graph(func_logic)
@@ -358,6 +360,14 @@ class Test(GraphScene, MovingCameraScene):
         start_dot, end_dot = Dot(color=ORANGE), Dot(color=ORANGE)
         start_dot.add_updater(lambda x: x.move_to(initial_line.get_start()))
         end_dot.add_updater(lambda x: x.move_to(initial_line.get_end()))
+
+        eqn_lim = TexMobject("lim")
+        eqn_tends = TexMobject(r"x \rightarrow 1")
+        eqn_fx = TexMobject("2x+3 = 5")
+        eqn_tends.next_to(eqn_lim, DOWN, buff=0.4)
+        eqn_fx.next_to(eqn_lim)
+        eqn = VGroup(eqn_lim, eqn_tends, eqn_fx)
+        eqn.to_edge(UP).shift(RIGHT)
 
         x_value = ValueTracker(2)
         fx = lambda x: 2 * x.get_value() + 3
@@ -388,9 +398,10 @@ class Test(GraphScene, MovingCameraScene):
             ShowCreation(VGroup(start_dot, end_dot)),
             ShowCreation(VGroup(x_tex, fx_tex)),
         )
-        self.play(x_value.set_value, 1, rate_func=rush_from, run_time=5)
+        self.play(Write(eqn), x_value.set_value, 1, rate_func=rush_from, run_time=8)
         self.wait(3)
-        
+
+    @scene_setup()
     def quadratic_func_graph(self):
         func_logic = lambda x: x ** 2 + 2
         func_graph = self.get_graph(func_logic)
@@ -400,6 +411,14 @@ class Test(GraphScene, MovingCameraScene):
         start_dot, end_dot = Dot(color=ORANGE), Dot(color=ORANGE)
         start_dot.add_updater(lambda x: x.move_to(initial_line.get_start()))
         end_dot.add_updater(lambda x: x.move_to(initial_line.get_end()))
+
+        eqn_lim = TexMobject("lim")
+        eqn_tends = TexMobject(r"x \rightarrow 1")
+        eqn_fx = TexMobject("x^2+2 = 3")
+        eqn_tends.next_to(eqn_lim, DOWN, buff=0.4)
+        eqn_fx.next_to(eqn_lim)
+        eqn = VGroup(eqn_lim, eqn_tends, eqn_fx)
+        eqn.to_edge(UP).shift(RIGHT)
 
         x_value = ValueTracker(2)
         fx = lambda x: x.get_value() ** 2 + 2
@@ -430,7 +449,116 @@ class Test(GraphScene, MovingCameraScene):
             ShowCreation(VGroup(start_dot, end_dot)),
             ShowCreation(VGroup(x_tex, fx_tex)),
         )
-        self.play(x_value.set_value, 1, rate_func=rush_from, run_time=5)
+        self.play(Write(eqn), x_value.set_value, 1, rate_func=rush_from, run_time=8)
         self.wait(3)
 
+    def x_tends_zero(self):
+        topic = TextMobject("Concept of Infinity", color=BLUE).scale(1.5)
 
+        intro_text = (
+            "Let us revisit the function f(x)=1/x. Notice the value of f(x)",
+            "as we gradually decrease the value of x from 1 to 0.",
+        )
+        intro = VGroup(*[TextMobject(i) for i in intro_text])
+        intro.arrange(DOWN, center=False).to_edge(UL)
+
+        x_value = ValueTracker(1)
+        fx = lambda x: 1 / x.get_value()
+        fx_value = ValueTracker(fx(x_value))
+
+        def update_decimal_x_tex(tex):
+            tex.set_value(x_value.get_value())
+
+        def update_decimal_y_tex(tex):
+            tex.set_value(fx(x_value))
+
+        x_tex = DecimalNumber(x_value.get_value()).add_updater(update_decimal_x_tex)
+        fx_tex = DecimalNumber(fx_value.get_value()).add_updater(update_decimal_y_tex)
+        fx_tex.next_to(x_tex, DOWN, buff=1.0).shift(LEFT)
+        x_tex.shift(LEFT)
+
+        x_label = TextMobject("x = ").next_to(x_tex, LEFT)
+        fx_label = TextMobject("f(x) = ").next_to(fx_tex, LEFT)
+
+        note_text = TextMobject(
+            "As x gets really close to 0, value of f(x) approaches infinity.",
+        )
+        note_text.to_edge(DOWN)
+
+        thus = TextMobject("Thus,", color=ORANGE)
+        eqn_lim = TexMobject("lim")
+        eqn_tends = TexMobject(r"x \rightarrow 0")
+        eqn_fx = TexMobject("1/x = \infty")
+        eqn_tends.next_to(eqn_lim, DOWN, buff=0.4)
+        eqn_fx.next_to(eqn_lim)
+        thus.next_to(eqn_lim, UP, buff=0.5)
+        eqn = VGroup(thus, eqn_lim, eqn_tends, eqn_fx)
+        eqn.to_edge(RIGHT)
+
+        self.play(Write(topic), run_time=3)
+        self.play(FadeOutAndShiftDown(topic))
+        self.play(Write(intro), run_time=8)
+        self.play(
+            Write(VGroup(x_label, x_tex)),
+            Write(VGroup(fx_label, fx_tex)),
+        )
+        self.play(
+            Write(note_text), x_value.set_value, 0.01, rate_func=linear, run_time=8
+        )
+        self.play(Write(eqn), run_time=8)
+        self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
+
+    
+    def x_tends_infinity(self):
+        intro_text = (
+            "Similarly, in the function f(x)=$1/x^2$. Notice the value",
+            "of x as we increase the value of x from 1 to $\\infty$.",
+        )
+        intro = VGroup(*[TextMobject(i) for i in intro_text])
+        intro.arrange(DOWN, center=False).to_edge(UL)
+
+        x_value = ValueTracker(1)
+        fx = lambda x: 1 / x.get_value()
+        fx_value = ValueTracker(fx(x_value))
+
+        def update_decimal_x_tex(tex):
+            tex.set_value(x_value.get_value())
+
+        def update_decimal_y_tex(tex):
+            tex.set_value(fx(x_value))
+
+        x_tex = DecimalNumber(x_value.get_value()).add_updater(update_decimal_x_tex)
+        fx_tex = DecimalNumber(fx_value.get_value()).add_updater(update_decimal_y_tex)
+        fx_tex.next_to(x_tex, DOWN, buff=1.0).shift(LEFT)
+        x_tex.shift(LEFT)
+
+        x_label = TextMobject("x = ").next_to(x_tex, LEFT)
+        fx_label = TextMobject("f(x) = ").next_to(fx_tex, LEFT)
+
+        note_text = TextMobject(
+            "As x gets really close to 0, value of f(x) approaches infinity.",
+        )
+        note_text.to_edge(DOWN)
+
+        thus = TextMobject("Thus,", color=ORANGE)
+        eqn_lim = TexMobject("lim")
+        eqn_tends = TexMobject(r"x \rightarrow \infty")
+        eqn_fx = TexMobject("1/x^2 = 0")
+        eqn_tends.next_to(eqn_lim, DOWN, buff=0.4)
+        eqn_fx.next_to(eqn_lim)
+        thus.next_to(eqn_lim, UP, buff=0.5)
+        eqn = VGroup(thus, eqn_lim, eqn_tends, eqn_fx)
+        eqn.to_edge(RIGHT)
+
+        self.play(Write(intro), run_time=8)
+        self.play(
+            Write(VGroup(x_label, x_tex)),
+            Write(VGroup(fx_label, fx_tex)),
+        )
+        self.play(
+            Write(note_text), x_value.set_value, 100, rate_func=linear, run_time=8
+        )
+        self.play(Write(eqn), run_time=8)
+        self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
