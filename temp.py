@@ -6,7 +6,8 @@ class Test(Scene):
 
     def construct(self):
         # self.topic()
-        self.intro()
+        # self.intro()
+        self.vector_intro_graph()
         self.wait(3)
 
     def topic(self):
@@ -56,9 +57,51 @@ class Test(Scene):
 
         for_eg_text = TextMobject(
            "Let us take two vectors A = 2i + 2j and B = 2i, ",
-         )
-        for_eg_text.to_edge(DOWN)
+        )
+        for_eg_text.to_edge(DOWN).shift(UP)
         self.play(Write(for_eg_text), run_time=3)
         
         self.wait(3)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
+
+
+    def vector_intro_graph(self):
+        grid = NumberPlane(background_line_style={'stroke_color':WHITE})
+
+        va = Vector(direction=UR, color=GREEN).scale(2).shift(UR/2)
+        vb = Vector(color=BLUE).scale(2, about_edge=LEFT)
+
+        va_coor_tex = TexMobject("A \ \ (2, 2)")
+        vb_coor_tex = TexMobject("B \ \ (2, 0)")
+        va_coor_tex.next_to(va.get_end(), UR)
+        vb_coor_tex.next_to(vb.get_end(), UR)
+
+        va_tex, vb_tex = TexMobject("2i+2j"), TexMobject("2i+0j")
+        arrow = TexMobject(r"\rightarrow").scale(1.5)
+        va_arrow, vb_arrow = arrow.copy(), arrow.copy()
+
+        va_arrow.next_to(va_coor_tex)
+        vb_arrow.next_to(vb_coor_tex)
+        va_tex.next_to(va_arrow).set_color(GREEN)
+        vb_tex.next_to(vb_arrow).set_color(BLUE)
+
+        self.play(ShowCreation(grid))
+        self.wait()
+
+        self.play(ShowCreation(va))
+        self.play(Write(va_coor_tex))
+        self.wait()
+
+        self.play(ShowCreation(vb))
+        self.play(Write(vb_coor_tex))
+        self.wait()
+
+        self.play(ShowCreation(va_arrow))
+        self.play(Write(va_tex))
+        self.wait()
+
+        self.play(ShowCreation(vb_arrow))
+        self.play(Write(vb_tex))
+
+        self.wait(3)
+        self.play(FadeOut(Group(*self.mobjects)))
