@@ -8,6 +8,9 @@ class Test(Scene):
         # self.topic()
         # self.intro()
         self.vector_intro_graph()
+        # self.algebric_calc()
+        # self.geometric_interpretation()
+        # self.geometric_calc()
         self.wait(3)
 
     def topic(self):
