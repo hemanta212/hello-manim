@@ -56,15 +56,6 @@ proj_dash.set_color(ORANGE)
 proj_dash.set_color(GREEN)
 proj_dash.set_color(YELLOW)
 proj_dash.set_color(WHITE)
-va.set_color(ORANGE)
-va.set_color(ORANGE_A)
-va.set_color(ORANGE_B)
-va.set_color(RED_A)
-va.set_color(RED_C)
-va.set_color(RED_B)
-va.set_color(RED_D)
-b.set_color(GREEN)
-va.set_color(BLUE)
 
 vp = Vector(ORIGIN, va_proj.get_end())
 vp = Vector(ORIGIN, proj_dash.get_end())
@@ -75,3 +66,17 @@ vp.set_length(Line(ORIGIN, proj_dash.get_end()).get_length())
 vp.shift(RIGHT/2)
 vp.set_color(RED)
 vp.set_color(RED_A)
+
+def get_projection(vector_to_project, stable_vector):
+    v1, v2 = stable_vector, vector_to_project
+    return v1*np.dot(v1, v2)/(get_norm(v1)**2)
+
+def get_vect_mob_projection(vector_to_project, stable_vector):
+    return Vector(
+        get_projection(
+            vector_to_project.get_end(),            
+            stable_vector.get_end()
+        ),
+        color = vector_to_project.get_color()
+    ).fade()
+
