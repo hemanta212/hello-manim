@@ -9,36 +9,31 @@ class Test(Scene):
         # self.intro()
         # self.vector_intro_graph()
         # self.algebric_calc()
-        self.geometric_interpretation()
-        # self.geometric_calc()
+        # self.geometric_interpretation()
+        self.geometric_calc()
         self.wait(3)
 
     def topic(self):
-        text = TextMobject(
-            "Product of Vectors", color=BLUE
-        )
-        text.scale(1.5)
-        self.play(Write(text), run_time=3)
+        title = TextMobject("Product of Vectors", color=BLUE)
+        title.scale(1.5)
+        self.play(Write(title), run_time=3)
         self.wait(1)
-        self.play(text.to_edge, UP)
+        self.play(title.to_edge, UP)
 
         types = (
             "The product of vectors can be calculated in two ways",
             "1. Scalar Product (Dot Product)",
             "2. Vector Product (Cross Product)",
-            )
+        )
         types_text = VGroup(*[TextMobject(i) for i in types])
         types_text.arrange(DOWN, center=False).shift(UP)
         self.play(Write(types_text), run_time=8)
 
         self.scalar_topic = types_text[1]
-        self.play(FadeOut(text), FadeOut(types_text[0]), FadeOut(types_text[2]))
-
+        self.play(FadeOut(title), FadeOut(types_text[0]), FadeOut(types_text[2]))
 
     def intro(self):
-        text = TextMobject(
-            "Scalar Product of Two Vectors", color=BLUE
-        )
+        text = TextMobject("Scalar Product of Two Vectors", color=BLUE)
         text.scale(1.5).to_edge(UP)
 
         # TODO REMOVE THISK
@@ -52,26 +47,25 @@ class Test(Scene):
             r"If $\vec{A}$ ($a_1$, $b_1$) and $\vec{B}$ ($a_2$, $b_2$) be two",
             "vectors then their scalar product is given by",
             r"$\vec{A} \cdot \vec{B}$ = ($a_1$, $b_1$) $\cdot$ ($a_2$, $b_2$)",
-            "= $a_1 a_2$ + $b_1 b_2$"
-            )
+            "= $a_1 a_2$ + $b_1 b_2$",
+        )
         intro_text = VGroup(*[TextMobject(i) for i in intro])
         intro_text.arrange(DOWN, center=False).shift(UP)
         self.play(Write(intro_text), run_time=8)
 
         for_eg_text = TextMobject(
-           r"Let us take two vectors $\vec{A}$ = 2i + 2j and $\vec{B}$ = 2i, ",
+            r"Let us take two vectors $\vec{A}$ = 2i + 2j and $\vec{B}$ = 2i, ",
         )
         for_eg_text.to_edge(DOWN).shift(UP)
         self.play(Write(for_eg_text), run_time=3)
-        
+
         self.wait(3)
         self.play(FadeOutAndShiftDown(VGroup(*self.mobjects)))
 
-
     def vector_intro_graph(self):
-        grid = NumberPlane(background_line_style={'stroke_color':WHITE})
+        grid = NumberPlane(background_line_style={"stroke_color": WHITE})
 
-        va = Vector(direction=UR, color=GREEN).scale(2).shift(UR/2)
+        va = Vector(direction=UR, color=GREEN).scale(2).shift(UR / 2)
         vb = Vector(color=BLUE).scale(2, about_edge=LEFT)
 
         va_coor_tex = TexMobject("\\vec{A} \ \ (2, 2)")
@@ -114,8 +108,10 @@ class Test(Scene):
         title.to_edge(UL)
 
         a_b = TexMobject(r"\vec{A} \cdot \vec{B} =").to_edge(UL).shift(DOWN)
-        tex_parts = [TexMobject(i) for i in ["(2i", "+", '2j)', r'\cdot', '(2i', '+', '0j)']]
-        vec_parts = [tex for n, tex in enumerate(tex_parts) if n%2==0]
+        tex_parts = [
+            TexMobject(i) for i in ["(2i", "+", "2j)", r"\cdot", "(2i", "+", "0j)"]
+        ]
+        vec_parts = [tex for n, tex in enumerate(tex_parts) if n % 2 == 0]
         i_parts = VGroup(vec_parts[0], vec_parts[2]).set_color(BLUE)
         j_parts = VGroup(vec_parts[1], vec_parts[3]).set_color(ORANGE)
 
@@ -132,7 +128,9 @@ class Test(Scene):
         a_b3 = a_b2.copy().shift(DOWN)
         new_row = VGroup(a_b3, TexMobject("4").next_to(a_b3))
 
-        conclusion = TextMobject(r"$\therefore$ the scalar product of $\vec{A}$ and $\vec{B}$ is 4.")
+        conclusion = TextMobject(
+            r"$\therefore$ the scalar product of $\vec{A}$ and $\vec{B}$ is 4."
+        )
         conclusion.next_to(new_row, DOWN, buff=1.0).to_edge(LEFT)
 
         self.play(Write(title), run_time=3)
@@ -153,11 +151,9 @@ class Test(Scene):
         self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
 
     def geometric_interpretation(self):
-        text = TextMobject(
-            "Geometric Interpretation", color=BLUE
-        )
-        text.scale(1.5).to_edge(UP)
-        self.play(Write(text), run_time=3)
+        title = TextMobject("Geometric Interpretation", color=BLUE)
+        title.scale(1.5).to_edge(UP)
+        self.play(Write(title), run_time=3)
         self.wait(1)
 
         types = (
@@ -165,10 +161,125 @@ class Test(Scene):
             "the concept of projection.",
             r"Scalar product of two vectors, $\vec{A}$ and $\vec{B}$ is given by",
             r"$\vec{A} \cdot \vec{B}$ = (length of proj. of $\vec{A}$)(length of $\vec{B}$)",
-            r"alternatively, $\vec{A} \cdot \vec{B}$ = (length of proj. of $\vec{B}$)(length of $\vec{A}$)"
-            )
+            r"alternatively, $\vec{A} \cdot \vec{B}$ = (length of proj. of $\vec{B}$)(length of $\vec{A}$)",
+            "Let us now obtain scalar product of two vectors,",
+            r"$\vec{A}$=2i+2j and $\vec{B}$=3i+0j",
+        )
         types_text = VGroup(*[TextMobject(i) for i in types])
-        types_text.arrange(DOWN, center=False).shift(2 * UP)
+        types_text.arrange(DOWN, center=False, buff=0.325)
+        types_text.next_to(title, DOWN, buff=1.0)
         self.play(Write(types_text), run_time=20)
         self.wait(3)
         self.play(FadeOut(Group(*self.mobjects)))
+
+    @staticmethod
+    def get_projection(vector_to_project, stable_vector):
+        v1, v2 = stable_vector, vector_to_project
+        return v1 * np.dot(v1, v2) / (get_norm(v1) ** 2)
+
+    def get_vect_mob_projection(self, vector_to_project, stable_vector):
+        return Vector(
+            self.get_projection(vector_to_project.get_end(), stable_vector.get_end()),
+            color=vector_to_project.get_color(),
+        ).fade()
+
+    def geometric_calc(self):
+        grid = NumberPlane(background_line_style={"stroke_color": GREY})
+
+        va = Vector(direction=UR, color=GREEN).scale(2).shift(UR / 2)
+        vb = Vector(color=BLUE).scale(3, about_edge=LEFT)
+
+        va_tex = TexMobject("\\vec{A}")
+        vb_tex = TexMobject("\\vec{B}")
+        va_tex.next_to(va.get_end(), UR)
+        vb_tex.next_to(vb.get_end(), UR)
+
+        va_perp_drop = Line(va.get_end(), va.get_end() + 2 * DOWN, color=BLUE)
+        va_proj = Vector(va_perp_drop.get_end(), color=va.get_color()).fade()
+
+        vb_proj = self.get_vect_mob_projection(vb, va)
+        vb_perp_drop = Line(vb.get_end(), vb_proj.get_end(), color=BLUE)
+
+        a_b = TexMobject(r"\vec{A} \cdot \vec{B} =").to_edge(UL)
+
+        va_proj_brace = Brace(va_proj, DOWN)
+        va_proj_tex = va_proj_brace.get_text("Length of proj. of $\\vec{A}$")
+        vb_brace = Brace(vb, DOWN)
+        vb_brace_tex = vb_brace.get_text("Length of $\\vec{B}$")
+
+        va_tar = va_proj_tex.generate_target().next_to(a_b)
+        vb_brace_tex.generate_target().next_to(va_tar)
+        va_dot_vb_g = VGroup(va_proj_tex, vb_brace_tex)
+        va_dot_vb_exp = TextMobject(
+            "(Length of proj. of $\\vec{A}$) $\\cdot$ "
+            "(Length of $\\vec{B}$)"
+        ).next_to(a_b)
+
+        alternatively = TextMobject("Alternatively,", color=BLUE).scale(1.5).to_edge(UL)
+
+        vb_proj_brace = Brace(vb_proj, UL)
+        vb_proj_tex = TextMobject("Length of proj. of $\\vec{B}$").scale(0.8)
+        vb_proj_tex.rotate(va.get_angle()).move_to(vb_proj_brace).shift(UL / 2)
+        va_brace = Brace(va, UL)
+        va_brace_tex = TextMobject("Length of $\\vec{A}$").scale(0.8)
+        va_brace_tex.rotate(va.get_angle()).move_to(va_brace).shift(UL / 2)
+
+        vb_tar = vb_proj_tex.generate_target().rotate(-va.get_angle()).next_to(a_b)
+        va_brace_tex.generate_target().rotate(-va.get_angle()).next_to(vb_tar)
+        vb_dot_va_g = VGroup(a_b, vb_proj_tex, va_brace_tex)
+        vb_dot_va_exp = TextMobject(
+            r"$\vec{A} \cdot \vec{B}$ = "
+            "(Length of proj. of $\\vec{B}$) $\\cdot$ "
+            "(Length of $\\vec{A}$)"
+        ).to_edge(UL)
+
+        self.play(ShowCreation(grid))
+        self.wait()
+
+        self.play(ShowCreation(va))
+        self.play(Write(va_tex))
+        self.wait()
+
+        self.play(ShowCreation(vb))
+        self.play(Write(vb_tex))
+        self.wait()
+
+        self.play(Write(a_b))
+        self.wait()
+
+        self.play(ShowCreation(va_perp_drop))
+        self.play(ReplacementTransform(va.copy(), va_proj))
+        self.wait()
+
+        self.play(ShowCreation(va_proj_brace))
+        self.play(ShowCreation(va_proj_tex))
+        self.wait()
+        self.play(FadeOut(va_proj_brace))
+        self.play(MoveToTarget(va_proj_tex))
+        self.wait()
+        self.play(ShowCreation(vb_brace))
+        self.play(ShowCreation(vb_brace_tex))
+        self.play(MoveToTarget(vb_brace_tex), FadeOut(vb_brace))
+        self.play(ReplacementTransform(va_dot_vb_g, va_dot_vb_exp))
+        self.wait()
+
+        self.play(FadeOut(a_b), ReplacementTransform(va_dot_vb_exp, alternatively))
+        self.play(FadeOut(VGroup(va_perp_drop, va_proj)))
+        self.play(Uncreate(alternatively))
+        self.play(Write(a_b))
+
+        self.play(ShowCreation(vb_perp_drop))
+        self.play(ReplacementTransform(vb.copy(), vb_proj))
+        self.wait()
+
+        self.play(ShowCreation(vb_proj_brace))
+        self.play(ShowCreation(vb_proj_tex))
+        self.wait()
+        self.play(FadeOut(vb_proj_brace))
+        self.play(MoveToTarget(vb_proj_tex))
+        self.wait()
+        self.play(ShowCreation(va_brace))
+        self.play(ShowCreation(va_brace_tex))
+        self.play(MoveToTarget(va_brace_tex))
+        self.play(ReplacementTransform(vb_dot_va_g, vb_dot_va_exp))
+        self.wait()
