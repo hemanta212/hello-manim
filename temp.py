@@ -5,10 +5,10 @@ class Test(Scene):
     scalar_topic = None
 
     def construct(self):
-        # self.topic()
-        # self.intro()
+        self.topic()
+        self.intro()
         self.vector_intro_graph()
-        # self.algebric_calc()
+        self.algebric_calc()
         # self.geometric_interpretation()
         # self.geometric_calc()
         self.wait(3)
@@ -49,9 +49,9 @@ class Test(Scene):
 
         self.wait(1)
         intro = (
-            "If A ($a_1$, $b_1$) and B ($a_2$, $b_2$) be two",
-            "Vectors then their scalar product is given by",
-            "A $\cdot$ B = ($a_1$, $b_1$) $\cdot$ ($a_2$, $b_2$)",
+            r"If $\vec{A}$ ($a_1$, $b_1$) and $\vec{B}$ ($a_2$, $b_2$) be two",
+            "vectors then their scalar product is given by",
+            r"$\vec{A} \cdot \vec{B}$ = ($a_1$, $b_1$) $\cdot$ ($a_2$, $b_2$)",
             "= $a_1 a_2$ + $b_1 b_2$"
             )
         intro_text = VGroup(*[TextMobject(i) for i in intro])
@@ -59,7 +59,7 @@ class Test(Scene):
         self.play(Write(intro_text), run_time=8)
 
         for_eg_text = TextMobject(
-           "Let us take two vectors A = 2i + 2j and B = 2i, ",
+           r"Let us take two vectors $\vec{A}$ = 2i + 2j and $\vec{B}$ = 2i, ",
         )
         for_eg_text.to_edge(DOWN).shift(UP)
         self.play(Write(for_eg_text), run_time=3)
@@ -74,8 +74,8 @@ class Test(Scene):
         va = Vector(direction=UR, color=GREEN).scale(2).shift(UR/2)
         vb = Vector(color=BLUE).scale(2, about_edge=LEFT)
 
-        va_coor_tex = TexMobject("A \ \ (2, 2)")
-        vb_coor_tex = TexMobject("B \ \ (2, 0)")
+        va_coor_tex = TexMobject("\\vec{A} \ \ (2, 2)")
+        vb_coor_tex = TexMobject("\\vec{B} \ \ (2, 0)")
         va_coor_tex.next_to(va.get_end(), UR)
         vb_coor_tex.next_to(vb.get_end(), UR)
 
@@ -108,3 +108,46 @@ class Test(Scene):
 
         self.wait(3)
         self.play(FadeOut(Group(*self.mobjects)))
+
+    def algebric_calc(self):
+        title = TextMobject("Solving algebraically, ")
+        title.to_edge(UL)
+
+        a_b = TexMobject(r"\vec{A} \cdot \vec{B} =").to_edge(UL).shift(DOWN)
+        tex_parts = [TexMobject(i) for i in ["(2i", "+", '2j)', r'\cdot', '(2i', '+', '0j)']]
+        vec_parts = [tex for n, tex in enumerate(tex_parts) if n%2==0]
+        i_parts = VGroup(vec_parts[0], vec_parts[2]).set_color(BLUE)
+        j_parts = VGroup(vec_parts[1], vec_parts[3]).set_color(ORANGE)
+
+        row_one = [a_b]
+        for tex in tex_parts:
+            tex.next_to(row_one[-1])
+            row_one.append(tex)
+
+        a_b2 = a_b.copy().shift(DOWN)
+        i_dest = TexMobject(r"(2i \cdot 2i) \ + \ ", color=BLUE).next_to(a_b2)
+        j_dest = TexMobject(r"(2j \cdot 0j)", color=ORANGE).next_to(i_dest)
+        two_row = VGroup(a_b2, i_dest, j_dest)
+
+        a_b3 = a_b2.copy().shift(DOWN)
+        new_row = VGroup(a_b3, TexMobject("4").next_to(a_b3))
+
+        conclusion = TextMobject(r"$\therefore$ the scalar product of $\vec{A}$ and $\vec{B}$ is 4.")
+        conclusion.next_to(new_row, DOWN, buff=1.0).to_edge(LEFT)
+
+        self.play(Write(title), run_time=3)
+        self.wait()
+        self.play(Write(VGroup(*row_one)))
+
+        self.play(ReplacementTransform(a_b.copy(), a_b2))
+        self.wait()
+        self.play(ReplacementTransform(i_parts.copy(), i_dest))
+        self.wait()
+        self.play(ReplacementTransform(j_parts.copy(), j_dest))
+        self.wait()
+
+        self.play(ReplacementTransform(two_row.copy(), new_row))
+        self.play(Write(conclusion), run_time=5)
+
+        self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
