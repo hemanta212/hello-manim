@@ -5,11 +5,11 @@ class Test(Scene):
     scalar_topic = None
 
     def construct(self):
-        self.topic()
-        self.intro()
-        self.vector_intro_graph()
-        self.algebric_calc()
-        # self.geometric_interpretation()
+        # self.topic()
+        # self.intro()
+        # self.vector_intro_graph()
+        # self.algebric_calc()
+        self.geometric_interpretation()
         # self.geometric_calc()
         self.wait(3)
 
@@ -151,3 +151,24 @@ class Test(Scene):
 
         self.wait(3)
         self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
+
+    def geometric_interpretation(self):
+        text = TextMobject(
+            "Geometric Interpretation", color=BLUE
+        )
+        text.scale(1.5).to_edge(UP)
+        self.play(Write(text), run_time=3)
+        self.wait(1)
+
+        types = (
+            "Scalar product can be geometrically explained through",
+            "the concept of projection.",
+            r"Scalar product of two vectors, $\vec{A}$ and $\vec{B}$ is given by",
+            r"$\vec{A} \cdot \vec{B}$ = (length of proj. of $\vec{A}$)(length of $\vec{B}$)",
+            r"alternatively, $\vec{A} \cdot \vec{B}$ = (length of proj. of $\vec{B}$)(length of $\vec{A}$)"
+            )
+        types_text = VGroup(*[TextMobject(i) for i in types])
+        types_text.arrange(DOWN, center=False).shift(2 * UP)
+        self.play(Write(types_text), run_time=20)
+        self.wait(3)
+        self.play(FadeOut(Group(*self.mobjects)))
