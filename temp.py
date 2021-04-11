@@ -5,12 +5,14 @@ class Test(Scene):
     scalar_topic = None
 
     def construct(self):
-        # self.topic()
-        # self.intro()
-        # self.vector_intro_graph()
-        # self.algebric_calc()
-        # self.geometric_interpretation()
+        self.topic()
+        self.intro()
+        self.vector_intro_graph()
+        self.algebric_calc()
+        self.geometric_interpretation()
         self.geometric_calc()
+        self.case_of_perpendicularity()
+        # self.angle_of_vectors()
         self.wait(3)
 
     def topic(self):
@@ -282,4 +284,71 @@ class Test(Scene):
         self.play(ShowCreation(va_brace_tex))
         self.play(MoveToTarget(va_brace_tex))
         self.play(ReplacementTransform(vb_dot_va_g, vb_dot_va_exp))
+        self.wait()
+        self.play(FadeOut(Group(*self.mobjects)))
+
+    def case_of_perpendicularity(self):
+        grid = NumberPlane(background_line_style={"stroke_color": GREY})
+
+        va = Vector(direction=UR, color=GREEN).scale(2).shift(UR / 2)
+        vb = Vector(color=BLUE).scale(3, about_edge=LEFT)
+
+        va_tex = TexMobject("\\vec{A}")
+        vb_tex = TexMobject("\\vec{B}")
+        va_tex.next_to(va.get_end(), UL)
+        vb_tex.next_to(vb.get_end(), UR)
+
+        va_extension = Line(va.get_start(), va.get_end()).scale(5)
+        vb_obtuse = vb.generate_target().rotate(-PI/2, about_edge=LEFT)
+
+        vb_proj = self.get_vect_mob_projection(vb_obtuse, va)
+        vb_perp_drop = Line(vb_obtuse.get_end(), vb_proj.get_end(), color=BLUE)
+
+        a_b = TexMobject(r"\vec{A} \cdot \vec{B} =").to_edge(UL)
+
+        vb_dot_va_exp = TextMobject(
+            "- ", " (Length of proj. of $\\vec{B}$) $\\cdot$ "
+            "(Length of $\\vec{A}$)"
+        ).next_to(a_b)
+
+        vb_dot_va_exp[0].set_color(YELLOW).scale(2)
+
+        case_of_perp = TextMobject("Case of perpendicularity", color=BLUE).scale(1.5)
+        case_of_perp.to_edge(UL)
+        vb_right = vb.copy().rotate(-PI/4, about_edge=LEFT)
+
+        vb_dot_va_exp_right = TextMobject(
+            "0 $\\cdot$ "
+            "(Length of $\\vec{A}$)"
+        ).next_to(a_b)
+
+        vb_dot_va_exp_right2 = TextMobject(
+            "0"
+        ).next_to(a_b)
+
+        vb_tex.add_updater(lambda x: x.next_to(vb.get_end(), UR))
+
+        self.add(grid, va, va_tex, vb, vb_tex, a_b)
+
+        self.play(ShowCreation(va_extension))
+        self.play(MoveToTarget(vb))
+        self.play(ShowCreation(vb_perp_drop))
+        self.play(ReplacementTransform(vb.copy(), vb_proj))
+        self.wait()
+        self.play(Write(vb_dot_va_exp))
+        self.wait()
+        self.play(Indicate(vb_dot_va_exp[0]))
+        self.wait()
+        self.play(FadeOut(VGroup(vb_perp_drop, vb_proj, vb_dot_va_exp, a_b)))
+
+        self.play(Write(case_of_perp))
+        self.wait()
+        
+        self.play(Transform(vb, vb_right))
+        self.wait()
+
+        self.play(ReplacementTransform(case_of_perp, a_b))
+        self.play(Write(vb_dot_va_exp_right))
+        self.wait()
+        self.play(ReplacementTransform(vb_dot_va_exp_right, vb_dot_va_exp_right2))
         self.wait()
