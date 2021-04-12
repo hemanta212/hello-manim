@@ -12,7 +12,8 @@ class Test(Scene):
         # self.geometric_interpretation()
         # self.geometric_calc()
         # self.case_of_perpendicularity()
-        self.angle_of_vectors()
+        # self.angle_of_vectors()
+        self.angle_of_vectors_algebric()
         self.wait(3)
 
     def topic(self):
@@ -346,6 +347,7 @@ class Test(Scene):
         self.wait()
         self.play(ReplacementTransform(vb_dot_va_exp_right, vb_dot_va_exp_right2))
         self.wait()
+        self.play(FadeOut(Group(*self.mobjects)))
 
     def angle_of_vectors(self):
         axes = Axes(x_min=-1, y_min=0)
@@ -470,11 +472,11 @@ class Test(Scene):
         self.play(ShowCreation(axes), FadeIn(x_tex), FadeIn(o_tex))
         self.play(ShowCreation(VGroup(va, va_tex)))
         self.play(ShowCreation(VGroup(vb, vb_tex)))
-        # for line in given_g:
-        #     self.play(Write(line), run_time=3)
-        #     self.wait()
-        # self.wait(3)
-        # self.play(FadeOut(given_g))
+        for line in given_g:
+            self.play(Write(line), run_time=3)
+            self.wait()
+        self.wait(3)
+        self.play(FadeOut(given_g))
         for text, anim in zip(tri_xoa_g, tri_xoa_animations):
             self.play(Write(text), *anim, run_time=5)
             self.wait()
@@ -490,4 +492,31 @@ class Test(Scene):
         for text, anim in zip(conclusion_g, conclusion_animations):
             self.play(Write(text), *anim, run_time=5)
             self.wait()
+        self.wait(3)
+        self.play(FadeOut(VGroup(*self.mobjects)))
+
+    def angle_of_vectors_algebric(self):
+        title = TextMobject("Angle of vector using cosine dot product relation")
+        title.set_color(BLUE).scale(1.2).to_edge(UL)
+
+        text = (
+            "Let us look at another way of calculating the angle between",
+            "vectors. Let, $\\vec{A}$ and $\\vec{B}$ be any two vectors",
+            "and $\\theta$ be the angle between them. Then,",
+        )
+        text_g = VGroup(*[TextMobject(i) for i in text])
+        text_g.arrange(DOWN, center=False).next_to(title, DOWN, buff=0.8)
+        cosine_formula = TexMobject(
+            "cos \\theta = \\frac{ \\vec{A} \\cdot \\vec{B} }{| \\vec{A} | \\cdot | \\vec{B} |}"
+            "\ \ \ \ or, \\theta = cos^{-1}(\\frac{ \\vec{A} \\cdot \\vec{B} }{| \\vec{A} | \\cdot | \\vec{B} |})",
+        )
+        cosine_formula.next_to(text_g, DOWN, buff=0.8).to_edge(LEFT).shift(RIGHT)
+
+        where_text = TextMobject("Where, |A|, |B| are magnitude of $\\vec{A}$ and $\\vec{B}$ resp.").next_to(cosine_formula, DOWN, buff=0.2).to_edge(DOWN)
+
+        self.play(Write(title))
+        for line in text_g:
+            self.play(Write(line), run_time=3)
+        self.play(Write(cosine_formula, run_time=3))
+        self.play(Write(where_text, run_time=3))
         self.wait(3)
