@@ -12,8 +12,9 @@ class Test(Scene):
         # self.geometric_interpretation()
         # self.geometric_calc()
         # self.case_of_perpendicularity()
+        self.dot_product_properties()
         # self.angle_of_vectors()
-        self.angle_of_vectors_algebric()
+        # self.angle_of_vectors_algebric()
         self.wait(3)
 
     def topic(self):
@@ -520,3 +521,45 @@ class Test(Scene):
         self.play(Write(cosine_formula, run_time=3))
         self.play(Write(where_text, run_time=3))
         self.wait(3)
+
+    def dot_product_properties(self):
+        text = TextMobject("Properties of Scalar Product", color=BLUE)
+        text.scale(1.5).to_edge(UP)
+        self.play(Write(text))
+
+        commutative = TextMobject("Commutative Law").next_to(text, DOWN, buff=1.0)
+        associative = TextMobject("Associative Law").next_to(text, DOWN, buff=1.0)
+        distributive = TextMobject("Distributive Law").next_to(text, DOWN, buff=1.0)
+        texts = (
+            "Let, $\\vec{A}$ and $\\vec{B}$ be two vectors then,",
+            "$\\vec{A} \\cdot \\vec{B} = \\vec{B} \\cdot \\vec{A}$",
+            )
+        commutative_g = VGroup(*[TextMobject(i) for i in texts]).arrange(DOWN, center=False).next_to(commutative, DOWN, buff=1.0)
+        texts = (
+            "Let, $\\vec{A}$ and $\\vec{B}$ be two vectors and x and y be any two scalars",
+            "then, $x\\vec{A} \\cdot y\\vec{B} = xy(\\vec{A} \\cdot \\vec{B}) = xy \\vec{A} \\cdot \\vec{B} = \\vec{A} \\cdot xy\\vec{B}$",
+            )
+        associative_g = VGroup(*[TextMobject(i) for i in texts]).arrange(DOWN, center=False).next_to(associative, DOWN, buff=1.0)
+        texts = (
+            "Let, $\\vec{A}$, $\\vec{B}$ and $\\vec{C}$ be three vectors then,",
+            "$\\vec{A} \\cdot (\\vec{B} + \\vec{C}) = \\vec{A} \\cdot \\vec{B} + \\vec{A} \\cdot \\vec{C}$",
+            )
+        distributive_g = VGroup(*[TextMobject(i) for i in texts]).arrange(DOWN, center=False).next_to(distributive, DOWN, buff=1.0)
+
+        self.play(Write(commutative))
+        self.play(Write(commutative_g), run_time=6)
+        self.wait()
+        self.play(FadeOut(VGroup(commutative, commutative_g)))
+
+        self.play(Write(associative))
+        self.play(Write(associative_g), run_time=6)
+        self.wait()
+        self.play(FadeOut(VGroup(associative, associative_g)))
+
+        self.play(Write(distributive))
+        self.play(Write(distributive_g), run_time=6)
+        self.wait()
+        self.play(FadeOut(VGroup(distributive, distributive_g)))
+
+        self.wait(3)
+        self.play(FadeOut(VGroup(*self.mobjects)))
