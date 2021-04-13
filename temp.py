@@ -6,7 +6,7 @@ class Test(Scene):
     def construct(self):
         self.intro()
         self.example3()
-        # self.example4()
+        self.example4()
         self.wait(3)
 
     def intro(self):
@@ -67,6 +67,70 @@ class Test(Scene):
         last_calc, last_line = -2, -1
         texts_g[last_calc].shift(RIGHT)
         texts_g[last_line].shift(2 * RIGHT)
+
+        self.play(Write(ques), run_time=3)
+        self.wait(3)
+        self.play(MoveToTarget(ques))
+
+        self.play(ShowCreation(figure), run_time=5)
+        self.wait(2)
+        self.play(MoveToTarget(figure))
+        self.wait(3)
+
+        for line in texts_g:
+            self.play(Write(line), run_time=3)
+
+        self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
+
+    def example4(self):
+        ques = TextMobject(
+            "Q. Prove that the angle in the semi-circle is a right angle.", color=BLUE
+        ).scale(1.1)
+        ques_top = ques.generate_target().scale(0.8).to_edge(UP, buff=0.1)
+
+        d1, d2 = 1.5 * LEFT, 1.5 * RIGHT
+        semi_circle = ArcBetweenPoints(d1, d2, angle=-PI)
+        center = midpoint(d1, d2)
+        point_O = SmallDot(center)
+        point_P = (UP / 1.2 + RIGHT / 2) * 1.5
+
+        diameter_line = Line(d1, d2, color=BLUE)
+        line_AP = Line(d1, point_P, color=BLUE)
+        line_BP = Line(d2, point_P, color=BLUE)
+        line_OP = Line(center, point_P, color=BLUE)
+        lines = VGroup(diameter_line, line_AP, line_BP, line_OP)
+
+        label_A, label_B, label_O, label_P = (TexMobject(i).scale(0.8) for i in "ABOP")
+        label_O.next_to(center, DOWN, buff=0.1)
+        label_A.next_to(d1, DOWN, buff=0.1)
+        label_B.next_to(d2, DOWN, buff=0.1)
+        label_P.next_to(point_P, UR, buff=0.1)
+        labels = VGroup(label_A, label_O, label_P, label_B)
+
+        figure = VGroup(semi_circle, point_O, lines, labels)
+        figure_pos = figure.generate_target().to_edge(UR, buff=0.1).shift(DOWN / 1.5)
+
+        texts = (
+            "Let APB be an angle in the semi-circle.",
+            "Let O be the origin.",
+            "If $\\vec{OA} = \\vec{a}$, then $\\vec{OB} = -\\vec{a}$ also, let $\\vec{OP} = \\vec{r}$",
+            "Then,",
+            "$\\vec{PA} = \\vec{PO}\ +\ \\vec{OA}\ =\ -\\vec{r}\ +\ \\vec{a}$",
+            "And, $\\vec{PB} = \\vec{PO}\ +\ \\vec{OB}\ =\ -\\vec{r}\ -\ \\vec{a}$",
+            "Now,",
+            "$\\vec{PA} \\cdot \\vec{PB} = (-\\vec{r}\ +\ \\vec{a}) \\cdot (-\\vec{r}\ -\ \\vec{a})$",
+            " = $r^2 - a^2$ [OA = OP]",
+            " = 0",
+            "Thus, angle APB = $90^{\\circ}$",
+        )
+        texts_g = VGroup(*[TextMobject(i).scale(0.8) for i in texts])
+        texts_g.arrange(DOWN, center=False).to_edge(UL).shift(DOWN / 3)
+
+        second_last_calc, last_calc, last_line = -3, -2, -1
+        texts_g[second_last_calc].shift(RIGHT / 2)
+        texts_g[last_calc].shift(LEFT)
+        texts_g[last_line].shift(3 * RIGHT)
 
         self.play(Write(ques), run_time=3)
         self.wait(3)
