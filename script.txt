@@ -1,23 +1,10 @@
-Video 2:
-Animate: “There are different topics that go around Calculus”
-Again: The Floating (Limits, Derivatives...) around “Calculus” (OR a Bubble chart)
-“Lets look at them one at a time”
-//Clear Screen// OR //ReplacementTransform “Limits & Continuity” to another position suitable as a Title//
+FIFTH VIDEO – Worked out examples
 
-Title: Limits & Continuity
-Starting out with a scenario:
-“Let’s consider an equation y=1/x and look at how y behaves as x increases”
-Animator is requested to animate a x, y value table and end it with ellipsis.
-//CLEAR SCREEN//
-Animator is requested to Animate a Graph of y = 1/x at the same rate as the text explaining that “as the value of x increase, notice that the value of y decreases, but never reaches 0, no matter how large x gets.
-If possible: in the “No matter how large x gets” zoom into the graph showing that it never touched the x-axis.
-“Here, the “Limiting” (in different color) value of y is 0.” “Limit deals with values that come very close to each other but never meet”
-Equation of limit is expressed as:
-limx→af(x)=l
-This equation is read as, 'As x approaches a, the limit of f(x) is l.'
-//clear screen//
-Sub-topic: Identifying Continuous Function
-- Define what a continuous function is.
-- Animate a graph saying “you can draw this without lifting your pen”
-- Let’s see if y = sin(x) is continuous. Animate the same.
-//clear screen//
+Solve example 3
+
+Step 1: Write down the question.
+Step 2: Move it to the top corner of the screen and make it small.
+Step 3: Draw the diagram
+Step 4: Solve the equations using ReplacementTransform(copy(), )
+
+Repeat the same for example 4
