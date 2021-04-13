@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class ScalarProduct(Scene):
+class Test(Scene):
     scalar_topic = None
 
     def construct(self):
@@ -39,17 +39,12 @@ class ScalarProduct(Scene):
     def intro(self):
         text = TextMobject("Scalar Product of Two Vectors", color=BLUE)
         text.scale(1.5).to_edge(UP)
-
-        # TODO REMOVE THISK
-        if self.scalar_topic:
-            self.play(ReplacementTransform(self.scalar_topic, text))
-        else:
-            self.play(Write(text))
-
+        self.play(ReplacementTransform(self.scalar_topic, text))
         self.wait(1)
+
         intro = (
             r"If $\vec{A}$ ($a_1$, $b_1$) and $\vec{B}$ ($a_2$, $b_2$) be two",
-            "vectors then their scalar product is given by",
+            "vectors then their scalar product is given by,",
             r"$\vec{A} \cdot \vec{B}$ = ($a_1$, $b_1$) $\cdot$ ($a_2$, $b_2$)",
             "= $a_1 a_2$ + $b_1 b_2$",
         )
@@ -71,6 +66,8 @@ class ScalarProduct(Scene):
         va = Vector(direction=UR, color=GREEN).scale(2).shift(UR / 2)
         vb = Vector(color=BLUE).scale(2, about_edge=LEFT)
 
+        origin_tex = TexMobject("O")
+        origin_tex.shift(DL/3)
         va_coor_tex = TexMobject("\\vec{A} \ \ (2, 2)")
         vb_coor_tex = TexMobject("\\vec{B} \ \ (2, 0)")
         va_coor_tex.next_to(va.get_end(), UR)
@@ -86,6 +83,7 @@ class ScalarProduct(Scene):
         vb_tex.next_to(vb_arrow).set_color(BLUE)
 
         self.play(ShowCreation(grid))
+        self.play(ShowCreation(origin_tex))
         self.wait()
 
         self.play(ShowCreation(va))
@@ -170,8 +168,9 @@ class ScalarProduct(Scene):
         )
         types_text = VGroup(*[TextMobject(i) for i in types])
         types_text.arrange(DOWN, center=False, buff=0.325)
-        types_text.next_to(title, DOWN, buff=1.0)
-        self.play(Write(types_text), run_time=20)
+        types_text.next_to(title, DOWN, buff=0.7)
+        for line in types_text:
+            self.play(Write(line), run_time=4)
         self.wait(3)
         self.play(FadeOut(Group(*self.mobjects)))
 
@@ -192,10 +191,12 @@ class ScalarProduct(Scene):
         va = Vector(direction=UR, color=GREEN).scale(2).shift(UR / 2)
         vb = Vector(color=BLUE).scale(3, about_edge=LEFT)
 
+        origin_tex = TexMobject("O")
         va_tex = TexMobject("\\vec{A}")
         vb_tex = TexMobject("\\vec{B}")
         va_tex.next_to(va.get_end(), UR)
         vb_tex.next_to(vb.get_end(), UR)
+        origin_tex.shift(DL/3)
 
         va_perp_drop = Line(va.get_end(), va.get_end() + 2 * DOWN, color=BLUE)
         va_proj = Vector(va_perp_drop.get_end(), color=va.get_color()).fade()
@@ -236,6 +237,7 @@ class ScalarProduct(Scene):
         ).to_edge(UL)
 
         self.play(ShowCreation(grid))
+        self.play(ShowCreation(origin_tex))
         self.wait()
 
         self.play(ShowCreation(va))
@@ -366,7 +368,7 @@ class ScalarProduct(Scene):
         vb = Vector(direction=UR, color=BLUE).scale(2).shift(UR / 2)
 
         x_tex = axes.get_x_axis_label("X")
-        o_tex = TexMobject("O").shift(DOWN / 2)
+        origin_tex = TexMobject("O").shift(DOWN / 2)
         va_tex = TexMobject("\\vec{A}")
         vb_tex = TexMobject("\\vec{B}")
         va_tex.add_updater(lambda x: x.next_to(va.get_end(), UL))
@@ -476,7 +478,7 @@ class ScalarProduct(Scene):
             (Animation(vb),),
         ]
 
-        self.play(ShowCreation(axes), FadeIn(x_tex), FadeIn(o_tex))
+        self.play(ShowCreation(axes), FadeIn(x_tex), FadeIn(origin_tex))
         self.play(ShowCreation(VGroup(va, va_tex)))
         self.play(ShowCreation(VGroup(vb, vb_tex)))
         for line in given_g:
