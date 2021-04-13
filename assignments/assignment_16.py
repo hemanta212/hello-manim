@@ -1,7 +1,7 @@
 from manimlib.imports import *
 
 
-class Test(Scene):
+class VectorExcercises(Scene):
     def construct(self):
         self.intro()
         self.example3()
