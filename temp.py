@@ -4,7 +4,7 @@ from manimlib.imports import *
 # class VectorExcercises(Scene):
 class Test(Scene):
     def construct(self):
-        # self.intro()
+        self.intro()
         self.example3()
         # self.example4()
         self.wait(3)
@@ -36,23 +36,19 @@ class Test(Scene):
         ex_BC = Line(B, C, color=BLUE).scale(1.5)
         sides = VGroup(ex_AB, ex_AC, ex_BC)
 
-        vec_tex = lambda x: TexMobject("\\vec{"+x+"}")
-        vec_label_a, vec_label_b, vec_label_c = (
-            vec_tex(i).scale(0.8) for i in "abc"
-        )
-        vec_label_a.next_to(midpoint(B,C), DOWN, buff=0.2)
-        vec_label_b.next_to(midpoint(A,C), RIGHT, buff=0.2)
-        vec_label_c.next_to(midpoint(A,B), LEFT, buff=0.2)
+        vec_tex = lambda x: TexMobject("\\vec{" + x + "}")
+        vec_label_a, vec_label_b, vec_label_c = (vec_tex(i).scale(0.8) for i in "abc")
+        vec_label_a.next_to(midpoint(B, C), DOWN, buff=0.2)
+        vec_label_b.next_to(midpoint(A, C), RIGHT, buff=0.2)
+        vec_label_c.next_to(midpoint(A, B), LEFT, buff=0.2)
         vec_labels = VGroup(vec_label_a, vec_label_b, vec_label_c)
 
-        angle_PI_min_C = ArcBetweenPoints(
-            C+RIGHT/3, C+ (UP+LEFT/2)/3
-            )
+        angle_PI_min_C = ArcBetweenPoints(C + RIGHT / 3, C + (UP + LEFT / 2) / 3)
         PI_min_C_tex = TexMobject("\\pi - C").scale(0.8).next_to(C, UR)
         PI_min_C = VGroup(angle_PI_min_C, PI_min_C_tex)
 
         figure = VGroup(triangle, labels, sides, vec_labels, PI_min_C)
-        figure_pos = figure.generate_target().to_edge(UR, buff=0.1).shift(DOWN/1.5)
+        figure_pos = figure.generate_target().to_edge(UR, buff=0.1).shift(DOWN / 1.5)
 
         texts = (
             "In any triangle ABC, let $\\vec{BC} = \\vec{a}$,",
@@ -64,20 +60,25 @@ class Test(Scene):
             " $= a^2\ +\ 2 \\vec{a} \\vec{b}\ +\ b^2$",
             " $= a^2\ +\ b^2 +\ 2abcos(\\pi - C)$",
             "Thus, we got $c^2\ =\ a^2\ +\ b^2\ -\ 2abcosC$",
-            )
+        )
         texts_g = VGroup(*[TextMobject(i).scale(0.95) for i in texts])
-        texts_g.arrange(DOWN, center=False).to_edge(UL).shift(DOWN/1.2)
+        texts_g.arrange(DOWN, center=False).to_edge(UL).shift(DOWN / 3)
 
-        # self.play(Write(ques), run_time=3)
-        # self.wait(3)
-        # self.play(MoveToTarget(ques))
+        last_calc, last_line = -2, -1
+        texts_g[last_calc].shift(RIGHT)
+        texts_g[last_line].shift(2 * RIGHT)
 
-        # self.play(ShowCreation(figure), run_time=5)
-        # self.wait(2)
-        # self.play(MoveToTarget(figure))
-        # self.wait(3)
+        self.play(Write(ques), run_time=3)
+        self.wait(3)
+        self.play(MoveToTarget(ques))
 
-        self.add(ques_top, figure_pos)
+        self.play(ShowCreation(figure), run_time=5)
+        self.wait(2)
+        self.play(MoveToTarget(figure))
+        self.wait(3)
+
         for line in texts_g:
             self.play(Write(line), run_time=3)
+
         self.wait(3)
+        self.play(FadeOutAndShiftDown(Group(*self.mobjects)))
