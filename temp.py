@@ -55,17 +55,18 @@ class Test(Scene):
         figure_pos = figure.generate_target().to_edge(UR, buff=0.1).shift(DOWN/1.5)
 
         texts = (
-            "In any triangle ABC, let $\\vec{BC} = \\vec{a}$, $\\vec{CA} = \\vec{b}$, and $\\vec{AB} = \\vec{c}$",
-            "By the definition of vector addition",
+            "In any triangle ABC, let $\\vec{BC} = \\vec{a}$,",
+            "$\\vec{CA} = \\vec{b}$, and $\\vec{AB} = \\vec{c}$.",
+            "By the definition of vector addition,",
             "$\\vec{AB} = \\vec{AC}\ +\ \\vec{CB}$",
             "$\\vec{c} = -\ \\vec{b}\ -\ \\vec{a}$",
             "or, $c^2 = (\\vec{b}\ +\ \\vec{a})^2$",
-            "\tab $= a^2\ +\ 2 \\vec{a} \\vec{b}\ +\ b^2$",
-            "\tab $= a^2\ +\ b^2 +\ 2abcos(\\pi - C)$",
+            " $= a^2\ +\ 2 \\vec{a} \\vec{b}\ +\ b^2$",
+            " $= a^2\ +\ b^2 +\ 2abcos(\\pi - C)$",
             "Thus, we got $c^2\ =\ a^2\ +\ b^2\ -\ 2abcosC$",
             )
-        texts_g = VGroup(*[TextMobject(i) for i in texts])
-        texts_g.arrange(DOWN, center=False).to_edge(LEFT)
+        texts_g = VGroup(*[TextMobject(i).scale(0.95) for i in texts])
+        texts_g.arrange(DOWN, center=False).to_edge(UL).shift(DOWN/1.2)
 
         # self.play(Write(ques), run_time=3)
         # self.wait(3)
