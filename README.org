@@ -5,6 +5,8 @@ Manim is a mathematics graphics/animation library developed by Grant Sanderson(3
 * Demo
 [[output.gif]]
 
+SEE: More Demos here [Manim Demos](https://hemanta212.github.io/hello-manim)
+
 * Running the code
 Head over to the [[https://github.com/3b1b/manim][manim]] github repository and follow their installation instructions. Install latex as well. Once you have installed manim and related tools,
 #+BEGIN_SRC shell
